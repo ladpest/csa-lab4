@@ -1,0 +1,8 @@
+.venv/
+target.bin
+target.bin.hex
+.git/
+.pytest_cache/
+.idea/
+__pycache__/
+csa-lab4.zip

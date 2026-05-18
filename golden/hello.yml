@@ -1,0 +1,144 @@
+in_source: |
+  ." Hello, world!\n"
+in_input: |-
+  
+out_stdout: |
+  Hello, world!
+out_log: |-
+  Tick: 000001 | uPC: 00 | PC: 0001 | IR: 0C10000F | Micro: fetch_ir_from_mem_pc | Exec: ldi R1, 15 | Regs: R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000002 | uPC: 01 | PC: 0001 | IR: 0C10000F | Micro: decode_ir_select_microprogram | Exec: ldi R1, 15 | Regs: R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000003 | uPC: 00 | PC: 0001 | IR: 0C10000F | Micro: write_imm_to_rd | Exec: ldi R1, 15 | Regs: R1=15 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000004 | uPC: 00 | PC: 0002 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=15 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000005 | uPC: 01 | PC: 0002 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=15 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000006 | uPC: 00 | PC: 0002 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=15 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000007 | uPC: 00 | PC: 0003 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=15 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000008 | uPC: 01 | PC: 0003 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=15 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000009 | uPC: 00 | PC: 0003 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=15 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000010 | uPC: 00 | PC: 0004 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=15 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000011 | uPC: 01 | PC: 0004 | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=15 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000012 | uPC: 00 | PC: 0004 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=15 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000013 | uPC: 00 | PC: 0005 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=15 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000014 | uPC: 01 | PC: 0005 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=15 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000015 | uPC: 00 | PC: 0005 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=15 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000016 | uPC: 00 | PC: 0006 | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=15 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000017 | uPC: 01 | PC: 0006 | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=15 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000018 | uPC: 00 | PC: 0006 | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=15 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000019 | uPC: 00 | PC: 0007 | IR: 0A1E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R1, [SP] | Regs: R1=15 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000020 | uPC: 01 | PC: 0007 | IR: 0A1E0000 | Micro: decode_ir_select_microprogram | Exec: ld R1, [SP] | Regs: R1=15 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000021 | uPC: 00 | PC: 0007 | IR: 0A1E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R1, [SP] | Regs: R1=15 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000022 | uPC: 00 | PC: 0008 | IR: 0A210000 | Micro: fetch_ir_from_mem_pc | Exec: ld R2, [R1] | Regs: R1=15 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000023 | uPC: 01 | PC: 0008 | IR: 0A210000 | Micro: decode_ir_select_microprogram | Exec: ld R2, [R1] | Regs: R1=15 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000024 | uPC: 00 | PC: 0008 | IR: 0A210000 | Micro: read_mem_rs1_to_rd | Exec: ld R2, [R1] | Regs: R1=15 R2=72 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000025 | uPC: 00 | PC: 0009 | IR: 1102000E | Micro: fetch_ir_from_mem_pc | Exec: jz R2, 14 | Regs: R1=15 R2=72 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000026 | uPC: 01 | PC: 0009 | IR: 1102000E | Micro: decode_ir_select_microprogram | Exec: jz R2, 14 | Regs: R1=15 R2=72 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000027 | uPC: 00 | PC: 0009 | IR: 1102000E | Micro: pc_from_imm_if_rs1_zero | Exec: jz R2, 14 | Regs: R1=15 R2=72 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000028 | uPC: 00 | PC: 000A | IR: 0C300FFF | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, -1 | Regs: R1=15 R2=72 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000029 | uPC: 01 | PC: 000A | IR: 0C300FFF | Micro: decode_ir_select_microprogram | Exec: ldi R3, -1 | Regs: R1=15 R2=72 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000030 | uPC: 00 | PC: 000A | IR: 0C300FFF | Micro: write_imm_to_rd | Exec: ldi R3, -1 | Regs: R1=15 R2=72 R3=-1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000031 | uPC: 00 | PC: 000B | IR: 0B320000 | Micro: fetch_ir_from_mem_pc | Exec: st [R3], R2 | Regs: R1=15 R2=72 R3=-1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000032 | uPC: 01 | PC: 000B | IR: 0B320000 | Micro: decode_ir_select_microprogram | Exec: st [R3], R2 | Regs: R1=15 R2=72 R3=-1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000033 | uPC: 00 | PC: 000B | IR: 0B320000 | Micro: write_rs1_to_mem_rd | Exec: st [R3], R2 | Regs: R1=15 R2=72 R3=-1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000034 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=15 R2=72 R3=-1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000035 | uPC: 01 | PC: 000C | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=15 R2=72 R3=-1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000036 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=15 R2=72 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000037 | uPC: 00 | PC: 000D | IR: 01113000 | Micro: fetch_ir_from_mem_pc | Exec: add R1, R1, R3 | Regs: R1=15 R2=72 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000038 | uPC: 01 | PC: 000D | IR: 01113000 | Micro: decode_ir_select_microprogram | Exec: add R1, R1, R3 | Regs: R1=15 R2=72 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000039 | uPC: 00 | PC: 000D | IR: 01113000 | Micro: alu_rs1_rs2_to_rd | Exec: add R1, R1, R3 | Regs: R1=16 R2=72 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000040 | uPC: 00 | PC: 000E | IR: 10000007 | Micro: fetch_ir_from_mem_pc | Exec: jmp 7 | Regs: R1=16 R2=72 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000041 | uPC: 01 | PC: 000E | IR: 10000007 | Micro: decode_ir_select_microprogram | Exec: jmp 7 | Regs: R1=16 R2=72 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000042 | uPC: 00 | PC: 0007 | IR: 10000007 | Micro: pc_from_imm | Exec: jmp 7 | Regs: R1=16 R2=72 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000043 | uPC: 00 | PC: 0008 | IR: 0A210000 | Micro: fetch_ir_from_mem_pc | Exec: ld R2, [R1] | Regs: R1=16 R2=72 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000044 | uPC: 01 | PC: 0008 | IR: 0A210000 | Micro: decode_ir_select_microprogram | Exec: ld R2, [R1] | Regs: R1=16 R2=72 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000045 | uPC: 00 | PC: 0008 | IR: 0A210000 | Micro: read_mem_rs1_to_rd | Exec: ld R2, [R1] | Regs: R1=16 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000046 | uPC: 00 | PC: 0009 | IR: 1102000E | Micro: fetch_ir_from_mem_pc | Exec: jz R2, 14 | Regs: R1=16 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000047 | uPC: 01 | PC: 0009 | IR: 1102000E | Micro: decode_ir_select_microprogram | Exec: jz R2, 14 | Regs: R1=16 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000048 | uPC: 00 | PC: 0009 | IR: 1102000E | Micro: pc_from_imm_if_rs1_zero | Exec: jz R2, 14 | Regs: R1=16 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000049 | uPC: 00 | PC: 000A | IR: 0C300FFF | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, -1 | Regs: R1=16 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000050 | uPC: 01 | PC: 000A | IR: 0C300FFF | Micro: decode_ir_select_microprogram | Exec: ldi R3, -1 | Regs: R1=16 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000051 | uPC: 00 | PC: 000A | IR: 0C300FFF | Micro: write_imm_to_rd | Exec: ldi R3, -1 | Regs: R1=16 R2=101 R3=-1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000052 | uPC: 00 | PC: 000B | IR: 0B320000 | Micro: fetch_ir_from_mem_pc | Exec: st [R3], R2 | Regs: R1=16 R2=101 R3=-1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000053 | uPC: 01 | PC: 000B | IR: 0B320000 | Micro: decode_ir_select_microprogram | Exec: st [R3], R2 | Regs: R1=16 R2=101 R3=-1 SP=1024 RSP=2048 | Out: 'H'
+  Tick: 000054 | uPC: 00 | PC: 000B | IR: 0B320000 | Micro: write_rs1_to_mem_rd | Exec: st [R3], R2 | Regs: R1=16 R2=101 R3=-1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000055 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=16 R2=101 R3=-1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000056 | uPC: 01 | PC: 000C | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=16 R2=101 R3=-1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000057 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=16 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000058 | uPC: 00 | PC: 000D | IR: 01113000 | Micro: fetch_ir_from_mem_pc | Exec: add R1, R1, R3 | Regs: R1=16 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000059 | uPC: 01 | PC: 000D | IR: 01113000 | Micro: decode_ir_select_microprogram | Exec: add R1, R1, R3 | Regs: R1=16 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000060 | uPC: 00 | PC: 000D | IR: 01113000 | Micro: alu_rs1_rs2_to_rd | Exec: add R1, R1, R3 | Regs: R1=17 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000061 | uPC: 00 | PC: 000E | IR: 10000007 | Micro: fetch_ir_from_mem_pc | Exec: jmp 7 | Regs: R1=17 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000062 | uPC: 01 | PC: 000E | IR: 10000007 | Micro: decode_ir_select_microprogram | Exec: jmp 7 | Regs: R1=17 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000063 | uPC: 00 | PC: 0007 | IR: 10000007 | Micro: pc_from_imm | Exec: jmp 7 | Regs: R1=17 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000064 | uPC: 00 | PC: 0008 | IR: 0A210000 | Micro: fetch_ir_from_mem_pc | Exec: ld R2, [R1] | Regs: R1=17 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000065 | uPC: 01 | PC: 0008 | IR: 0A210000 | Micro: decode_ir_select_microprogram | Exec: ld R2, [R1] | Regs: R1=17 R2=101 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000066 | uPC: 00 | PC: 0008 | IR: 0A210000 | Micro: read_mem_rs1_to_rd | Exec: ld R2, [R1] | Regs: R1=17 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000067 | uPC: 00 | PC: 0009 | IR: 1102000E | Micro: fetch_ir_from_mem_pc | Exec: jz R2, 14 | Regs: R1=17 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000068 | uPC: 01 | PC: 0009 | IR: 1102000E | Micro: decode_ir_select_microprogram | Exec: jz R2, 14 | Regs: R1=17 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000069 | uPC: 00 | PC: 0009 | IR: 1102000E | Micro: pc_from_imm_if_rs1_zero | Exec: jz R2, 14 | Regs: R1=17 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000070 | uPC: 00 | PC: 000A | IR: 0C300FFF | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, -1 | Regs: R1=17 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000071 | uPC: 01 | PC: 000A | IR: 0C300FFF | Micro: decode_ir_select_microprogram | Exec: ldi R3, -1 | Regs: R1=17 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000072 | uPC: 00 | PC: 000A | IR: 0C300FFF | Micro: write_imm_to_rd | Exec: ldi R3, -1 | Regs: R1=17 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000073 | uPC: 00 | PC: 000B | IR: 0B320000 | Micro: fetch_ir_from_mem_pc | Exec: st [R3], R2 | Regs: R1=17 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000074 | uPC: 01 | PC: 000B | IR: 0B320000 | Micro: decode_ir_select_microprogram | Exec: st [R3], R2 | Regs: R1=17 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'He'
+  Tick: 000075 | uPC: 00 | PC: 000B | IR: 0B320000 | Micro: write_rs1_to_mem_rd | Exec: st [R3], R2 | Regs: R1=17 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000076 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=17 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000077 | uPC: 01 | PC: 000C | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=17 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000078 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=17 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000079 | uPC: 00 | PC: 000D | IR: 01113000 | Micro: fetch_ir_from_mem_pc | Exec: add R1, R1, R3 | Regs: R1=17 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000080 | uPC: 01 | PC: 000D | IR: 01113000 | Micro: decode_ir_select_microprogram | Exec: add R1, R1, R3 | Regs: R1=17 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000081 | uPC: 00 | PC: 000D | IR: 01113000 | Micro: alu_rs1_rs2_to_rd | Exec: add R1, R1, R3 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000082 | uPC: 00 | PC: 000E | IR: 10000007 | Micro: fetch_ir_from_mem_pc | Exec: jmp 7 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000083 | uPC: 01 | PC: 000E | IR: 10000007 | Micro: decode_ir_select_microprogram | Exec: jmp 7 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000084 | uPC: 00 | PC: 0007 | IR: 10000007 | Micro: pc_from_imm | Exec: jmp 7 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000085 | uPC: 00 | PC: 0008 | IR: 0A210000 | Micro: fetch_ir_from_mem_pc | Exec: ld R2, [R1] | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000086 | uPC: 01 | PC: 0008 | IR: 0A210000 | Micro: decode_ir_select_microprogram | Exec: ld R2, [R1] | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000087 | uPC: 00 | PC: 0008 | IR: 0A210000 | Micro: read_mem_rs1_to_rd | Exec: ld R2, [R1] | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000088 | uPC: 00 | PC: 0009 | IR: 1102000E | Micro: fetch_ir_from_mem_pc | Exec: jz R2, 14 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000089 | uPC: 01 | PC: 0009 | IR: 1102000E | Micro: decode_ir_select_microprogram | Exec: jz R2, 14 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000090 | uPC: 00 | PC: 0009 | IR: 1102000E | Micro: pc_from_imm_if_rs1_zero | Exec: jz R2, 14 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000091 | uPC: 00 | PC: 000A | IR: 0C300FFF | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, -1 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000092 | uPC: 01 | PC: 000A | IR: 0C300FFF | Micro: decode_ir_select_microprogram | Exec: ldi R3, -1 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000093 | uPC: 00 | PC: 000A | IR: 0C300FFF | Micro: write_imm_to_rd | Exec: ldi R3, -1 | Regs: R1=18 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000094 | uPC: 00 | PC: 000B | IR: 0B320000 | Micro: fetch_ir_from_mem_pc | Exec: st [R3], R2 | Regs: R1=18 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000095 | uPC: 01 | PC: 000B | IR: 0B320000 | Micro: decode_ir_select_microprogram | Exec: st [R3], R2 | Regs: R1=18 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'Hel'
+  Tick: 000096 | uPC: 00 | PC: 000B | IR: 0B320000 | Micro: write_rs1_to_mem_rd | Exec: st [R3], R2 | Regs: R1=18 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'Hell'
+  Tick: 000097 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=18 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'Hell'
+  Tick: 000098 | uPC: 01 | PC: 000C | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=18 R2=108 R3=-1 SP=1024 RSP=2048 | Out: 'Hell'
+  Tick: 000099 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hell'
+  Tick: 000100 | uPC: 00 | PC: 000D | IR: 01113000 | Micro: fetch_ir_from_mem_pc | Exec: add R1, R1, R3 | Regs: R1=18 R2=108 R3=1 SP=1024 RSP=2048 | Out: 'Hell'
+  ...
+  Total Ticks: 324
+  Instructions Fetched: 108
+  Output: Hello, world!
+  
+  Halt Reason: halted
+out_code_log: |-
+  0000 - 0C10000F - ldi R1, 15
+  0001 - 0BE10000 - st [SP], R1
+  0002 - 0C300001 - ldi R3, 1
+  0003 - 01EE3000 - add SP, SP, R3
+  0004 - 0C300001 - ldi R3, 1
+  0005 - 02EE3000 - sub SP, SP, R3
+  0006 - 0A1E0000 - ld R1, [SP]
+  0007 - 0A210000 - ld R2, [R1]
+  0008 - 1102000E - jz R2, 14
+  0009 - 0C300FFF - ldi R3, -1
+  000A - 0B320000 - st [R3], R2
+  000B - 0C300001 - ldi R3, 1
+  000C - 01113000 - add R1, R1, R3
+  000D - 10000007 - jmp 7
+  000E - FF000000 - hlt
+  000F - 00000048 - .word 72
+  0010 - 00000065 - .word 101
+  0011 - 0000006C - .word 108
+  0012 - 0000006C - .word 108
+  0013 - 0000006F - .word 111
+  0014 - 0000002C - .word 44
+  0015 - 00000020 - .word 32
+  0016 - 00000077 - .word 119
+  0017 - 0000006F - .word 111
+  0018 - 00000072 - .word 114
+  0019 - 0000006C - .word 108
+  001A - 00000064 - .word 100
+  001B - 00000021 - .word 33
+  001C - 0000000A - .word 10
+  001D - 00000000 - .word 0
