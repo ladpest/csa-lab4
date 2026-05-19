@@ -2,7 +2,7 @@
 
 - ФИО: `Мельник Фёдор Александрович`
 - Группа: `P3206`
-- Вариант из ведомости: `forth | risc | neum | mc | tick | binary | stream | mem | cstr | alg1 | pipeline`
+- Вариант из ведомости: `forth | risc | neum | mc | tick | binary | stream | mem | cstr | prob1 | pipeline`
 - Цель реализации: базовая часть на 30 баллов; усложнение `pipeline` не реализуется.
 
 ## Язык программирования Forth
@@ -12,23 +12,44 @@
 Форма Бэкуса — Наура:
 
 ```text
-<program>    ::= <definition>* <word>*
-<definition> ::= ":" <name> <word>* ";"
-<word>       ::= <number>
-               | <string>
-               | <builtin>
-               | <name>
-               | "'" <name>
+<program>       ::= (<definition> | <statement>)*
 
-<number>     ::= ["-"] <digit>+
-<string>     ::= '"' <char>* '"' | '."' <char>* '"'
-<builtin>    ::= "+" | "-" | "*" | "/" | "mod"
-               | "=" | ">" | "<"
-               | "dup" | "drop" | "swap" | "over"
-               | "if" | "else" | "then"
-               | "begin" | "until" | "again"
-               | "key" | "emit" | "." | "@" | "!"
-               | "puts" | "execute" | "ret"
+<definition>    ::= ":" <name> <proc-statement>* ";"
+
+<statement>     ::= <literal>
+                  | <builtin>
+                  | <call>
+                  | <execution-token>
+                  | <if-statement>
+                  | <loop-statement>
+
+<proc-statement> ::= <statement> | "ret"
+
+<literal>       ::= <number> | <string> | <print-string>
+<number>        ::= ["-"] <digit>+
+<string>        ::= '"' <char>* '"'
+<print-string>  ::= '."' <char>* '"'
+
+<call>          ::= <name>
+<execution-token> ::= "'" <name>
+
+<if-statement>  ::= "if" <statement>* ["else" <statement>*] "then"
+
+<loop-statement> ::= "begin" <statement>* "until"
+                   | "begin" <statement>* "again"
+
+<builtin>       ::= "+" | "-" | "*" | "/" | "mod"
+                  | "=" | ">" | "<"
+                  | "dup" | "drop" | "swap" | "over"
+                  | "key" | "emit" | "." | "@" | "!"
+                  | "puts" | "execute"
+
+<name>          ::= <name-char>+
+<name-char>     ::= any non-whitespace character except '"', "(", ")"
+                  and except reserved words and delimiters
+<digit>         ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<char>          ::= any character except '"' and "\"
+                  | "\\" ("n" | "t" | '"' | "\\")
 ```
 
 Особенности семантики:
@@ -51,6 +72,12 @@
 5 square .
 6 ' square execute .
 ```
+Комментарии игнорируются лексером:
+- "\\" начинает комментарий до конца строки;
+- "(" ... ")" задаёт однострочный/линейный комментарий до ближайшей закрывающей скобки.
+
+Все слова языка разделяются пробельными символами. Поэтому "'", ":", ";" являются отдельными токенами и должны отделяться пробелами от соседних слов.
+
 
 ## Организация памяти
 
@@ -279,7 +306,7 @@ python machine.py <code.bin> <input.txt> [--log trace.txt] [--trace-head N] [--m
 
 ### Схема DataPath
 
-![DataPath](img/data-path.png)
+![DataPath](img/datapath.png)
 
 ### Схема Control Unit
 

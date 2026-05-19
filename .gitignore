@@ -8,3 +8,4 @@ __pycache__/
 csa-lab4.zip
 .DS_Store/
 .vscode/
+*.txt
