@@ -9,19 +9,9 @@ import pytest
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
-from isa import Reg, binary_to_hex_dump, code_to_binary, format_instruction  # noqa: E402
-from machine import (  # noqa: E402
-    DATA_STACK_START,
-    MAX_TICKS,
-    RETURN_STACK_START,
-    ControlUnit,
-    DataPath,
-    load_binary_to_memory,
-)
+from isa import binary_to_hex_dump, code_to_binary  # noqa: E402
+from machine import MAX_TICKS, simulate  # noqa: E402
 from translator import translate  # noqa: E402
-
-DATA_STACK_REG = Reg.SP
-RETURN_STACK_REG = Reg.RSP
 
 
 def parse_block_yaml(path: Path) -> dict[str, str]:
@@ -68,52 +58,13 @@ def parse_block_yaml(path: Path) -> dict[str, str]:
 def run_with_trace(
     binary: bytes, input_text: str, max_ticks: int, trace_head: int
 ) -> tuple[str, str]:
-    dp = DataPath(memory_size=4096, input_stream=input_text)
-    dp.write_reg(DATA_STACK_REG, DATA_STACK_START)
-    dp.write_reg(RETURN_STACK_REG, RETURN_STACK_START)
-    load_binary_to_memory(dp, binary)
-    cu = ControlUnit(dp)
-
-    trace: list[str] = []
-    halt_reason = "halted"
-    instruction_ticks = 0
-    while not cu.halted and cu.tick_count < max_ticks:
-        micro_pc_before = cu.micro_pc
-        micro_name = cu.current_microprogram[cu.micro_pc].name
-        try:
-            cu.tick()
-        except EOFError:
-            halt_reason = "input_stream_empty"
-            trace.append(f"Tick: {cu.tick_count:06d} | Event: INPUT_STREAM_EMPTY")
-            break
-        if micro_name == "fetch_ir_from_mem_pc":
-            instruction_ticks += 1
-        if len(trace) < trace_head:
-            trace.append(format_trace_line(cu, micro_pc_before, micro_name))
-
-    if cu.tick_count >= max_ticks and not cu.halted:
-        raise TimeoutError(f"Simulation stopped after {max_ticks} ticks")
-
-    if cu.tick_count > len([line for line in trace if line.startswith("Tick:")]):
-        trace.append("...")
-    trace.append(f"Total Ticks: {cu.tick_count}")
-    trace.append(f"Instructions Fetched: {instruction_ticks}")
-    trace.append(f"Output: {''.join(dp.output_buffer)}")
-    trace.append(f"Halt Reason: {halt_reason}")
-    return "".join(dp.output_buffer), "\n".join(trace)
-
-
-def format_trace_line(cu: ControlUnit, micro_pc: int, micro_name: str) -> str:
-    return (
-        f"Tick: {cu.tick_count:06d} | "
-        f"uPC: {micro_pc:02d} | "
-        f"PC: {cu.pc:04X} | "
-        f"IR: {cu.ir:08X} | "
-        f"Micro: {micro_name} | "
-        f"Exec: {format_instruction(cu.ir)} | "
-        f"Regs: {cu.dp.dump_registers()} | "
-        f"Out: {''.join(cu.dp.output_buffer)!r}"
+    result = simulate(
+        binary,
+        input_text,
+        max_ticks=max_ticks,
+        trace_head=trace_head,
     )
+    return result.output, result.trace
 
 
 def build_actual(case_path: Path) -> dict[str, str]:
@@ -170,3 +121,16 @@ def test_examples_match_golden_sources() -> None:
         example_path = ROOT / "examples" / f"{case_path.stem}.frt"
         assert example_path.exists(), f"Missing example: {example_path}"
         assert example_path.read_text(encoding="utf-8") == golden["in_source"]
+
+
+def run_source(source: str, input_text: str = "") -> str:
+    words, _ = translate(source)
+    return simulate(code_to_binary(words), input_text, max_ticks=MAX_TICKS).output
+
+
+def test_large_integer_literal_is_loaded_from_data_pool() -> None:
+    assert run_source("4096 .") == "4096 "
+
+
+def test_machine_words_wrap_to_32_bits() -> None:
+    assert run_source("-1 1 + .") == "0 "

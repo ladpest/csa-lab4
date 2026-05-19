@@ -1,122 +1,131 @@
 in_source: |
-  \ Compute 2^32. This value does not fit into an unsigned 32-bit machine word.
-  1024 64 * dup * .
+  \ Demonstrate 64-bit arithmetic on 32-bit machine words.
+  \ The number is stored as two words: high at 901, low at 900.
+  \ Start with 0x00000000FFFFFFFF and add 1 with carry.
+  -1 900 !
+  0 901 !
+  900 @ 1 + 900 !
+  900 @ 0 = if
+      901 @ 1 + 901 !
+  then
+  901 @ .
+  900 @ .
 in_input: |-
   
 out_stdout: |-
-  4294967296 
+  1 0 
 out_log: |-
-  Tick: 000001 | uPC: 00 | PC: 0001 | IR: 0C100400 | Micro: fetch_ir_from_mem_pc | Exec: ldi R1, 1024 | Regs: R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000002 | uPC: 01 | PC: 0001 | IR: 0C100400 | Micro: decode_ir_select_microprogram | Exec: ldi R1, 1024 | Regs: R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000003 | uPC: 00 | PC: 0001 | IR: 0C100400 | Micro: write_imm_to_rd | Exec: ldi R1, 1024 | Regs: R1=1024 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000004 | uPC: 00 | PC: 0002 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=1024 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000005 | uPC: 01 | PC: 0002 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=1024 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000006 | uPC: 00 | PC: 0002 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=1024 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000007 | uPC: 00 | PC: 0003 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=1024 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000008 | uPC: 01 | PC: 0003 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=1024 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000009 | uPC: 00 | PC: 0003 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=1024 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000010 | uPC: 00 | PC: 0004 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=1024 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000011 | uPC: 01 | PC: 0004 | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=1024 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000012 | uPC: 00 | PC: 0004 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=1024 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000013 | uPC: 00 | PC: 0005 | IR: 0C100040 | Micro: fetch_ir_from_mem_pc | Exec: ldi R1, 64 | Regs: R1=1024 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000014 | uPC: 01 | PC: 0005 | IR: 0C100040 | Micro: decode_ir_select_microprogram | Exec: ldi R1, 64 | Regs: R1=1024 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000015 | uPC: 00 | PC: 0005 | IR: 0C100040 | Micro: write_imm_to_rd | Exec: ldi R1, 64 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000016 | uPC: 00 | PC: 0006 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000017 | uPC: 01 | PC: 0006 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000018 | uPC: 00 | PC: 0006 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000019 | uPC: 00 | PC: 0007 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000020 | uPC: 01 | PC: 0007 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000021 | uPC: 00 | PC: 0007 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000022 | uPC: 00 | PC: 0008 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000023 | uPC: 01 | PC: 0008 | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000024 | uPC: 00 | PC: 0008 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=64 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000025 | uPC: 00 | PC: 0009 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=64 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000026 | uPC: 01 | PC: 0009 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=64 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000027 | uPC: 00 | PC: 0009 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=64 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000028 | uPC: 00 | PC: 000A | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=64 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000029 | uPC: 01 | PC: 000A | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=64 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000030 | uPC: 00 | PC: 000A | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000031 | uPC: 00 | PC: 000B | IR: 0A2E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R2, [SP] | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000032 | uPC: 01 | PC: 000B | IR: 0A2E0000 | Micro: decode_ir_select_microprogram | Exec: ld R2, [SP] | Regs: R1=64 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000033 | uPC: 00 | PC: 000B | IR: 0A2E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R2, [SP] | Regs: R1=64 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000034 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=64 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000035 | uPC: 01 | PC: 000C | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=64 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000036 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=64 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000037 | uPC: 00 | PC: 000D | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=64 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000038 | uPC: 01 | PC: 000D | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=64 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000039 | uPC: 00 | PC: 000D | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=64 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000040 | uPC: 00 | PC: 000E | IR: 0A1E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R1, [SP] | Regs: R1=64 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000041 | uPC: 01 | PC: 000E | IR: 0A1E0000 | Micro: decode_ir_select_microprogram | Exec: ld R1, [SP] | Regs: R1=64 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000042 | uPC: 00 | PC: 000E | IR: 0A1E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R1, [SP] | Regs: R1=1024 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000043 | uPC: 00 | PC: 000F | IR: 03112000 | Micro: fetch_ir_from_mem_pc | Exec: mul R1, R1, R2 | Regs: R1=1024 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000044 | uPC: 01 | PC: 000F | IR: 03112000 | Micro: decode_ir_select_microprogram | Exec: mul R1, R1, R2 | Regs: R1=1024 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000045 | uPC: 00 | PC: 000F | IR: 03112000 | Micro: alu_rs1_rs2_to_rd | Exec: mul R1, R1, R2 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000046 | uPC: 00 | PC: 0010 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000047 | uPC: 01 | PC: 0010 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000048 | uPC: 00 | PC: 0010 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000049 | uPC: 00 | PC: 0011 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000050 | uPC: 01 | PC: 0011 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000051 | uPC: 00 | PC: 0011 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000052 | uPC: 00 | PC: 0012 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000053 | uPC: 01 | PC: 0012 | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000054 | uPC: 00 | PC: 0012 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000055 | uPC: 00 | PC: 0013 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000056 | uPC: 01 | PC: 0013 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000057 | uPC: 00 | PC: 0013 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000058 | uPC: 00 | PC: 0014 | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000059 | uPC: 01 | PC: 0014 | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000060 | uPC: 00 | PC: 0014 | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000061 | uPC: 00 | PC: 0015 | IR: 0A1E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R1, [SP] | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000062 | uPC: 01 | PC: 0015 | IR: 0A1E0000 | Micro: decode_ir_select_microprogram | Exec: ld R1, [SP] | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000063 | uPC: 00 | PC: 0015 | IR: 0A1E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R1, [SP] | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000064 | uPC: 00 | PC: 0016 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000065 | uPC: 01 | PC: 0016 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000066 | uPC: 00 | PC: 0016 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000067 | uPC: 00 | PC: 0017 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000068 | uPC: 01 | PC: 0017 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000069 | uPC: 00 | PC: 0017 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000070 | uPC: 00 | PC: 0018 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000071 | uPC: 01 | PC: 0018 | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000072 | uPC: 00 | PC: 0018 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000073 | uPC: 00 | PC: 0019 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000074 | uPC: 01 | PC: 0019 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000075 | uPC: 00 | PC: 0019 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000076 | uPC: 00 | PC: 001A | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000077 | uPC: 01 | PC: 001A | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000078 | uPC: 00 | PC: 001A | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000079 | uPC: 00 | PC: 001B | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000080 | uPC: 01 | PC: 001B | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000081 | uPC: 00 | PC: 001B | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000082 | uPC: 00 | PC: 001C | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000083 | uPC: 01 | PC: 001C | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000084 | uPC: 00 | PC: 001C | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=65536 R2=64 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000085 | uPC: 00 | PC: 001D | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000086 | uPC: 01 | PC: 001D | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000087 | uPC: 00 | PC: 001D | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000088 | uPC: 00 | PC: 001E | IR: 0A2E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R2, [SP] | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000089 | uPC: 01 | PC: 001E | IR: 0A2E0000 | Micro: decode_ir_select_microprogram | Exec: ld R2, [SP] | Regs: R1=65536 R2=64 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000090 | uPC: 00 | PC: 001E | IR: 0A2E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R2, [SP] | Regs: R1=65536 R2=65536 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000091 | uPC: 00 | PC: 001F | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=65536 R2=65536 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000092 | uPC: 01 | PC: 001F | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=65536 R2=65536 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000093 | uPC: 00 | PC: 001F | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=65536 R2=65536 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000094 | uPC: 00 | PC: 0020 | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=65536 R2=65536 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000095 | uPC: 01 | PC: 0020 | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=65536 R2=65536 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000096 | uPC: 00 | PC: 0020 | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=65536 R2=65536 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000097 | uPC: 00 | PC: 0021 | IR: 0A1E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R1, [SP] | Regs: R1=65536 R2=65536 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000098 | uPC: 01 | PC: 0021 | IR: 0A1E0000 | Micro: decode_ir_select_microprogram | Exec: ld R1, [SP] | Regs: R1=65536 R2=65536 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000099 | uPC: 00 | PC: 0021 | IR: 0A1E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R1, [SP] | Regs: R1=65536 R2=65536 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000100 | uPC: 00 | PC: 0022 | IR: 03112000 | Micro: fetch_ir_from_mem_pc | Exec: mul R1, R1, R2 | Regs: R1=65536 R2=65536 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000001 | uPC: 00 | PC: 0000 | IR: 00000000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: nop | Regs: PC=0 AR=0 DR=0 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000002 | uPC: 01 | PC: 0000 | IR: 00000000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: nop | Regs: PC=0 AR=0 DR=202379263 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000003 | uPC: 02 | PC: 0001 | IR: 0C100FFF | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R1, -1 | Regs: PC=1 AR=0 DR=202379263 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000004 | uPC: 00 | PC: 0001 | IR: 0C100FFF | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R1, -1 | Regs: PC=1 AR=0 DR=202379263 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000005 | uPC: 00 | PC: 0001 | IR: 0C100FFF | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R1, -1 | Regs: PC=1 AR=1 DR=202379263 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000006 | uPC: 01 | PC: 0001 | IR: 0C100FFF | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R1, -1 | Regs: PC=1 AR=1 DR=199294976 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000007 | uPC: 02 | PC: 0002 | IR: 0BE10000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: st [SP], R1 | Regs: PC=2 AR=1 DR=199294976 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000008 | uPC: 00 | PC: 0002 | IR: 0BE10000 | Micro: store_address_rd_to_ar | Signals: ar_sel=rd | Exec: st [SP], R1 | Regs: PC=2 AR=1024 DR=199294976 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000009 | uPC: 01 | PC: 0002 | IR: 0BE10000 | Micro: store_rs1_to_dr | Signals: dr_sel=rs1 | Exec: st [SP], R1 | Regs: PC=2 AR=1024 DR=-1 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000010 | uPC: 02 | PC: 0002 | IR: 0BE10000 | Micro: store_dr_to_memory | Signals: mem_write | Exec: st [SP], R1 | Regs: PC=2 AR=1024 DR=-1 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000011 | uPC: 00 | PC: 0002 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: st [SP], R1 | Regs: PC=2 AR=2 DR=-1 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000012 | uPC: 01 | PC: 0002 | IR: 0BE10000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: st [SP], R1 | Regs: PC=2 AR=2 DR=204472321 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000013 | uPC: 02 | PC: 0003 | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=3 AR=2 DR=204472321 R1=-1 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000014 | uPC: 00 | PC: 0003 | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=3 AR=2 DR=204472321 R1=-1 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000015 | uPC: 00 | PC: 0003 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=3 AR=3 DR=204472321 R1=-1 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000016 | uPC: 01 | PC: 0003 | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=3 AR=3 DR=32387072 R1=-1 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000017 | uPC: 02 | PC: 0004 | IR: 01EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: add SP, SP, R3 | Regs: PC=4 AR=3 DR=32387072 R1=-1 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000018 | uPC: 00 | PC: 0004 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: add SP, SP, R3 | Regs: PC=4 AR=3 DR=32387072 R1=-1 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000019 | uPC: 00 | PC: 0004 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: add SP, SP, R3 | Regs: PC=4 AR=4 DR=32387072 R1=-1 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000020 | uPC: 01 | PC: 0004 | IR: 01EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: add SP, SP, R3 | Regs: PC=4 AR=4 DR=202376068 R1=-1 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000021 | uPC: 02 | PC: 0005 | IR: 0C100384 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R1, 900 | Regs: PC=5 AR=4 DR=202376068 R1=-1 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000022 | uPC: 00 | PC: 0005 | IR: 0C100384 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R1, 900 | Regs: PC=5 AR=4 DR=202376068 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000023 | uPC: 00 | PC: 0005 | IR: 0C100384 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R1, 900 | Regs: PC=5 AR=5 DR=202376068 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000024 | uPC: 01 | PC: 0005 | IR: 0C100384 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R1, 900 | Regs: PC=5 AR=5 DR=199294976 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000025 | uPC: 02 | PC: 0006 | IR: 0BE10000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: st [SP], R1 | Regs: PC=6 AR=5 DR=199294976 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000026 | uPC: 00 | PC: 0006 | IR: 0BE10000 | Micro: store_address_rd_to_ar | Signals: ar_sel=rd | Exec: st [SP], R1 | Regs: PC=6 AR=1025 DR=199294976 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000027 | uPC: 01 | PC: 0006 | IR: 0BE10000 | Micro: store_rs1_to_dr | Signals: dr_sel=rs1 | Exec: st [SP], R1 | Regs: PC=6 AR=1025 DR=900 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000028 | uPC: 02 | PC: 0006 | IR: 0BE10000 | Micro: store_dr_to_memory | Signals: mem_write | Exec: st [SP], R1 | Regs: PC=6 AR=1025 DR=900 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000029 | uPC: 00 | PC: 0006 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: st [SP], R1 | Regs: PC=6 AR=6 DR=900 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000030 | uPC: 01 | PC: 0006 | IR: 0BE10000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: st [SP], R1 | Regs: PC=6 AR=6 DR=204472321 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000031 | uPC: 02 | PC: 0007 | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=7 AR=6 DR=204472321 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000032 | uPC: 00 | PC: 0007 | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=7 AR=6 DR=204472321 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000033 | uPC: 00 | PC: 0007 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=7 AR=7 DR=204472321 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000034 | uPC: 01 | PC: 0007 | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=7 AR=7 DR=32387072 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000035 | uPC: 02 | PC: 0008 | IR: 01EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: add SP, SP, R3 | Regs: PC=8 AR=7 DR=32387072 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000036 | uPC: 00 | PC: 0008 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: add SP, SP, R3 | Regs: PC=8 AR=7 DR=32387072 R1=900 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000037 | uPC: 00 | PC: 0008 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: add SP, SP, R3 | Regs: PC=8 AR=8 DR=32387072 R1=900 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000038 | uPC: 01 | PC: 0008 | IR: 01EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: add SP, SP, R3 | Regs: PC=8 AR=8 DR=204472321 R1=900 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000039 | uPC: 02 | PC: 0009 | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=9 AR=8 DR=204472321 R1=900 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000040 | uPC: 00 | PC: 0009 | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=9 AR=8 DR=204472321 R1=900 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000041 | uPC: 00 | PC: 0009 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=9 AR=9 DR=204472321 R1=900 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000042 | uPC: 01 | PC: 0009 | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=9 AR=9 DR=49164288 R1=900 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000043 | uPC: 02 | PC: 000A | IR: 02EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: sub SP, SP, R3 | Regs: PC=10 AR=9 DR=49164288 R1=900 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000044 | uPC: 00 | PC: 000A | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: sub SP, SP, R3 | Regs: PC=10 AR=9 DR=49164288 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000045 | uPC: 00 | PC: 000A | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: sub SP, SP, R3 | Regs: PC=10 AR=10 DR=49164288 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000046 | uPC: 01 | PC: 000A | IR: 02EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: sub SP, SP, R3 | Regs: PC=10 AR=10 DR=170786816 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000047 | uPC: 02 | PC: 000B | IR: 0A2E0000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ld R2, [SP] | Regs: PC=11 AR=10 DR=170786816 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000048 | uPC: 00 | PC: 000B | IR: 0A2E0000 | Micro: load_address_rs1_to_ar | Signals: ar_sel=rs1 | Exec: ld R2, [SP] | Regs: PC=11 AR=1025 DR=170786816 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000049 | uPC: 01 | PC: 000B | IR: 0A2E0000 | Micro: load_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R2, [SP] | Regs: PC=11 AR=1025 DR=900 R1=900 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000050 | uPC: 02 | PC: 000B | IR: 0A2E0000 | Micro: load_dr_to_rd | Signals: reg_write=rd<-dr | Exec: ld R2, [SP] | Regs: PC=11 AR=1025 DR=900 R1=900 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000051 | uPC: 00 | PC: 000B | IR: 0A2E0000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ld R2, [SP] | Regs: PC=11 AR=11 DR=900 R1=900 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000052 | uPC: 01 | PC: 000B | IR: 0A2E0000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R2, [SP] | Regs: PC=11 AR=11 DR=204472321 R1=900 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000053 | uPC: 02 | PC: 000C | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=12 AR=11 DR=204472321 R1=900 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000054 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=12 AR=11 DR=204472321 R1=900 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000055 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=12 AR=12 DR=204472321 R1=900 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000056 | uPC: 01 | PC: 000C | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=12 AR=12 DR=49164288 R1=900 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000057 | uPC: 02 | PC: 000D | IR: 02EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: sub SP, SP, R3 | Regs: PC=13 AR=12 DR=49164288 R1=900 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000058 | uPC: 00 | PC: 000D | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: sub SP, SP, R3 | Regs: PC=13 AR=12 DR=49164288 R1=900 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000059 | uPC: 00 | PC: 000D | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: sub SP, SP, R3 | Regs: PC=13 AR=13 DR=49164288 R1=900 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000060 | uPC: 01 | PC: 000D | IR: 02EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: sub SP, SP, R3 | Regs: PC=13 AR=13 DR=169738240 R1=900 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000061 | uPC: 02 | PC: 000E | IR: 0A1E0000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ld R1, [SP] | Regs: PC=14 AR=13 DR=169738240 R1=900 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000062 | uPC: 00 | PC: 000E | IR: 0A1E0000 | Micro: load_address_rs1_to_ar | Signals: ar_sel=rs1 | Exec: ld R1, [SP] | Regs: PC=14 AR=1024 DR=169738240 R1=900 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000063 | uPC: 01 | PC: 000E | IR: 0A1E0000 | Micro: load_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R1, [SP] | Regs: PC=14 AR=1024 DR=-1 R1=900 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000064 | uPC: 02 | PC: 000E | IR: 0A1E0000 | Micro: load_dr_to_rd | Signals: reg_write=rd<-dr | Exec: ld R1, [SP] | Regs: PC=14 AR=1024 DR=-1 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000065 | uPC: 00 | PC: 000E | IR: 0A1E0000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ld R1, [SP] | Regs: PC=14 AR=14 DR=-1 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000066 | uPC: 01 | PC: 000E | IR: 0A1E0000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R1, [SP] | Regs: PC=14 AR=14 DR=186712064 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000067 | uPC: 02 | PC: 000F | IR: 0B210000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: st [R2], R1 | Regs: PC=15 AR=14 DR=186712064 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000068 | uPC: 00 | PC: 000F | IR: 0B210000 | Micro: store_address_rd_to_ar | Signals: ar_sel=rd | Exec: st [R2], R1 | Regs: PC=15 AR=900 DR=186712064 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000069 | uPC: 01 | PC: 000F | IR: 0B210000 | Micro: store_rs1_to_dr | Signals: dr_sel=rs1 | Exec: st [R2], R1 | Regs: PC=15 AR=900 DR=-1 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000070 | uPC: 02 | PC: 000F | IR: 0B210000 | Micro: store_dr_to_memory | Signals: mem_write | Exec: st [R2], R1 | Regs: PC=15 AR=900 DR=-1 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000071 | uPC: 00 | PC: 000F | IR: 0B210000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: st [R2], R1 | Regs: PC=15 AR=15 DR=-1 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000072 | uPC: 01 | PC: 000F | IR: 0B210000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: st [R2], R1 | Regs: PC=15 AR=15 DR=202375168 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000073 | uPC: 02 | PC: 0010 | IR: 0C100000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R1, 0 | Regs: PC=16 AR=15 DR=202375168 R1=-1 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000074 | uPC: 00 | PC: 0010 | IR: 0C100000 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R1, 0 | Regs: PC=16 AR=15 DR=202375168 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000075 | uPC: 00 | PC: 0010 | IR: 0C100000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R1, 0 | Regs: PC=16 AR=16 DR=202375168 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000076 | uPC: 01 | PC: 0010 | IR: 0C100000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R1, 0 | Regs: PC=16 AR=16 DR=199294976 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000077 | uPC: 02 | PC: 0011 | IR: 0BE10000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: st [SP], R1 | Regs: PC=17 AR=16 DR=199294976 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000078 | uPC: 00 | PC: 0011 | IR: 0BE10000 | Micro: store_address_rd_to_ar | Signals: ar_sel=rd | Exec: st [SP], R1 | Regs: PC=17 AR=1024 DR=199294976 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000079 | uPC: 01 | PC: 0011 | IR: 0BE10000 | Micro: store_rs1_to_dr | Signals: dr_sel=rs1 | Exec: st [SP], R1 | Regs: PC=17 AR=1024 DR=0 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000080 | uPC: 02 | PC: 0011 | IR: 0BE10000 | Micro: store_dr_to_memory | Signals: mem_write | Exec: st [SP], R1 | Regs: PC=17 AR=1024 DR=0 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000081 | uPC: 00 | PC: 0011 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: st [SP], R1 | Regs: PC=17 AR=17 DR=0 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000082 | uPC: 01 | PC: 0011 | IR: 0BE10000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: st [SP], R1 | Regs: PC=17 AR=17 DR=204472321 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000083 | uPC: 02 | PC: 0012 | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=18 AR=17 DR=204472321 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000084 | uPC: 00 | PC: 0012 | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=18 AR=17 DR=204472321 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000085 | uPC: 00 | PC: 0012 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=18 AR=18 DR=204472321 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000086 | uPC: 01 | PC: 0012 | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=18 AR=18 DR=32387072 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000087 | uPC: 02 | PC: 0013 | IR: 01EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: add SP, SP, R3 | Regs: PC=19 AR=18 DR=32387072 R1=0 R2=900 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000088 | uPC: 00 | PC: 0013 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: add SP, SP, R3 | Regs: PC=19 AR=18 DR=32387072 R1=0 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000089 | uPC: 00 | PC: 0013 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: add SP, SP, R3 | Regs: PC=19 AR=19 DR=32387072 R1=0 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000090 | uPC: 01 | PC: 0013 | IR: 01EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: add SP, SP, R3 | Regs: PC=19 AR=19 DR=202376069 R1=0 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000091 | uPC: 02 | PC: 0014 | IR: 0C100385 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R1, 901 | Regs: PC=20 AR=19 DR=202376069 R1=0 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000092 | uPC: 00 | PC: 0014 | IR: 0C100385 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R1, 901 | Regs: PC=20 AR=19 DR=202376069 R1=901 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000093 | uPC: 00 | PC: 0014 | IR: 0C100385 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R1, 901 | Regs: PC=20 AR=20 DR=202376069 R1=901 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000094 | uPC: 01 | PC: 0014 | IR: 0C100385 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R1, 901 | Regs: PC=20 AR=20 DR=199294976 R1=901 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000095 | uPC: 02 | PC: 0015 | IR: 0BE10000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: st [SP], R1 | Regs: PC=21 AR=20 DR=199294976 R1=901 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000096 | uPC: 00 | PC: 0015 | IR: 0BE10000 | Micro: store_address_rd_to_ar | Signals: ar_sel=rd | Exec: st [SP], R1 | Regs: PC=21 AR=1025 DR=199294976 R1=901 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000097 | uPC: 01 | PC: 0015 | IR: 0BE10000 | Micro: store_rs1_to_dr | Signals: dr_sel=rs1 | Exec: st [SP], R1 | Regs: PC=21 AR=1025 DR=901 R1=901 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000098 | uPC: 02 | PC: 0015 | IR: 0BE10000 | Micro: store_dr_to_memory | Signals: mem_write | Exec: st [SP], R1 | Regs: PC=21 AR=1025 DR=901 R1=901 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000099 | uPC: 00 | PC: 0015 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: st [SP], R1 | Regs: PC=21 AR=21 DR=901 R1=901 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000100 | uPC: 01 | PC: 0015 | IR: 0BE10000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: st [SP], R1 | Regs: PC=21 AR=21 DR=204472321 R1=901 R2=900 R3=1 SP=1025 RSP=2048 | Out: ''
   ...
-  Total Ticks: 129
-  Instructions Fetched: 43
-  Output: 4294967296 
+  Total Ticks: 766
+  Instructions Fetched: 164
+  Output: 1 0 
   Halt Reason: halted
 out_code_log: |-
-  0000 - 0C100400 - ldi R1, 1024
+  0000 - 0C100FFF - ldi R1, -1
   0001 - 0BE10000 - st [SP], R1
   0002 - 0C300001 - ldi R3, 1
   0003 - 01EE3000 - add SP, SP, R3
-  0004 - 0C100040 - ldi R1, 64
+  0004 - 0C100384 - ldi R1, 900
   0005 - 0BE10000 - st [SP], R1
   0006 - 0C300001 - ldi R3, 1
   0007 - 01EE3000 - add SP, SP, R3
@@ -126,32 +135,153 @@ out_code_log: |-
   000B - 0C300001 - ldi R3, 1
   000C - 02EE3000 - sub SP, SP, R3
   000D - 0A1E0000 - ld R1, [SP]
-  000E - 03112000 - mul R1, R1, R2
-  000F - 0BE10000 - st [SP], R1
-  0010 - 0C300001 - ldi R3, 1
-  0011 - 01EE3000 - add SP, SP, R3
-  0012 - 0C300001 - ldi R3, 1
-  0013 - 02EE3000 - sub SP, SP, R3
-  0014 - 0A1E0000 - ld R1, [SP]
-  0015 - 0BE10000 - st [SP], R1
-  0016 - 0C300001 - ldi R3, 1
-  0017 - 01EE3000 - add SP, SP, R3
-  0018 - 0BE10000 - st [SP], R1
-  0019 - 0C300001 - ldi R3, 1
-  001A - 01EE3000 - add SP, SP, R3
-  001B - 0C300001 - ldi R3, 1
-  001C - 02EE3000 - sub SP, SP, R3
-  001D - 0A2E0000 - ld R2, [SP]
-  001E - 0C300001 - ldi R3, 1
-  001F - 02EE3000 - sub SP, SP, R3
-  0020 - 0A1E0000 - ld R1, [SP]
-  0021 - 03112000 - mul R1, R1, R2
-  0022 - 0BE10000 - st [SP], R1
-  0023 - 0C300001 - ldi R3, 1
-  0024 - 01EE3000 - add SP, SP, R3
-  0025 - 0C300001 - ldi R3, 1
-  0026 - 02EE3000 - sub SP, SP, R3
-  0027 - 0A1E0000 - ld R1, [SP]
-  0028 - 0C200FFD - ldi R2, -3
-  0029 - 0B210000 - st [R2], R1
-  002A - FF000000 - hlt
+  000E - 0B210000 - st [R2], R1
+  000F - 0C100000 - ldi R1, 0
+  0010 - 0BE10000 - st [SP], R1
+  0011 - 0C300001 - ldi R3, 1
+  0012 - 01EE3000 - add SP, SP, R3
+  0013 - 0C100385 - ldi R1, 901
+  0014 - 0BE10000 - st [SP], R1
+  0015 - 0C300001 - ldi R3, 1
+  0016 - 01EE3000 - add SP, SP, R3
+  0017 - 0C300001 - ldi R3, 1
+  0018 - 02EE3000 - sub SP, SP, R3
+  0019 - 0A2E0000 - ld R2, [SP]
+  001A - 0C300001 - ldi R3, 1
+  001B - 02EE3000 - sub SP, SP, R3
+  001C - 0A1E0000 - ld R1, [SP]
+  001D - 0B210000 - st [R2], R1
+  001E - 0C100384 - ldi R1, 900
+  001F - 0BE10000 - st [SP], R1
+  0020 - 0C300001 - ldi R3, 1
+  0021 - 01EE3000 - add SP, SP, R3
+  0022 - 0C300001 - ldi R3, 1
+  0023 - 02EE3000 - sub SP, SP, R3
+  0024 - 0A1E0000 - ld R1, [SP]
+  0025 - 0A110000 - ld R1, [R1]
+  0026 - 0BE10000 - st [SP], R1
+  0027 - 0C300001 - ldi R3, 1
+  0028 - 01EE3000 - add SP, SP, R3
+  0029 - 0C100001 - ldi R1, 1
+  002A - 0BE10000 - st [SP], R1
+  002B - 0C300001 - ldi R3, 1
+  002C - 01EE3000 - add SP, SP, R3
+  002D - 0C300001 - ldi R3, 1
+  002E - 02EE3000 - sub SP, SP, R3
+  002F - 0A2E0000 - ld R2, [SP]
+  0030 - 0C300001 - ldi R3, 1
+  0031 - 02EE3000 - sub SP, SP, R3
+  0032 - 0A1E0000 - ld R1, [SP]
+  0033 - 01112000 - add R1, R1, R2
+  0034 - 0BE10000 - st [SP], R1
+  0035 - 0C300001 - ldi R3, 1
+  0036 - 01EE3000 - add SP, SP, R3
+  0037 - 0C100384 - ldi R1, 900
+  0038 - 0BE10000 - st [SP], R1
+  0039 - 0C300001 - ldi R3, 1
+  003A - 01EE3000 - add SP, SP, R3
+  003B - 0C300001 - ldi R3, 1
+  003C - 02EE3000 - sub SP, SP, R3
+  003D - 0A2E0000 - ld R2, [SP]
+  003E - 0C300001 - ldi R3, 1
+  003F - 02EE3000 - sub SP, SP, R3
+  0040 - 0A1E0000 - ld R1, [SP]
+  0041 - 0B210000 - st [R2], R1
+  0042 - 0C100384 - ldi R1, 900
+  0043 - 0BE10000 - st [SP], R1
+  0044 - 0C300001 - ldi R3, 1
+  0045 - 01EE3000 - add SP, SP, R3
+  0046 - 0C300001 - ldi R3, 1
+  0047 - 02EE3000 - sub SP, SP, R3
+  0048 - 0A1E0000 - ld R1, [SP]
+  0049 - 0A110000 - ld R1, [R1]
+  004A - 0BE10000 - st [SP], R1
+  004B - 0C300001 - ldi R3, 1
+  004C - 01EE3000 - add SP, SP, R3
+  004D - 0C100000 - ldi R1, 0
+  004E - 0BE10000 - st [SP], R1
+  004F - 0C300001 - ldi R3, 1
+  0050 - 01EE3000 - add SP, SP, R3
+  0051 - 0C300001 - ldi R3, 1
+  0052 - 02EE3000 - sub SP, SP, R3
+  0053 - 0A2E0000 - ld R2, [SP]
+  0054 - 0C300001 - ldi R3, 1
+  0055 - 02EE3000 - sub SP, SP, R3
+  0056 - 0A1E0000 - ld R1, [SP]
+  0057 - 06112000 - cmp_eq R1, R1, R2
+  0058 - 0BE10000 - st [SP], R1
+  0059 - 0C300001 - ldi R3, 1
+  005A - 01EE3000 - add SP, SP, R3
+  005B - 0C300001 - ldi R3, 1
+  005C - 02EE3000 - sub SP, SP, R3
+  005D - 0A1E0000 - ld R1, [SP]
+  005E - 11010083 - jz R1, 131
+  005F - 0C100385 - ldi R1, 901
+  0060 - 0BE10000 - st [SP], R1
+  0061 - 0C300001 - ldi R3, 1
+  0062 - 01EE3000 - add SP, SP, R3
+  0063 - 0C300001 - ldi R3, 1
+  0064 - 02EE3000 - sub SP, SP, R3
+  0065 - 0A1E0000 - ld R1, [SP]
+  0066 - 0A110000 - ld R1, [R1]
+  0067 - 0BE10000 - st [SP], R1
+  0068 - 0C300001 - ldi R3, 1
+  0069 - 01EE3000 - add SP, SP, R3
+  006A - 0C100001 - ldi R1, 1
+  006B - 0BE10000 - st [SP], R1
+  006C - 0C300001 - ldi R3, 1
+  006D - 01EE3000 - add SP, SP, R3
+  006E - 0C300001 - ldi R3, 1
+  006F - 02EE3000 - sub SP, SP, R3
+  0070 - 0A2E0000 - ld R2, [SP]
+  0071 - 0C300001 - ldi R3, 1
+  0072 - 02EE3000 - sub SP, SP, R3
+  0073 - 0A1E0000 - ld R1, [SP]
+  0074 - 01112000 - add R1, R1, R2
+  0075 - 0BE10000 - st [SP], R1
+  0076 - 0C300001 - ldi R3, 1
+  0077 - 01EE3000 - add SP, SP, R3
+  0078 - 0C100385 - ldi R1, 901
+  0079 - 0BE10000 - st [SP], R1
+  007A - 0C300001 - ldi R3, 1
+  007B - 01EE3000 - add SP, SP, R3
+  007C - 0C300001 - ldi R3, 1
+  007D - 02EE3000 - sub SP, SP, R3
+  007E - 0A2E0000 - ld R2, [SP]
+  007F - 0C300001 - ldi R3, 1
+  0080 - 02EE3000 - sub SP, SP, R3
+  0081 - 0A1E0000 - ld R1, [SP]
+  0082 - 0B210000 - st [R2], R1
+  0083 - 0C100385 - ldi R1, 901
+  0084 - 0BE10000 - st [SP], R1
+  0085 - 0C300001 - ldi R3, 1
+  0086 - 01EE3000 - add SP, SP, R3
+  0087 - 0C300001 - ldi R3, 1
+  0088 - 02EE3000 - sub SP, SP, R3
+  0089 - 0A1E0000 - ld R1, [SP]
+  008A - 0A110000 - ld R1, [R1]
+  008B - 0BE10000 - st [SP], R1
+  008C - 0C300001 - ldi R3, 1
+  008D - 01EE3000 - add SP, SP, R3
+  008E - 0C300001 - ldi R3, 1
+  008F - 02EE3000 - sub SP, SP, R3
+  0090 - 0A1E0000 - ld R1, [SP]
+  0091 - 0C200FFD - ldi R2, -3
+  0092 - 0B210000 - st [R2], R1
+  0093 - 0C100384 - ldi R1, 900
+  0094 - 0BE10000 - st [SP], R1
+  0095 - 0C300001 - ldi R3, 1
+  0096 - 01EE3000 - add SP, SP, R3
+  0097 - 0C300001 - ldi R3, 1
+  0098 - 02EE3000 - sub SP, SP, R3
+  0099 - 0A1E0000 - ld R1, [SP]
+  009A - 0A110000 - ld R1, [R1]
+  009B - 0BE10000 - st [SP], R1
+  009C - 0C300001 - ldi R3, 1
+  009D - 01EE3000 - add SP, SP, R3
+  009E - 0C300001 - ldi R3, 1
+  009F - 02EE3000 - sub SP, SP, R3
+  00A0 - 0A1E0000 - ld R1, [SP]
+  00A1 - 0C200FFD - ldi R2, -3
+  00A2 - 0B210000 - st [R2], R1
+  00A3 - FF000000 - hlt

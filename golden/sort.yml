@@ -1,552 +1,927 @@
 in_source: |
-  \ Sort three input digit characters in ascending order.
-  key 820 !
-  key 821 !
-  key 822 !
+  \ Sort an input line of digit characters in ascending order.
+  \ The line is stored as a C-style character array at address 830.
+  0 820 !
+  begin
+      key 821 !
+      821 @ 10 = if
+          1
+      else
+          821 @ 830 820 @ + !
+          820 @ 1 + 820 !
+          0
+      then
+  until
   
-  820 @ 821 @ > if
-      820 @ 823 !
-      821 @ 820 !
-      823 @ 821 !
+  820 @ 1 > if
+      0 822 !
+      begin
+          0 823 !
+          begin
+              830 823 @ + @ 824 !
+              830 823 @ 1 + + @ 825 !
+              824 @ 825 @ > if
+                  825 @ 830 823 @ + !
+                  824 @ 830 823 @ 1 + + !
+              then
+              823 @ 1 + 823 !
+              823 @ 820 @ 1 - 822 @ - =
+          until
+          822 @ 1 + 822 !
+          822 @ 820 @ 1 - =
+      until
   then
   
-  821 @ 822 @ > if
-      821 @ 823 !
-      822 @ 821 !
-      823 @ 822 !
-  then
-  
-  820 @ 821 @ > if
-      820 @ 823 !
-      821 @ 820 !
-      823 @ 821 !
-  then
-  
-  820 @ emit
-  821 @ emit
-  822 @ emit
+  0 823 !
+  begin
+      830 823 @ + @ emit
+      823 @ 1 + 823 !
+      823 @ 820 @ =
+  until
   10 emit
-in_input: |-
-  731
+in_input: |
+  73142
 out_stdout: |
-  137
+  12347
 out_log: |-
-  Tick: 000001 | uPC: 00 | PC: 0001 | IR: 0C200FFE | Micro: fetch_ir_from_mem_pc | Exec: ldi R2, -2 | Regs: R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000002 | uPC: 01 | PC: 0001 | IR: 0C200FFE | Micro: decode_ir_select_microprogram | Exec: ldi R2, -2 | Regs: R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000003 | uPC: 00 | PC: 0001 | IR: 0C200FFE | Micro: write_imm_to_rd | Exec: ldi R2, -2 | Regs: R1=0 R2=-2 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000004 | uPC: 00 | PC: 0002 | IR: 0A120000 | Micro: fetch_ir_from_mem_pc | Exec: ld R1, [R2] | Regs: R1=0 R2=-2 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000005 | uPC: 01 | PC: 0002 | IR: 0A120000 | Micro: decode_ir_select_microprogram | Exec: ld R1, [R2] | Regs: R1=0 R2=-2 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000006 | uPC: 00 | PC: 0002 | IR: 0A120000 | Micro: read_mem_rs1_to_rd | Exec: ld R1, [R2] | Regs: R1=55 R2=-2 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000007 | uPC: 00 | PC: 0003 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=55 R2=-2 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000008 | uPC: 01 | PC: 0003 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=55 R2=-2 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000009 | uPC: 00 | PC: 0003 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=55 R2=-2 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000010 | uPC: 00 | PC: 0004 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=55 R2=-2 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000011 | uPC: 01 | PC: 0004 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=55 R2=-2 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000012 | uPC: 00 | PC: 0004 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000013 | uPC: 00 | PC: 0005 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000014 | uPC: 01 | PC: 0005 | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000015 | uPC: 00 | PC: 0005 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=55 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000016 | uPC: 00 | PC: 0006 | IR: 0C100334 | Micro: fetch_ir_from_mem_pc | Exec: ldi R1, 820 | Regs: R1=55 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000017 | uPC: 01 | PC: 0006 | IR: 0C100334 | Micro: decode_ir_select_microprogram | Exec: ldi R1, 820 | Regs: R1=55 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000018 | uPC: 00 | PC: 0006 | IR: 0C100334 | Micro: write_imm_to_rd | Exec: ldi R1, 820 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000019 | uPC: 00 | PC: 0007 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000020 | uPC: 01 | PC: 0007 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000021 | uPC: 00 | PC: 0007 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000022 | uPC: 00 | PC: 0008 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000023 | uPC: 01 | PC: 0008 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000024 | uPC: 00 | PC: 0008 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000025 | uPC: 00 | PC: 0009 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000026 | uPC: 01 | PC: 0009 | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000027 | uPC: 00 | PC: 0009 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=820 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000028 | uPC: 00 | PC: 000A | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=820 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000029 | uPC: 01 | PC: 000A | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=820 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000030 | uPC: 00 | PC: 000A | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=820 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000031 | uPC: 00 | PC: 000B | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=820 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000032 | uPC: 01 | PC: 000B | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=820 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000033 | uPC: 00 | PC: 000B | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000034 | uPC: 00 | PC: 000C | IR: 0A2E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R2, [SP] | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000035 | uPC: 01 | PC: 000C | IR: 0A2E0000 | Micro: decode_ir_select_microprogram | Exec: ld R2, [SP] | Regs: R1=820 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000036 | uPC: 00 | PC: 000C | IR: 0A2E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R2, [SP] | Regs: R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000037 | uPC: 00 | PC: 000D | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000038 | uPC: 01 | PC: 000D | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000039 | uPC: 00 | PC: 000D | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000040 | uPC: 00 | PC: 000E | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000041 | uPC: 01 | PC: 000E | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000042 | uPC: 00 | PC: 000E | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=820 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000043 | uPC: 00 | PC: 000F | IR: 0A1E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R1, [SP] | Regs: R1=820 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000044 | uPC: 01 | PC: 000F | IR: 0A1E0000 | Micro: decode_ir_select_microprogram | Exec: ld R1, [SP] | Regs: R1=820 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000045 | uPC: 00 | PC: 000F | IR: 0A1E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R1, [SP] | Regs: R1=55 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000046 | uPC: 00 | PC: 0010 | IR: 0B210000 | Micro: fetch_ir_from_mem_pc | Exec: st [R2], R1 | Regs: R1=55 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000047 | uPC: 01 | PC: 0010 | IR: 0B210000 | Micro: decode_ir_select_microprogram | Exec: st [R2], R1 | Regs: R1=55 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000048 | uPC: 00 | PC: 0010 | IR: 0B210000 | Micro: write_rs1_to_mem_rd | Exec: st [R2], R1 | Regs: R1=55 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000049 | uPC: 00 | PC: 0011 | IR: 0C200FFE | Micro: fetch_ir_from_mem_pc | Exec: ldi R2, -2 | Regs: R1=55 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000050 | uPC: 01 | PC: 0011 | IR: 0C200FFE | Micro: decode_ir_select_microprogram | Exec: ldi R2, -2 | Regs: R1=55 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000051 | uPC: 00 | PC: 0011 | IR: 0C200FFE | Micro: write_imm_to_rd | Exec: ldi R2, -2 | Regs: R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000052 | uPC: 00 | PC: 0012 | IR: 0A120000 | Micro: fetch_ir_from_mem_pc | Exec: ld R1, [R2] | Regs: R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000053 | uPC: 01 | PC: 0012 | IR: 0A120000 | Micro: decode_ir_select_microprogram | Exec: ld R1, [R2] | Regs: R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000054 | uPC: 00 | PC: 0012 | IR: 0A120000 | Micro: read_mem_rs1_to_rd | Exec: ld R1, [R2] | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000055 | uPC: 00 | PC: 0013 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000056 | uPC: 01 | PC: 0013 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000057 | uPC: 00 | PC: 0013 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000058 | uPC: 00 | PC: 0014 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000059 | uPC: 01 | PC: 0014 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000060 | uPC: 00 | PC: 0014 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000061 | uPC: 00 | PC: 0015 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000062 | uPC: 01 | PC: 0015 | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000063 | uPC: 00 | PC: 0015 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=51 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000064 | uPC: 00 | PC: 0016 | IR: 0C100335 | Micro: fetch_ir_from_mem_pc | Exec: ldi R1, 821 | Regs: R1=51 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000065 | uPC: 01 | PC: 0016 | IR: 0C100335 | Micro: decode_ir_select_microprogram | Exec: ldi R1, 821 | Regs: R1=51 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000066 | uPC: 00 | PC: 0016 | IR: 0C100335 | Micro: write_imm_to_rd | Exec: ldi R1, 821 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000067 | uPC: 00 | PC: 0017 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Exec: st [SP], R1 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000068 | uPC: 01 | PC: 0017 | IR: 0BE10000 | Micro: decode_ir_select_microprogram | Exec: st [SP], R1 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000069 | uPC: 00 | PC: 0017 | IR: 0BE10000 | Micro: write_rs1_to_mem_rd | Exec: st [SP], R1 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000070 | uPC: 00 | PC: 0018 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000071 | uPC: 01 | PC: 0018 | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000072 | uPC: 00 | PC: 0018 | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000073 | uPC: 00 | PC: 0019 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Exec: add SP, SP, R3 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000074 | uPC: 01 | PC: 0019 | IR: 01EE3000 | Micro: decode_ir_select_microprogram | Exec: add SP, SP, R3 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000075 | uPC: 00 | PC: 0019 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: add SP, SP, R3 | Regs: R1=821 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000076 | uPC: 00 | PC: 001A | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=821 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000077 | uPC: 01 | PC: 001A | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=821 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000078 | uPC: 00 | PC: 001A | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=821 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000079 | uPC: 00 | PC: 001B | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=821 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000080 | uPC: 01 | PC: 001B | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=821 R2=-2 R3=1 SP=1026 RSP=2048 | Out: ''
-  Tick: 000081 | uPC: 00 | PC: 001B | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000082 | uPC: 00 | PC: 001C | IR: 0A2E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R2, [SP] | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000083 | uPC: 01 | PC: 001C | IR: 0A2E0000 | Micro: decode_ir_select_microprogram | Exec: ld R2, [SP] | Regs: R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000084 | uPC: 00 | PC: 001C | IR: 0A2E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R2, [SP] | Regs: R1=821 R2=821 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000085 | uPC: 00 | PC: 001D | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Exec: ldi R3, 1 | Regs: R1=821 R2=821 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000086 | uPC: 01 | PC: 001D | IR: 0C300001 | Micro: decode_ir_select_microprogram | Exec: ldi R3, 1 | Regs: R1=821 R2=821 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000087 | uPC: 00 | PC: 001D | IR: 0C300001 | Micro: write_imm_to_rd | Exec: ldi R3, 1 | Regs: R1=821 R2=821 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000088 | uPC: 00 | PC: 001E | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Exec: sub SP, SP, R3 | Regs: R1=821 R2=821 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000089 | uPC: 01 | PC: 001E | IR: 02EE3000 | Micro: decode_ir_select_microprogram | Exec: sub SP, SP, R3 | Regs: R1=821 R2=821 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000090 | uPC: 00 | PC: 001E | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Exec: sub SP, SP, R3 | Regs: R1=821 R2=821 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000091 | uPC: 00 | PC: 001F | IR: 0A1E0000 | Micro: fetch_ir_from_mem_pc | Exec: ld R1, [SP] | Regs: R1=821 R2=821 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000092 | uPC: 01 | PC: 001F | IR: 0A1E0000 | Micro: decode_ir_select_microprogram | Exec: ld R1, [SP] | Regs: R1=821 R2=821 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000093 | uPC: 00 | PC: 001F | IR: 0A1E0000 | Micro: read_mem_rs1_to_rd | Exec: ld R1, [SP] | Regs: R1=51 R2=821 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000094 | uPC: 00 | PC: 0020 | IR: 0B210000 | Micro: fetch_ir_from_mem_pc | Exec: st [R2], R1 | Regs: R1=51 R2=821 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000095 | uPC: 01 | PC: 0020 | IR: 0B210000 | Micro: decode_ir_select_microprogram | Exec: st [R2], R1 | Regs: R1=51 R2=821 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000096 | uPC: 00 | PC: 0020 | IR: 0B210000 | Micro: write_rs1_to_mem_rd | Exec: st [R2], R1 | Regs: R1=51 R2=821 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000097 | uPC: 00 | PC: 0021 | IR: 0C200FFE | Micro: fetch_ir_from_mem_pc | Exec: ldi R2, -2 | Regs: R1=51 R2=821 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000098 | uPC: 01 | PC: 0021 | IR: 0C200FFE | Micro: decode_ir_select_microprogram | Exec: ldi R2, -2 | Regs: R1=51 R2=821 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000099 | uPC: 00 | PC: 0021 | IR: 0C200FFE | Micro: write_imm_to_rd | Exec: ldi R2, -2 | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000100 | uPC: 00 | PC: 0022 | IR: 0A120000 | Micro: fetch_ir_from_mem_pc | Exec: ld R1, [R2] | Regs: R1=51 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000001 | uPC: 00 | PC: 0000 | IR: 00000000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: nop | Regs: PC=0 AR=0 DR=0 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000002 | uPC: 01 | PC: 0000 | IR: 00000000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: nop | Regs: PC=0 AR=0 DR=202375168 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000003 | uPC: 02 | PC: 0001 | IR: 0C100000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R1, 0 | Regs: PC=1 AR=0 DR=202375168 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000004 | uPC: 00 | PC: 0001 | IR: 0C100000 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R1, 0 | Regs: PC=1 AR=0 DR=202375168 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000005 | uPC: 00 | PC: 0001 | IR: 0C100000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R1, 0 | Regs: PC=1 AR=1 DR=202375168 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000006 | uPC: 01 | PC: 0001 | IR: 0C100000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R1, 0 | Regs: PC=1 AR=1 DR=199294976 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000007 | uPC: 02 | PC: 0002 | IR: 0BE10000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: st [SP], R1 | Regs: PC=2 AR=1 DR=199294976 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000008 | uPC: 00 | PC: 0002 | IR: 0BE10000 | Micro: store_address_rd_to_ar | Signals: ar_sel=rd | Exec: st [SP], R1 | Regs: PC=2 AR=1024 DR=199294976 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000009 | uPC: 01 | PC: 0002 | IR: 0BE10000 | Micro: store_rs1_to_dr | Signals: dr_sel=rs1 | Exec: st [SP], R1 | Regs: PC=2 AR=1024 DR=0 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000010 | uPC: 02 | PC: 0002 | IR: 0BE10000 | Micro: store_dr_to_memory | Signals: mem_write | Exec: st [SP], R1 | Regs: PC=2 AR=1024 DR=0 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000011 | uPC: 00 | PC: 0002 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: st [SP], R1 | Regs: PC=2 AR=2 DR=0 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000012 | uPC: 01 | PC: 0002 | IR: 0BE10000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: st [SP], R1 | Regs: PC=2 AR=2 DR=204472321 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000013 | uPC: 02 | PC: 0003 | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=3 AR=2 DR=204472321 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
+  Tick: 000014 | uPC: 00 | PC: 0003 | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=3 AR=2 DR=204472321 R1=0 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000015 | uPC: 00 | PC: 0003 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=3 AR=3 DR=204472321 R1=0 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000016 | uPC: 01 | PC: 0003 | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=3 AR=3 DR=32387072 R1=0 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000017 | uPC: 02 | PC: 0004 | IR: 01EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: add SP, SP, R3 | Regs: PC=4 AR=3 DR=32387072 R1=0 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000018 | uPC: 00 | PC: 0004 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: add SP, SP, R3 | Regs: PC=4 AR=3 DR=32387072 R1=0 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000019 | uPC: 00 | PC: 0004 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: add SP, SP, R3 | Regs: PC=4 AR=4 DR=32387072 R1=0 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000020 | uPC: 01 | PC: 0004 | IR: 01EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: add SP, SP, R3 | Regs: PC=4 AR=4 DR=202375988 R1=0 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000021 | uPC: 02 | PC: 0005 | IR: 0C100334 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R1, 820 | Regs: PC=5 AR=4 DR=202375988 R1=0 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000022 | uPC: 00 | PC: 0005 | IR: 0C100334 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R1, 820 | Regs: PC=5 AR=4 DR=202375988 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000023 | uPC: 00 | PC: 0005 | IR: 0C100334 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R1, 820 | Regs: PC=5 AR=5 DR=202375988 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000024 | uPC: 01 | PC: 0005 | IR: 0C100334 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R1, 820 | Regs: PC=5 AR=5 DR=199294976 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000025 | uPC: 02 | PC: 0006 | IR: 0BE10000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: st [SP], R1 | Regs: PC=6 AR=5 DR=199294976 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000026 | uPC: 00 | PC: 0006 | IR: 0BE10000 | Micro: store_address_rd_to_ar | Signals: ar_sel=rd | Exec: st [SP], R1 | Regs: PC=6 AR=1025 DR=199294976 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000027 | uPC: 01 | PC: 0006 | IR: 0BE10000 | Micro: store_rs1_to_dr | Signals: dr_sel=rs1 | Exec: st [SP], R1 | Regs: PC=6 AR=1025 DR=820 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000028 | uPC: 02 | PC: 0006 | IR: 0BE10000 | Micro: store_dr_to_memory | Signals: mem_write | Exec: st [SP], R1 | Regs: PC=6 AR=1025 DR=820 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000029 | uPC: 00 | PC: 0006 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: st [SP], R1 | Regs: PC=6 AR=6 DR=820 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000030 | uPC: 01 | PC: 0006 | IR: 0BE10000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: st [SP], R1 | Regs: PC=6 AR=6 DR=204472321 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000031 | uPC: 02 | PC: 0007 | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=7 AR=6 DR=204472321 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000032 | uPC: 00 | PC: 0007 | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=7 AR=6 DR=204472321 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000033 | uPC: 00 | PC: 0007 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=7 AR=7 DR=204472321 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000034 | uPC: 01 | PC: 0007 | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=7 AR=7 DR=32387072 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000035 | uPC: 02 | PC: 0008 | IR: 01EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: add SP, SP, R3 | Regs: PC=8 AR=7 DR=32387072 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000036 | uPC: 00 | PC: 0008 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: add SP, SP, R3 | Regs: PC=8 AR=7 DR=32387072 R1=820 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000037 | uPC: 00 | PC: 0008 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: add SP, SP, R3 | Regs: PC=8 AR=8 DR=32387072 R1=820 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000038 | uPC: 01 | PC: 0008 | IR: 01EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: add SP, SP, R3 | Regs: PC=8 AR=8 DR=204472321 R1=820 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000039 | uPC: 02 | PC: 0009 | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=9 AR=8 DR=204472321 R1=820 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000040 | uPC: 00 | PC: 0009 | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=9 AR=8 DR=204472321 R1=820 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000041 | uPC: 00 | PC: 0009 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=9 AR=9 DR=204472321 R1=820 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000042 | uPC: 01 | PC: 0009 | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=9 AR=9 DR=49164288 R1=820 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000043 | uPC: 02 | PC: 000A | IR: 02EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: sub SP, SP, R3 | Regs: PC=10 AR=9 DR=49164288 R1=820 R2=0 R3=1 SP=1026 RSP=2048 | Out: ''
+  Tick: 000044 | uPC: 00 | PC: 000A | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: sub SP, SP, R3 | Regs: PC=10 AR=9 DR=49164288 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000045 | uPC: 00 | PC: 000A | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: sub SP, SP, R3 | Regs: PC=10 AR=10 DR=49164288 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000046 | uPC: 01 | PC: 000A | IR: 02EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: sub SP, SP, R3 | Regs: PC=10 AR=10 DR=170786816 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000047 | uPC: 02 | PC: 000B | IR: 0A2E0000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ld R2, [SP] | Regs: PC=11 AR=10 DR=170786816 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000048 | uPC: 00 | PC: 000B | IR: 0A2E0000 | Micro: load_address_rs1_to_ar | Signals: ar_sel=rs1 | Exec: ld R2, [SP] | Regs: PC=11 AR=1025 DR=170786816 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000049 | uPC: 01 | PC: 000B | IR: 0A2E0000 | Micro: load_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R2, [SP] | Regs: PC=11 AR=1025 DR=820 R1=820 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000050 | uPC: 02 | PC: 000B | IR: 0A2E0000 | Micro: load_dr_to_rd | Signals: reg_write=rd<-dr | Exec: ld R2, [SP] | Regs: PC=11 AR=1025 DR=820 R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000051 | uPC: 00 | PC: 000B | IR: 0A2E0000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ld R2, [SP] | Regs: PC=11 AR=11 DR=820 R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000052 | uPC: 01 | PC: 000B | IR: 0A2E0000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R2, [SP] | Regs: PC=11 AR=11 DR=204472321 R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000053 | uPC: 02 | PC: 000C | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=12 AR=11 DR=204472321 R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000054 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=12 AR=11 DR=204472321 R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000055 | uPC: 00 | PC: 000C | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=12 AR=12 DR=204472321 R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000056 | uPC: 01 | PC: 000C | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=12 AR=12 DR=49164288 R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000057 | uPC: 02 | PC: 000D | IR: 02EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: sub SP, SP, R3 | Regs: PC=13 AR=12 DR=49164288 R1=820 R2=820 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000058 | uPC: 00 | PC: 000D | IR: 02EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: sub SP, SP, R3 | Regs: PC=13 AR=12 DR=49164288 R1=820 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000059 | uPC: 00 | PC: 000D | IR: 02EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: sub SP, SP, R3 | Regs: PC=13 AR=13 DR=49164288 R1=820 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000060 | uPC: 01 | PC: 000D | IR: 02EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: sub SP, SP, R3 | Regs: PC=13 AR=13 DR=169738240 R1=820 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000061 | uPC: 02 | PC: 000E | IR: 0A1E0000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ld R1, [SP] | Regs: PC=14 AR=13 DR=169738240 R1=820 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000062 | uPC: 00 | PC: 000E | IR: 0A1E0000 | Micro: load_address_rs1_to_ar | Signals: ar_sel=rs1 | Exec: ld R1, [SP] | Regs: PC=14 AR=1024 DR=169738240 R1=820 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000063 | uPC: 01 | PC: 000E | IR: 0A1E0000 | Micro: load_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R1, [SP] | Regs: PC=14 AR=1024 DR=0 R1=820 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000064 | uPC: 02 | PC: 000E | IR: 0A1E0000 | Micro: load_dr_to_rd | Signals: reg_write=rd<-dr | Exec: ld R1, [SP] | Regs: PC=14 AR=1024 DR=0 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000065 | uPC: 00 | PC: 000E | IR: 0A1E0000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ld R1, [SP] | Regs: PC=14 AR=14 DR=0 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000066 | uPC: 01 | PC: 000E | IR: 0A1E0000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R1, [SP] | Regs: PC=14 AR=14 DR=186712064 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000067 | uPC: 02 | PC: 000F | IR: 0B210000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: st [R2], R1 | Regs: PC=15 AR=14 DR=186712064 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000068 | uPC: 00 | PC: 000F | IR: 0B210000 | Micro: store_address_rd_to_ar | Signals: ar_sel=rd | Exec: st [R2], R1 | Regs: PC=15 AR=820 DR=186712064 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000069 | uPC: 01 | PC: 000F | IR: 0B210000 | Micro: store_rs1_to_dr | Signals: dr_sel=rs1 | Exec: st [R2], R1 | Regs: PC=15 AR=820 DR=0 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000070 | uPC: 02 | PC: 000F | IR: 0B210000 | Micro: store_dr_to_memory | Signals: mem_write | Exec: st [R2], R1 | Regs: PC=15 AR=820 DR=0 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000071 | uPC: 00 | PC: 000F | IR: 0B210000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: st [R2], R1 | Regs: PC=15 AR=15 DR=0 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000072 | uPC: 01 | PC: 000F | IR: 0B210000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: st [R2], R1 | Regs: PC=15 AR=15 DR=203427838 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000073 | uPC: 02 | PC: 0010 | IR: 0C200FFE | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R2, -2 | Regs: PC=16 AR=15 DR=203427838 R1=0 R2=820 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000074 | uPC: 00 | PC: 0010 | IR: 0C200FFE | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R2, -2 | Regs: PC=16 AR=15 DR=203427838 R1=0 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000075 | uPC: 00 | PC: 0010 | IR: 0C200FFE | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R2, -2 | Regs: PC=16 AR=16 DR=203427838 R1=0 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000076 | uPC: 01 | PC: 0010 | IR: 0C200FFE | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R2, -2 | Regs: PC=16 AR=16 DR=168951808 R1=0 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000077 | uPC: 02 | PC: 0011 | IR: 0A120000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ld R1, [R2] | Regs: PC=17 AR=16 DR=168951808 R1=0 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000078 | uPC: 00 | PC: 0011 | IR: 0A120000 | Micro: load_address_rs1_to_ar | Signals: ar_sel=rs1 | Exec: ld R1, [R2] | Regs: PC=17 AR=-2 DR=168951808 R1=0 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000079 | uPC: 01 | PC: 0011 | IR: 0A120000 | Micro: load_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R1, [R2] | Regs: PC=17 AR=-2 DR=55 R1=0 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000080 | uPC: 02 | PC: 0011 | IR: 0A120000 | Micro: load_dr_to_rd | Signals: reg_write=rd<-dr | Exec: ld R1, [R2] | Regs: PC=17 AR=-2 DR=55 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000081 | uPC: 00 | PC: 0011 | IR: 0A120000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ld R1, [R2] | Regs: PC=17 AR=17 DR=55 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000082 | uPC: 01 | PC: 0011 | IR: 0A120000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ld R1, [R2] | Regs: PC=17 AR=17 DR=199294976 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000083 | uPC: 02 | PC: 0012 | IR: 0BE10000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: st [SP], R1 | Regs: PC=18 AR=17 DR=199294976 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000084 | uPC: 00 | PC: 0012 | IR: 0BE10000 | Micro: store_address_rd_to_ar | Signals: ar_sel=rd | Exec: st [SP], R1 | Regs: PC=18 AR=1024 DR=199294976 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000085 | uPC: 01 | PC: 0012 | IR: 0BE10000 | Micro: store_rs1_to_dr | Signals: dr_sel=rs1 | Exec: st [SP], R1 | Regs: PC=18 AR=1024 DR=55 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000086 | uPC: 02 | PC: 0012 | IR: 0BE10000 | Micro: store_dr_to_memory | Signals: mem_write | Exec: st [SP], R1 | Regs: PC=18 AR=1024 DR=55 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000087 | uPC: 00 | PC: 0012 | IR: 0BE10000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: st [SP], R1 | Regs: PC=18 AR=18 DR=55 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000088 | uPC: 01 | PC: 0012 | IR: 0BE10000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: st [SP], R1 | Regs: PC=18 AR=18 DR=204472321 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000089 | uPC: 02 | PC: 0013 | IR: 0C300001 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R3, 1 | Regs: PC=19 AR=18 DR=204472321 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000090 | uPC: 00 | PC: 0013 | IR: 0C300001 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R3, 1 | Regs: PC=19 AR=18 DR=204472321 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000091 | uPC: 00 | PC: 0013 | IR: 0C300001 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R3, 1 | Regs: PC=19 AR=19 DR=204472321 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000092 | uPC: 01 | PC: 0013 | IR: 0C300001 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R3, 1 | Regs: PC=19 AR=19 DR=32387072 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000093 | uPC: 02 | PC: 0014 | IR: 01EE3000 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: add SP, SP, R3 | Regs: PC=20 AR=19 DR=32387072 R1=55 R2=-2 R3=1 SP=1024 RSP=2048 | Out: ''
+  Tick: 000094 | uPC: 00 | PC: 0014 | IR: 01EE3000 | Micro: alu_rs1_rs2_to_rd | Signals: reg_write=rd<-alu | Exec: add SP, SP, R3 | Regs: PC=20 AR=19 DR=32387072 R1=55 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000095 | uPC: 00 | PC: 0014 | IR: 01EE3000 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: add SP, SP, R3 | Regs: PC=20 AR=20 DR=32387072 R1=55 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000096 | uPC: 01 | PC: 0014 | IR: 01EE3000 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: add SP, SP, R3 | Regs: PC=20 AR=20 DR=202375989 R1=55 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000097 | uPC: 02 | PC: 0015 | IR: 0C100335 | Micro: latch_ir_increment_pc_decode | Signals: ir_latch,pc_sel=inc,next=decoded | Exec: ldi R1, 821 | Regs: PC=21 AR=20 DR=202375989 R1=55 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000098 | uPC: 00 | PC: 0015 | IR: 0C100335 | Micro: write_imm_to_rd | Signals: reg_write=rd<-imm | Exec: ldi R1, 821 | Regs: PC=21 AR=20 DR=202375989 R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000099 | uPC: 00 | PC: 0015 | IR: 0C100335 | Micro: fetch_ir_from_mem_pc | Signals: ar_sel=pc | Exec: ldi R1, 821 | Regs: PC=21 AR=21 DR=202375989 R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
+  Tick: 000100 | uPC: 01 | PC: 0015 | IR: 0C100335 | Micro: fetch_memory_word_to_dr | Signals: dr_sel=mem,mem_read | Exec: ldi R1, 821 | Regs: PC=21 AR=21 DR=199294976 R1=821 R2=-2 R3=1 SP=1025 RSP=2048 | Out: ''
   ...
-  Total Ticks: 1236
-  Instructions Fetched: 412
-  Output: 137
+  Total Ticks: 22766
+  Instructions Fetched: 4877
+  Output: 12347
   
   Halt Reason: halted
 out_code_log: |-
-  0000 - 0C200FFE - ldi R2, -2
-  0001 - 0A120000 - ld R1, [R2]
-  0002 - 0BE10000 - st [SP], R1
-  0003 - 0C300001 - ldi R3, 1
-  0004 - 01EE3000 - add SP, SP, R3
-  0005 - 0C100334 - ldi R1, 820
-  0006 - 0BE10000 - st [SP], R1
-  0007 - 0C300001 - ldi R3, 1
-  0008 - 01EE3000 - add SP, SP, R3
-  0009 - 0C300001 - ldi R3, 1
-  000A - 02EE3000 - sub SP, SP, R3
-  000B - 0A2E0000 - ld R2, [SP]
-  000C - 0C300001 - ldi R3, 1
-  000D - 02EE3000 - sub SP, SP, R3
-  000E - 0A1E0000 - ld R1, [SP]
-  000F - 0B210000 - st [R2], R1
-  0010 - 0C200FFE - ldi R2, -2
-  0011 - 0A120000 - ld R1, [R2]
-  0012 - 0BE10000 - st [SP], R1
-  0013 - 0C300001 - ldi R3, 1
-  0014 - 01EE3000 - add SP, SP, R3
-  0015 - 0C100335 - ldi R1, 821
-  0016 - 0BE10000 - st [SP], R1
-  0017 - 0C300001 - ldi R3, 1
-  0018 - 01EE3000 - add SP, SP, R3
-  0019 - 0C300001 - ldi R3, 1
-  001A - 02EE3000 - sub SP, SP, R3
-  001B - 0A2E0000 - ld R2, [SP]
-  001C - 0C300001 - ldi R3, 1
-  001D - 02EE3000 - sub SP, SP, R3
-  001E - 0A1E0000 - ld R1, [SP]
-  001F - 0B210000 - st [R2], R1
-  0020 - 0C200FFE - ldi R2, -2
-  0021 - 0A120000 - ld R1, [R2]
-  0022 - 0BE10000 - st [SP], R1
+  0000 - 0C100000 - ldi R1, 0
+  0001 - 0BE10000 - st [SP], R1
+  0002 - 0C300001 - ldi R3, 1
+  0003 - 01EE3000 - add SP, SP, R3
+  0004 - 0C100334 - ldi R1, 820
+  0005 - 0BE10000 - st [SP], R1
+  0006 - 0C300001 - ldi R3, 1
+  0007 - 01EE3000 - add SP, SP, R3
+  0008 - 0C300001 - ldi R3, 1
+  0009 - 02EE3000 - sub SP, SP, R3
+  000A - 0A2E0000 - ld R2, [SP]
+  000B - 0C300001 - ldi R3, 1
+  000C - 02EE3000 - sub SP, SP, R3
+  000D - 0A1E0000 - ld R1, [SP]
+  000E - 0B210000 - st [R2], R1
+  000F - 0C200FFE - ldi R2, -2
+  0010 - 0A120000 - ld R1, [R2]
+  0011 - 0BE10000 - st [SP], R1
+  0012 - 0C300001 - ldi R3, 1
+  0013 - 01EE3000 - add SP, SP, R3
+  0014 - 0C100335 - ldi R1, 821
+  0015 - 0BE10000 - st [SP], R1
+  0016 - 0C300001 - ldi R3, 1
+  0017 - 01EE3000 - add SP, SP, R3
+  0018 - 0C300001 - ldi R3, 1
+  0019 - 02EE3000 - sub SP, SP, R3
+  001A - 0A2E0000 - ld R2, [SP]
+  001B - 0C300001 - ldi R3, 1
+  001C - 02EE3000 - sub SP, SP, R3
+  001D - 0A1E0000 - ld R1, [SP]
+  001E - 0B210000 - st [R2], R1
+  001F - 0C100335 - ldi R1, 821
+  0020 - 0BE10000 - st [SP], R1
+  0021 - 0C300001 - ldi R3, 1
+  0022 - 01EE3000 - add SP, SP, R3
   0023 - 0C300001 - ldi R3, 1
-  0024 - 01EE3000 - add SP, SP, R3
-  0025 - 0C100336 - ldi R1, 822
-  0026 - 0BE10000 - st [SP], R1
-  0027 - 0C300001 - ldi R3, 1
-  0028 - 01EE3000 - add SP, SP, R3
-  0029 - 0C300001 - ldi R3, 1
-  002A - 02EE3000 - sub SP, SP, R3
-  002B - 0A2E0000 - ld R2, [SP]
+  0024 - 02EE3000 - sub SP, SP, R3
+  0025 - 0A1E0000 - ld R1, [SP]
+  0026 - 0A110000 - ld R1, [R1]
+  0027 - 0BE10000 - st [SP], R1
+  0028 - 0C300001 - ldi R3, 1
+  0029 - 01EE3000 - add SP, SP, R3
+  002A - 0C10000A - ldi R1, 10
+  002B - 0BE10000 - st [SP], R1
   002C - 0C300001 - ldi R3, 1
-  002D - 02EE3000 - sub SP, SP, R3
-  002E - 0A1E0000 - ld R1, [SP]
-  002F - 0B210000 - st [R2], R1
-  0030 - 0C100334 - ldi R1, 820
-  0031 - 0BE10000 - st [SP], R1
-  0032 - 0C300001 - ldi R3, 1
-  0033 - 01EE3000 - add SP, SP, R3
-  0034 - 0C300001 - ldi R3, 1
-  0035 - 02EE3000 - sub SP, SP, R3
-  0036 - 0A1E0000 - ld R1, [SP]
-  0037 - 0A110000 - ld R1, [R1]
-  0038 - 0BE10000 - st [SP], R1
-  0039 - 0C300001 - ldi R3, 1
-  003A - 01EE3000 - add SP, SP, R3
-  003B - 0C100335 - ldi R1, 821
-  003C - 0BE10000 - st [SP], R1
-  003D - 0C300001 - ldi R3, 1
-  003E - 01EE3000 - add SP, SP, R3
-  003F - 0C300001 - ldi R3, 1
-  0040 - 02EE3000 - sub SP, SP, R3
-  0041 - 0A1E0000 - ld R1, [SP]
-  0042 - 0A110000 - ld R1, [R1]
-  0043 - 0BE10000 - st [SP], R1
-  0044 - 0C300001 - ldi R3, 1
-  0045 - 01EE3000 - add SP, SP, R3
-  0046 - 0C300001 - ldi R3, 1
-  0047 - 02EE3000 - sub SP, SP, R3
-  0048 - 0A2E0000 - ld R2, [SP]
-  0049 - 0C300001 - ldi R3, 1
-  004A - 02EE3000 - sub SP, SP, R3
-  004B - 0A1E0000 - ld R1, [SP]
-  004C - 07112000 - cmp_gt R1, R1, R2
+  002D - 01EE3000 - add SP, SP, R3
+  002E - 0C300001 - ldi R3, 1
+  002F - 02EE3000 - sub SP, SP, R3
+  0030 - 0A2E0000 - ld R2, [SP]
+  0031 - 0C300001 - ldi R3, 1
+  0032 - 02EE3000 - sub SP, SP, R3
+  0033 - 0A1E0000 - ld R1, [SP]
+  0034 - 06112000 - cmp_eq R1, R1, R2
+  0035 - 0BE10000 - st [SP], R1
+  0036 - 0C300001 - ldi R3, 1
+  0037 - 01EE3000 - add SP, SP, R3
+  0038 - 0C300001 - ldi R3, 1
+  0039 - 02EE3000 - sub SP, SP, R3
+  003A - 0A1E0000 - ld R1, [SP]
+  003B - 11010041 - jz R1, 65
+  003C - 0C100001 - ldi R1, 1
+  003D - 0BE10000 - st [SP], R1
+  003E - 0C300001 - ldi R3, 1
+  003F - 01EE3000 - add SP, SP, R3
+  0040 - 10000094 - jmp 148
+  0041 - 0C100335 - ldi R1, 821
+  0042 - 0BE10000 - st [SP], R1
+  0043 - 0C300001 - ldi R3, 1
+  0044 - 01EE3000 - add SP, SP, R3
+  0045 - 0C300001 - ldi R3, 1
+  0046 - 02EE3000 - sub SP, SP, R3
+  0047 - 0A1E0000 - ld R1, [SP]
+  0048 - 0A110000 - ld R1, [R1]
+  0049 - 0BE10000 - st [SP], R1
+  004A - 0C300001 - ldi R3, 1
+  004B - 01EE3000 - add SP, SP, R3
+  004C - 0C10033E - ldi R1, 830
   004D - 0BE10000 - st [SP], R1
   004E - 0C300001 - ldi R3, 1
   004F - 01EE3000 - add SP, SP, R3
-  0050 - 0C300001 - ldi R3, 1
-  0051 - 02EE3000 - sub SP, SP, R3
-  0052 - 0A1E0000 - ld R1, [SP]
-  0053 - 11010096 - jz R1, 150
-  0054 - 0C100334 - ldi R1, 820
-  0055 - 0BE10000 - st [SP], R1
-  0056 - 0C300001 - ldi R3, 1
-  0057 - 01EE3000 - add SP, SP, R3
-  0058 - 0C300001 - ldi R3, 1
-  0059 - 02EE3000 - sub SP, SP, R3
-  005A - 0A1E0000 - ld R1, [SP]
-  005B - 0A110000 - ld R1, [R1]
-  005C - 0BE10000 - st [SP], R1
-  005D - 0C300001 - ldi R3, 1
-  005E - 01EE3000 - add SP, SP, R3
-  005F - 0C100337 - ldi R1, 823
-  0060 - 0BE10000 - st [SP], R1
-  0061 - 0C300001 - ldi R3, 1
-  0062 - 01EE3000 - add SP, SP, R3
+  0050 - 0C100334 - ldi R1, 820
+  0051 - 0BE10000 - st [SP], R1
+  0052 - 0C300001 - ldi R3, 1
+  0053 - 01EE3000 - add SP, SP, R3
+  0054 - 0C300001 - ldi R3, 1
+  0055 - 02EE3000 - sub SP, SP, R3
+  0056 - 0A1E0000 - ld R1, [SP]
+  0057 - 0A110000 - ld R1, [R1]
+  0058 - 0BE10000 - st [SP], R1
+  0059 - 0C300001 - ldi R3, 1
+  005A - 01EE3000 - add SP, SP, R3
+  005B - 0C300001 - ldi R3, 1
+  005C - 02EE3000 - sub SP, SP, R3
+  005D - 0A2E0000 - ld R2, [SP]
+  005E - 0C300001 - ldi R3, 1
+  005F - 02EE3000 - sub SP, SP, R3
+  0060 - 0A1E0000 - ld R1, [SP]
+  0061 - 01112000 - add R1, R1, R2
+  0062 - 0BE10000 - st [SP], R1
   0063 - 0C300001 - ldi R3, 1
-  0064 - 02EE3000 - sub SP, SP, R3
-  0065 - 0A2E0000 - ld R2, [SP]
-  0066 - 0C300001 - ldi R3, 1
-  0067 - 02EE3000 - sub SP, SP, R3
-  0068 - 0A1E0000 - ld R1, [SP]
-  0069 - 0B210000 - st [R2], R1
-  006A - 0C100335 - ldi R1, 821
-  006B - 0BE10000 - st [SP], R1
-  006C - 0C300001 - ldi R3, 1
-  006D - 01EE3000 - add SP, SP, R3
+  0064 - 01EE3000 - add SP, SP, R3
+  0065 - 0C300001 - ldi R3, 1
+  0066 - 02EE3000 - sub SP, SP, R3
+  0067 - 0A2E0000 - ld R2, [SP]
+  0068 - 0C300001 - ldi R3, 1
+  0069 - 02EE3000 - sub SP, SP, R3
+  006A - 0A1E0000 - ld R1, [SP]
+  006B - 0B210000 - st [R2], R1
+  006C - 0C100334 - ldi R1, 820
+  006D - 0BE10000 - st [SP], R1
   006E - 0C300001 - ldi R3, 1
-  006F - 02EE3000 - sub SP, SP, R3
-  0070 - 0A1E0000 - ld R1, [SP]
-  0071 - 0A110000 - ld R1, [R1]
-  0072 - 0BE10000 - st [SP], R1
-  0073 - 0C300001 - ldi R3, 1
-  0074 - 01EE3000 - add SP, SP, R3
-  0075 - 0C100334 - ldi R1, 820
-  0076 - 0BE10000 - st [SP], R1
-  0077 - 0C300001 - ldi R3, 1
-  0078 - 01EE3000 - add SP, SP, R3
+  006F - 01EE3000 - add SP, SP, R3
+  0070 - 0C300001 - ldi R3, 1
+  0071 - 02EE3000 - sub SP, SP, R3
+  0072 - 0A1E0000 - ld R1, [SP]
+  0073 - 0A110000 - ld R1, [R1]
+  0074 - 0BE10000 - st [SP], R1
+  0075 - 0C300001 - ldi R3, 1
+  0076 - 01EE3000 - add SP, SP, R3
+  0077 - 0C100001 - ldi R1, 1
+  0078 - 0BE10000 - st [SP], R1
   0079 - 0C300001 - ldi R3, 1
-  007A - 02EE3000 - sub SP, SP, R3
-  007B - 0A2E0000 - ld R2, [SP]
-  007C - 0C300001 - ldi R3, 1
-  007D - 02EE3000 - sub SP, SP, R3
-  007E - 0A1E0000 - ld R1, [SP]
-  007F - 0B210000 - st [R2], R1
-  0080 - 0C100337 - ldi R1, 823
-  0081 - 0BE10000 - st [SP], R1
-  0082 - 0C300001 - ldi R3, 1
-  0083 - 01EE3000 - add SP, SP, R3
-  0084 - 0C300001 - ldi R3, 1
-  0085 - 02EE3000 - sub SP, SP, R3
-  0086 - 0A1E0000 - ld R1, [SP]
-  0087 - 0A110000 - ld R1, [R1]
-  0088 - 0BE10000 - st [SP], R1
+  007A - 01EE3000 - add SP, SP, R3
+  007B - 0C300001 - ldi R3, 1
+  007C - 02EE3000 - sub SP, SP, R3
+  007D - 0A2E0000 - ld R2, [SP]
+  007E - 0C300001 - ldi R3, 1
+  007F - 02EE3000 - sub SP, SP, R3
+  0080 - 0A1E0000 - ld R1, [SP]
+  0081 - 01112000 - add R1, R1, R2
+  0082 - 0BE10000 - st [SP], R1
+  0083 - 0C300001 - ldi R3, 1
+  0084 - 01EE3000 - add SP, SP, R3
+  0085 - 0C100334 - ldi R1, 820
+  0086 - 0BE10000 - st [SP], R1
+  0087 - 0C300001 - ldi R3, 1
+  0088 - 01EE3000 - add SP, SP, R3
   0089 - 0C300001 - ldi R3, 1
-  008A - 01EE3000 - add SP, SP, R3
-  008B - 0C100335 - ldi R1, 821
-  008C - 0BE10000 - st [SP], R1
-  008D - 0C300001 - ldi R3, 1
-  008E - 01EE3000 - add SP, SP, R3
-  008F - 0C300001 - ldi R3, 1
-  0090 - 02EE3000 - sub SP, SP, R3
-  0091 - 0A2E0000 - ld R2, [SP]
+  008A - 02EE3000 - sub SP, SP, R3
+  008B - 0A2E0000 - ld R2, [SP]
+  008C - 0C300001 - ldi R3, 1
+  008D - 02EE3000 - sub SP, SP, R3
+  008E - 0A1E0000 - ld R1, [SP]
+  008F - 0B210000 - st [R2], R1
+  0090 - 0C100000 - ldi R1, 0
+  0091 - 0BE10000 - st [SP], R1
   0092 - 0C300001 - ldi R3, 1
-  0093 - 02EE3000 - sub SP, SP, R3
-  0094 - 0A1E0000 - ld R1, [SP]
-  0095 - 0B210000 - st [R2], R1
-  0096 - 0C100335 - ldi R1, 821
-  0097 - 0BE10000 - st [SP], R1
-  0098 - 0C300001 - ldi R3, 1
-  0099 - 01EE3000 - add SP, SP, R3
+  0093 - 01EE3000 - add SP, SP, R3
+  0094 - 0C300001 - ldi R3, 1
+  0095 - 02EE3000 - sub SP, SP, R3
+  0096 - 0A1E0000 - ld R1, [SP]
+  0097 - 1101000F - jz R1, 15
+  0098 - 0C100334 - ldi R1, 820
+  0099 - 0BE10000 - st [SP], R1
   009A - 0C300001 - ldi R3, 1
-  009B - 02EE3000 - sub SP, SP, R3
-  009C - 0A1E0000 - ld R1, [SP]
-  009D - 0A110000 - ld R1, [R1]
-  009E - 0BE10000 - st [SP], R1
-  009F - 0C300001 - ldi R3, 1
-  00A0 - 01EE3000 - add SP, SP, R3
-  00A1 - 0C100336 - ldi R1, 822
-  00A2 - 0BE10000 - st [SP], R1
-  00A3 - 0C300001 - ldi R3, 1
-  00A4 - 01EE3000 - add SP, SP, R3
+  009B - 01EE3000 - add SP, SP, R3
+  009C - 0C300001 - ldi R3, 1
+  009D - 02EE3000 - sub SP, SP, R3
+  009E - 0A1E0000 - ld R1, [SP]
+  009F - 0A110000 - ld R1, [R1]
+  00A0 - 0BE10000 - st [SP], R1
+  00A1 - 0C300001 - ldi R3, 1
+  00A2 - 01EE3000 - add SP, SP, R3
+  00A3 - 0C100001 - ldi R1, 1
+  00A4 - 0BE10000 - st [SP], R1
   00A5 - 0C300001 - ldi R3, 1
-  00A6 - 02EE3000 - sub SP, SP, R3
-  00A7 - 0A1E0000 - ld R1, [SP]
-  00A8 - 0A110000 - ld R1, [R1]
-  00A9 - 0BE10000 - st [SP], R1
+  00A6 - 01EE3000 - add SP, SP, R3
+  00A7 - 0C300001 - ldi R3, 1
+  00A8 - 02EE3000 - sub SP, SP, R3
+  00A9 - 0A2E0000 - ld R2, [SP]
   00AA - 0C300001 - ldi R3, 1
-  00AB - 01EE3000 - add SP, SP, R3
-  00AC - 0C300001 - ldi R3, 1
-  00AD - 02EE3000 - sub SP, SP, R3
-  00AE - 0A2E0000 - ld R2, [SP]
+  00AB - 02EE3000 - sub SP, SP, R3
+  00AC - 0A1E0000 - ld R1, [SP]
+  00AD - 07112000 - cmp_gt R1, R1, R2
+  00AE - 0BE10000 - st [SP], R1
   00AF - 0C300001 - ldi R3, 1
-  00B0 - 02EE3000 - sub SP, SP, R3
-  00B1 - 0A1E0000 - ld R1, [SP]
-  00B2 - 07112000 - cmp_gt R1, R1, R2
-  00B3 - 0BE10000 - st [SP], R1
-  00B4 - 0C300001 - ldi R3, 1
-  00B5 - 01EE3000 - add SP, SP, R3
-  00B6 - 0C300001 - ldi R3, 1
-  00B7 - 02EE3000 - sub SP, SP, R3
-  00B8 - 0A1E0000 - ld R1, [SP]
-  00B9 - 110100FC - jz R1, 252
-  00BA - 0C100335 - ldi R1, 821
-  00BB - 0BE10000 - st [SP], R1
-  00BC - 0C300001 - ldi R3, 1
-  00BD - 01EE3000 - add SP, SP, R3
-  00BE - 0C300001 - ldi R3, 1
-  00BF - 02EE3000 - sub SP, SP, R3
-  00C0 - 0A1E0000 - ld R1, [SP]
-  00C1 - 0A110000 - ld R1, [R1]
-  00C2 - 0BE10000 - st [SP], R1
-  00C3 - 0C300001 - ldi R3, 1
-  00C4 - 01EE3000 - add SP, SP, R3
-  00C5 - 0C100337 - ldi R1, 823
-  00C6 - 0BE10000 - st [SP], R1
-  00C7 - 0C300001 - ldi R3, 1
-  00C8 - 01EE3000 - add SP, SP, R3
-  00C9 - 0C300001 - ldi R3, 1
-  00CA - 02EE3000 - sub SP, SP, R3
-  00CB - 0A2E0000 - ld R2, [SP]
+  00B0 - 01EE3000 - add SP, SP, R3
+  00B1 - 0C300001 - ldi R3, 1
+  00B2 - 02EE3000 - sub SP, SP, R3
+  00B3 - 0A1E0000 - ld R1, [SP]
+  00B4 - 11010280 - jz R1, 640
+  00B5 - 0C100000 - ldi R1, 0
+  00B6 - 0BE10000 - st [SP], R1
+  00B7 - 0C300001 - ldi R3, 1
+  00B8 - 01EE3000 - add SP, SP, R3
+  00B9 - 0C100336 - ldi R1, 822
+  00BA - 0BE10000 - st [SP], R1
+  00BB - 0C300001 - ldi R3, 1
+  00BC - 01EE3000 - add SP, SP, R3
+  00BD - 0C300001 - ldi R3, 1
+  00BE - 02EE3000 - sub SP, SP, R3
+  00BF - 0A2E0000 - ld R2, [SP]
+  00C0 - 0C300001 - ldi R3, 1
+  00C1 - 02EE3000 - sub SP, SP, R3
+  00C2 - 0A1E0000 - ld R1, [SP]
+  00C3 - 0B210000 - st [R2], R1
+  00C4 - 0C100000 - ldi R1, 0
+  00C5 - 0BE10000 - st [SP], R1
+  00C6 - 0C300001 - ldi R3, 1
+  00C7 - 01EE3000 - add SP, SP, R3
+  00C8 - 0C100337 - ldi R1, 823
+  00C9 - 0BE10000 - st [SP], R1
+  00CA - 0C300001 - ldi R3, 1
+  00CB - 01EE3000 - add SP, SP, R3
   00CC - 0C300001 - ldi R3, 1
   00CD - 02EE3000 - sub SP, SP, R3
-  00CE - 0A1E0000 - ld R1, [SP]
-  00CF - 0B210000 - st [R2], R1
-  00D0 - 0C100336 - ldi R1, 822
-  00D1 - 0BE10000 - st [SP], R1
-  00D2 - 0C300001 - ldi R3, 1
-  00D3 - 01EE3000 - add SP, SP, R3
-  00D4 - 0C300001 - ldi R3, 1
-  00D5 - 02EE3000 - sub SP, SP, R3
-  00D6 - 0A1E0000 - ld R1, [SP]
-  00D7 - 0A110000 - ld R1, [R1]
+  00CE - 0A2E0000 - ld R2, [SP]
+  00CF - 0C300001 - ldi R3, 1
+  00D0 - 02EE3000 - sub SP, SP, R3
+  00D1 - 0A1E0000 - ld R1, [SP]
+  00D2 - 0B210000 - st [R2], R1
+  00D3 - 0C10033E - ldi R1, 830
+  00D4 - 0BE10000 - st [SP], R1
+  00D5 - 0C300001 - ldi R3, 1
+  00D6 - 01EE3000 - add SP, SP, R3
+  00D7 - 0C100337 - ldi R1, 823
   00D8 - 0BE10000 - st [SP], R1
   00D9 - 0C300001 - ldi R3, 1
   00DA - 01EE3000 - add SP, SP, R3
-  00DB - 0C100335 - ldi R1, 821
-  00DC - 0BE10000 - st [SP], R1
-  00DD - 0C300001 - ldi R3, 1
-  00DE - 01EE3000 - add SP, SP, R3
-  00DF - 0C300001 - ldi R3, 1
-  00E0 - 02EE3000 - sub SP, SP, R3
-  00E1 - 0A2E0000 - ld R2, [SP]
+  00DB - 0C300001 - ldi R3, 1
+  00DC - 02EE3000 - sub SP, SP, R3
+  00DD - 0A1E0000 - ld R1, [SP]
+  00DE - 0A110000 - ld R1, [R1]
+  00DF - 0BE10000 - st [SP], R1
+  00E0 - 0C300001 - ldi R3, 1
+  00E1 - 01EE3000 - add SP, SP, R3
   00E2 - 0C300001 - ldi R3, 1
   00E3 - 02EE3000 - sub SP, SP, R3
-  00E4 - 0A1E0000 - ld R1, [SP]
-  00E5 - 0B210000 - st [R2], R1
-  00E6 - 0C100337 - ldi R1, 823
-  00E7 - 0BE10000 - st [SP], R1
-  00E8 - 0C300001 - ldi R3, 1
-  00E9 - 01EE3000 - add SP, SP, R3
+  00E4 - 0A2E0000 - ld R2, [SP]
+  00E5 - 0C300001 - ldi R3, 1
+  00E6 - 02EE3000 - sub SP, SP, R3
+  00E7 - 0A1E0000 - ld R1, [SP]
+  00E8 - 01112000 - add R1, R1, R2
+  00E9 - 0BE10000 - st [SP], R1
   00EA - 0C300001 - ldi R3, 1
-  00EB - 02EE3000 - sub SP, SP, R3
-  00EC - 0A1E0000 - ld R1, [SP]
-  00ED - 0A110000 - ld R1, [R1]
-  00EE - 0BE10000 - st [SP], R1
-  00EF - 0C300001 - ldi R3, 1
-  00F0 - 01EE3000 - add SP, SP, R3
-  00F1 - 0C100336 - ldi R1, 822
-  00F2 - 0BE10000 - st [SP], R1
-  00F3 - 0C300001 - ldi R3, 1
-  00F4 - 01EE3000 - add SP, SP, R3
+  00EB - 01EE3000 - add SP, SP, R3
+  00EC - 0C300001 - ldi R3, 1
+  00ED - 02EE3000 - sub SP, SP, R3
+  00EE - 0A1E0000 - ld R1, [SP]
+  00EF - 0A110000 - ld R1, [R1]
+  00F0 - 0BE10000 - st [SP], R1
+  00F1 - 0C300001 - ldi R3, 1
+  00F2 - 01EE3000 - add SP, SP, R3
+  00F3 - 0C100338 - ldi R1, 824
+  00F4 - 0BE10000 - st [SP], R1
   00F5 - 0C300001 - ldi R3, 1
-  00F6 - 02EE3000 - sub SP, SP, R3
-  00F7 - 0A2E0000 - ld R2, [SP]
-  00F8 - 0C300001 - ldi R3, 1
-  00F9 - 02EE3000 - sub SP, SP, R3
-  00FA - 0A1E0000 - ld R1, [SP]
-  00FB - 0B210000 - st [R2], R1
-  00FC - 0C100334 - ldi R1, 820
-  00FD - 0BE10000 - st [SP], R1
-  00FE - 0C300001 - ldi R3, 1
-  00FF - 01EE3000 - add SP, SP, R3
+  00F6 - 01EE3000 - add SP, SP, R3
+  00F7 - 0C300001 - ldi R3, 1
+  00F8 - 02EE3000 - sub SP, SP, R3
+  00F9 - 0A2E0000 - ld R2, [SP]
+  00FA - 0C300001 - ldi R3, 1
+  00FB - 02EE3000 - sub SP, SP, R3
+  00FC - 0A1E0000 - ld R1, [SP]
+  00FD - 0B210000 - st [R2], R1
+  00FE - 0C10033E - ldi R1, 830
+  00FF - 0BE10000 - st [SP], R1
   0100 - 0C300001 - ldi R3, 1
-  0101 - 02EE3000 - sub SP, SP, R3
-  0102 - 0A1E0000 - ld R1, [SP]
-  0103 - 0A110000 - ld R1, [R1]
-  0104 - 0BE10000 - st [SP], R1
-  0105 - 0C300001 - ldi R3, 1
-  0106 - 01EE3000 - add SP, SP, R3
-  0107 - 0C100335 - ldi R1, 821
-  0108 - 0BE10000 - st [SP], R1
-  0109 - 0C300001 - ldi R3, 1
-  010A - 01EE3000 - add SP, SP, R3
+  0101 - 01EE3000 - add SP, SP, R3
+  0102 - 0C100337 - ldi R1, 823
+  0103 - 0BE10000 - st [SP], R1
+  0104 - 0C300001 - ldi R3, 1
+  0105 - 01EE3000 - add SP, SP, R3
+  0106 - 0C300001 - ldi R3, 1
+  0107 - 02EE3000 - sub SP, SP, R3
+  0108 - 0A1E0000 - ld R1, [SP]
+  0109 - 0A110000 - ld R1, [R1]
+  010A - 0BE10000 - st [SP], R1
   010B - 0C300001 - ldi R3, 1
-  010C - 02EE3000 - sub SP, SP, R3
-  010D - 0A1E0000 - ld R1, [SP]
-  010E - 0A110000 - ld R1, [R1]
-  010F - 0BE10000 - st [SP], R1
-  0110 - 0C300001 - ldi R3, 1
-  0111 - 01EE3000 - add SP, SP, R3
-  0112 - 0C300001 - ldi R3, 1
-  0113 - 02EE3000 - sub SP, SP, R3
-  0114 - 0A2E0000 - ld R2, [SP]
-  0115 - 0C300001 - ldi R3, 1
-  0116 - 02EE3000 - sub SP, SP, R3
-  0117 - 0A1E0000 - ld R1, [SP]
-  0118 - 07112000 - cmp_gt R1, R1, R2
-  0119 - 0BE10000 - st [SP], R1
-  011A - 0C300001 - ldi R3, 1
-  011B - 01EE3000 - add SP, SP, R3
-  011C - 0C300001 - ldi R3, 1
-  011D - 02EE3000 - sub SP, SP, R3
-  011E - 0A1E0000 - ld R1, [SP]
-  011F - 11010162 - jz R1, 354
-  0120 - 0C100334 - ldi R1, 820
-  0121 - 0BE10000 - st [SP], R1
-  0122 - 0C300001 - ldi R3, 1
-  0123 - 01EE3000 - add SP, SP, R3
-  0124 - 0C300001 - ldi R3, 1
-  0125 - 02EE3000 - sub SP, SP, R3
-  0126 - 0A1E0000 - ld R1, [SP]
-  0127 - 0A110000 - ld R1, [R1]
-  0128 - 0BE10000 - st [SP], R1
-  0129 - 0C300001 - ldi R3, 1
-  012A - 01EE3000 - add SP, SP, R3
-  012B - 0C100337 - ldi R1, 823
-  012C - 0BE10000 - st [SP], R1
-  012D - 0C300001 - ldi R3, 1
-  012E - 01EE3000 - add SP, SP, R3
-  012F - 0C300001 - ldi R3, 1
-  0130 - 02EE3000 - sub SP, SP, R3
-  0131 - 0A2E0000 - ld R2, [SP]
-  0132 - 0C300001 - ldi R3, 1
-  0133 - 02EE3000 - sub SP, SP, R3
-  0134 - 0A1E0000 - ld R1, [SP]
-  0135 - 0B210000 - st [R2], R1
-  0136 - 0C100335 - ldi R1, 821
-  0137 - 0BE10000 - st [SP], R1
-  0138 - 0C300001 - ldi R3, 1
-  0139 - 01EE3000 - add SP, SP, R3
-  013A - 0C300001 - ldi R3, 1
-  013B - 02EE3000 - sub SP, SP, R3
-  013C - 0A1E0000 - ld R1, [SP]
-  013D - 0A110000 - ld R1, [R1]
-  013E - 0BE10000 - st [SP], R1
-  013F - 0C300001 - ldi R3, 1
-  0140 - 01EE3000 - add SP, SP, R3
-  0141 - 0C100334 - ldi R1, 820
-  0142 - 0BE10000 - st [SP], R1
-  0143 - 0C300001 - ldi R3, 1
-  0144 - 01EE3000 - add SP, SP, R3
-  0145 - 0C300001 - ldi R3, 1
-  0146 - 02EE3000 - sub SP, SP, R3
-  0147 - 0A2E0000 - ld R2, [SP]
-  0148 - 0C300001 - ldi R3, 1
-  0149 - 02EE3000 - sub SP, SP, R3
-  014A - 0A1E0000 - ld R1, [SP]
-  014B - 0B210000 - st [R2], R1
-  014C - 0C100337 - ldi R1, 823
-  014D - 0BE10000 - st [SP], R1
-  014E - 0C300001 - ldi R3, 1
-  014F - 01EE3000 - add SP, SP, R3
+  010C - 01EE3000 - add SP, SP, R3
+  010D - 0C100001 - ldi R1, 1
+  010E - 0BE10000 - st [SP], R1
+  010F - 0C300001 - ldi R3, 1
+  0110 - 01EE3000 - add SP, SP, R3
+  0111 - 0C300001 - ldi R3, 1
+  0112 - 02EE3000 - sub SP, SP, R3
+  0113 - 0A2E0000 - ld R2, [SP]
+  0114 - 0C300001 - ldi R3, 1
+  0115 - 02EE3000 - sub SP, SP, R3
+  0116 - 0A1E0000 - ld R1, [SP]
+  0117 - 01112000 - add R1, R1, R2
+  0118 - 0BE10000 - st [SP], R1
+  0119 - 0C300001 - ldi R3, 1
+  011A - 01EE3000 - add SP, SP, R3
+  011B - 0C300001 - ldi R3, 1
+  011C - 02EE3000 - sub SP, SP, R3
+  011D - 0A2E0000 - ld R2, [SP]
+  011E - 0C300001 - ldi R3, 1
+  011F - 02EE3000 - sub SP, SP, R3
+  0120 - 0A1E0000 - ld R1, [SP]
+  0121 - 01112000 - add R1, R1, R2
+  0122 - 0BE10000 - st [SP], R1
+  0123 - 0C300001 - ldi R3, 1
+  0124 - 01EE3000 - add SP, SP, R3
+  0125 - 0C300001 - ldi R3, 1
+  0126 - 02EE3000 - sub SP, SP, R3
+  0127 - 0A1E0000 - ld R1, [SP]
+  0128 - 0A110000 - ld R1, [R1]
+  0129 - 0BE10000 - st [SP], R1
+  012A - 0C300001 - ldi R3, 1
+  012B - 01EE3000 - add SP, SP, R3
+  012C - 0C100339 - ldi R1, 825
+  012D - 0BE10000 - st [SP], R1
+  012E - 0C300001 - ldi R3, 1
+  012F - 01EE3000 - add SP, SP, R3
+  0130 - 0C300001 - ldi R3, 1
+  0131 - 02EE3000 - sub SP, SP, R3
+  0132 - 0A2E0000 - ld R2, [SP]
+  0133 - 0C300001 - ldi R3, 1
+  0134 - 02EE3000 - sub SP, SP, R3
+  0135 - 0A1E0000 - ld R1, [SP]
+  0136 - 0B210000 - st [R2], R1
+  0137 - 0C100338 - ldi R1, 824
+  0138 - 0BE10000 - st [SP], R1
+  0139 - 0C300001 - ldi R3, 1
+  013A - 01EE3000 - add SP, SP, R3
+  013B - 0C300001 - ldi R3, 1
+  013C - 02EE3000 - sub SP, SP, R3
+  013D - 0A1E0000 - ld R1, [SP]
+  013E - 0A110000 - ld R1, [R1]
+  013F - 0BE10000 - st [SP], R1
+  0140 - 0C300001 - ldi R3, 1
+  0141 - 01EE3000 - add SP, SP, R3
+  0142 - 0C100339 - ldi R1, 825
+  0143 - 0BE10000 - st [SP], R1
+  0144 - 0C300001 - ldi R3, 1
+  0145 - 01EE3000 - add SP, SP, R3
+  0146 - 0C300001 - ldi R3, 1
+  0147 - 02EE3000 - sub SP, SP, R3
+  0148 - 0A1E0000 - ld R1, [SP]
+  0149 - 0A110000 - ld R1, [R1]
+  014A - 0BE10000 - st [SP], R1
+  014B - 0C300001 - ldi R3, 1
+  014C - 01EE3000 - add SP, SP, R3
+  014D - 0C300001 - ldi R3, 1
+  014E - 02EE3000 - sub SP, SP, R3
+  014F - 0A2E0000 - ld R2, [SP]
   0150 - 0C300001 - ldi R3, 1
   0151 - 02EE3000 - sub SP, SP, R3
   0152 - 0A1E0000 - ld R1, [SP]
-  0153 - 0A110000 - ld R1, [R1]
+  0153 - 07112000 - cmp_gt R1, R1, R2
   0154 - 0BE10000 - st [SP], R1
   0155 - 0C300001 - ldi R3, 1
   0156 - 01EE3000 - add SP, SP, R3
-  0157 - 0C100335 - ldi R1, 821
-  0158 - 0BE10000 - st [SP], R1
-  0159 - 0C300001 - ldi R3, 1
-  015A - 01EE3000 - add SP, SP, R3
-  015B - 0C300001 - ldi R3, 1
-  015C - 02EE3000 - sub SP, SP, R3
-  015D - 0A2E0000 - ld R2, [SP]
-  015E - 0C300001 - ldi R3, 1
-  015F - 02EE3000 - sub SP, SP, R3
-  0160 - 0A1E0000 - ld R1, [SP]
-  0161 - 0B210000 - st [R2], R1
-  0162 - 0C100334 - ldi R1, 820
+  0157 - 0C300001 - ldi R3, 1
+  0158 - 02EE3000 - sub SP, SP, R3
+  0159 - 0A1E0000 - ld R1, [SP]
+  015A - 110101BF - jz R1, 447
+  015B - 0C100339 - ldi R1, 825
+  015C - 0BE10000 - st [SP], R1
+  015D - 0C300001 - ldi R3, 1
+  015E - 01EE3000 - add SP, SP, R3
+  015F - 0C300001 - ldi R3, 1
+  0160 - 02EE3000 - sub SP, SP, R3
+  0161 - 0A1E0000 - ld R1, [SP]
+  0162 - 0A110000 - ld R1, [R1]
   0163 - 0BE10000 - st [SP], R1
   0164 - 0C300001 - ldi R3, 1
   0165 - 01EE3000 - add SP, SP, R3
-  0166 - 0C300001 - ldi R3, 1
-  0167 - 02EE3000 - sub SP, SP, R3
-  0168 - 0A1E0000 - ld R1, [SP]
-  0169 - 0A110000 - ld R1, [R1]
-  016A - 0BE10000 - st [SP], R1
-  016B - 0C300001 - ldi R3, 1
-  016C - 01EE3000 - add SP, SP, R3
-  016D - 0C300001 - ldi R3, 1
-  016E - 02EE3000 - sub SP, SP, R3
-  016F - 0A1E0000 - ld R1, [SP]
-  0170 - 0C200FFF - ldi R2, -1
-  0171 - 0B210000 - st [R2], R1
-  0172 - 0C100335 - ldi R1, 821
-  0173 - 0BE10000 - st [SP], R1
-  0174 - 0C300001 - ldi R3, 1
-  0175 - 01EE3000 - add SP, SP, R3
-  0176 - 0C300001 - ldi R3, 1
-  0177 - 02EE3000 - sub SP, SP, R3
-  0178 - 0A1E0000 - ld R1, [SP]
-  0179 - 0A110000 - ld R1, [R1]
-  017A - 0BE10000 - st [SP], R1
-  017B - 0C300001 - ldi R3, 1
-  017C - 01EE3000 - add SP, SP, R3
+  0166 - 0C10033E - ldi R1, 830
+  0167 - 0BE10000 - st [SP], R1
+  0168 - 0C300001 - ldi R3, 1
+  0169 - 01EE3000 - add SP, SP, R3
+  016A - 0C100337 - ldi R1, 823
+  016B - 0BE10000 - st [SP], R1
+  016C - 0C300001 - ldi R3, 1
+  016D - 01EE3000 - add SP, SP, R3
+  016E - 0C300001 - ldi R3, 1
+  016F - 02EE3000 - sub SP, SP, R3
+  0170 - 0A1E0000 - ld R1, [SP]
+  0171 - 0A110000 - ld R1, [R1]
+  0172 - 0BE10000 - st [SP], R1
+  0173 - 0C300001 - ldi R3, 1
+  0174 - 01EE3000 - add SP, SP, R3
+  0175 - 0C300001 - ldi R3, 1
+  0176 - 02EE3000 - sub SP, SP, R3
+  0177 - 0A2E0000 - ld R2, [SP]
+  0178 - 0C300001 - ldi R3, 1
+  0179 - 02EE3000 - sub SP, SP, R3
+  017A - 0A1E0000 - ld R1, [SP]
+  017B - 01112000 - add R1, R1, R2
+  017C - 0BE10000 - st [SP], R1
   017D - 0C300001 - ldi R3, 1
-  017E - 02EE3000 - sub SP, SP, R3
-  017F - 0A1E0000 - ld R1, [SP]
-  0180 - 0C200FFF - ldi R2, -1
-  0181 - 0B210000 - st [R2], R1
-  0182 - 0C100336 - ldi R1, 822
-  0183 - 0BE10000 - st [SP], R1
-  0184 - 0C300001 - ldi R3, 1
-  0185 - 01EE3000 - add SP, SP, R3
-  0186 - 0C300001 - ldi R3, 1
-  0187 - 02EE3000 - sub SP, SP, R3
-  0188 - 0A1E0000 - ld R1, [SP]
-  0189 - 0A110000 - ld R1, [R1]
-  018A - 0BE10000 - st [SP], R1
-  018B - 0C300001 - ldi R3, 1
-  018C - 01EE3000 - add SP, SP, R3
-  018D - 0C300001 - ldi R3, 1
-  018E - 02EE3000 - sub SP, SP, R3
-  018F - 0A1E0000 - ld R1, [SP]
-  0190 - 0C200FFF - ldi R2, -1
-  0191 - 0B210000 - st [R2], R1
-  0192 - 0C10000A - ldi R1, 10
-  0193 - 0BE10000 - st [SP], R1
-  0194 - 0C300001 - ldi R3, 1
-  0195 - 01EE3000 - add SP, SP, R3
-  0196 - 0C300001 - ldi R3, 1
-  0197 - 02EE3000 - sub SP, SP, R3
-  0198 - 0A1E0000 - ld R1, [SP]
-  0199 - 0C200FFF - ldi R2, -1
-  019A - 0B210000 - st [R2], R1
-  019B - FF000000 - hlt
+  017E - 01EE3000 - add SP, SP, R3
+  017F - 0C300001 - ldi R3, 1
+  0180 - 02EE3000 - sub SP, SP, R3
+  0181 - 0A2E0000 - ld R2, [SP]
+  0182 - 0C300001 - ldi R3, 1
+  0183 - 02EE3000 - sub SP, SP, R3
+  0184 - 0A1E0000 - ld R1, [SP]
+  0185 - 0B210000 - st [R2], R1
+  0186 - 0C100338 - ldi R1, 824
+  0187 - 0BE10000 - st [SP], R1
+  0188 - 0C300001 - ldi R3, 1
+  0189 - 01EE3000 - add SP, SP, R3
+  018A - 0C300001 - ldi R3, 1
+  018B - 02EE3000 - sub SP, SP, R3
+  018C - 0A1E0000 - ld R1, [SP]
+  018D - 0A110000 - ld R1, [R1]
+  018E - 0BE10000 - st [SP], R1
+  018F - 0C300001 - ldi R3, 1
+  0190 - 01EE3000 - add SP, SP, R3
+  0191 - 0C10033E - ldi R1, 830
+  0192 - 0BE10000 - st [SP], R1
+  0193 - 0C300001 - ldi R3, 1
+  0194 - 01EE3000 - add SP, SP, R3
+  0195 - 0C100337 - ldi R1, 823
+  0196 - 0BE10000 - st [SP], R1
+  0197 - 0C300001 - ldi R3, 1
+  0198 - 01EE3000 - add SP, SP, R3
+  0199 - 0C300001 - ldi R3, 1
+  019A - 02EE3000 - sub SP, SP, R3
+  019B - 0A1E0000 - ld R1, [SP]
+  019C - 0A110000 - ld R1, [R1]
+  019D - 0BE10000 - st [SP], R1
+  019E - 0C300001 - ldi R3, 1
+  019F - 01EE3000 - add SP, SP, R3
+  01A0 - 0C100001 - ldi R1, 1
+  01A1 - 0BE10000 - st [SP], R1
+  01A2 - 0C300001 - ldi R3, 1
+  01A3 - 01EE3000 - add SP, SP, R3
+  01A4 - 0C300001 - ldi R3, 1
+  01A5 - 02EE3000 - sub SP, SP, R3
+  01A6 - 0A2E0000 - ld R2, [SP]
+  01A7 - 0C300001 - ldi R3, 1
+  01A8 - 02EE3000 - sub SP, SP, R3
+  01A9 - 0A1E0000 - ld R1, [SP]
+  01AA - 01112000 - add R1, R1, R2
+  01AB - 0BE10000 - st [SP], R1
+  01AC - 0C300001 - ldi R3, 1
+  01AD - 01EE3000 - add SP, SP, R3
+  01AE - 0C300001 - ldi R3, 1
+  01AF - 02EE3000 - sub SP, SP, R3
+  01B0 - 0A2E0000 - ld R2, [SP]
+  01B1 - 0C300001 - ldi R3, 1
+  01B2 - 02EE3000 - sub SP, SP, R3
+  01B3 - 0A1E0000 - ld R1, [SP]
+  01B4 - 01112000 - add R1, R1, R2
+  01B5 - 0BE10000 - st [SP], R1
+  01B6 - 0C300001 - ldi R3, 1
+  01B7 - 01EE3000 - add SP, SP, R3
+  01B8 - 0C300001 - ldi R3, 1
+  01B9 - 02EE3000 - sub SP, SP, R3
+  01BA - 0A2E0000 - ld R2, [SP]
+  01BB - 0C300001 - ldi R3, 1
+  01BC - 02EE3000 - sub SP, SP, R3
+  01BD - 0A1E0000 - ld R1, [SP]
+  01BE - 0B210000 - st [R2], R1
+  01BF - 0C100337 - ldi R1, 823
+  01C0 - 0BE10000 - st [SP], R1
+  01C1 - 0C300001 - ldi R3, 1
+  01C2 - 01EE3000 - add SP, SP, R3
+  01C3 - 0C300001 - ldi R3, 1
+  01C4 - 02EE3000 - sub SP, SP, R3
+  01C5 - 0A1E0000 - ld R1, [SP]
+  01C6 - 0A110000 - ld R1, [R1]
+  01C7 - 0BE10000 - st [SP], R1
+  01C8 - 0C300001 - ldi R3, 1
+  01C9 - 01EE3000 - add SP, SP, R3
+  01CA - 0C100001 - ldi R1, 1
+  01CB - 0BE10000 - st [SP], R1
+  01CC - 0C300001 - ldi R3, 1
+  01CD - 01EE3000 - add SP, SP, R3
+  01CE - 0C300001 - ldi R3, 1
+  01CF - 02EE3000 - sub SP, SP, R3
+  01D0 - 0A2E0000 - ld R2, [SP]
+  01D1 - 0C300001 - ldi R3, 1
+  01D2 - 02EE3000 - sub SP, SP, R3
+  01D3 - 0A1E0000 - ld R1, [SP]
+  01D4 - 01112000 - add R1, R1, R2
+  01D5 - 0BE10000 - st [SP], R1
+  01D6 - 0C300001 - ldi R3, 1
+  01D7 - 01EE3000 - add SP, SP, R3
+  01D8 - 0C100337 - ldi R1, 823
+  01D9 - 0BE10000 - st [SP], R1
+  01DA - 0C300001 - ldi R3, 1
+  01DB - 01EE3000 - add SP, SP, R3
+  01DC - 0C300001 - ldi R3, 1
+  01DD - 02EE3000 - sub SP, SP, R3
+  01DE - 0A2E0000 - ld R2, [SP]
+  01DF - 0C300001 - ldi R3, 1
+  01E0 - 02EE3000 - sub SP, SP, R3
+  01E1 - 0A1E0000 - ld R1, [SP]
+  01E2 - 0B210000 - st [R2], R1
+  01E3 - 0C100337 - ldi R1, 823
+  01E4 - 0BE10000 - st [SP], R1
+  01E5 - 0C300001 - ldi R3, 1
+  01E6 - 01EE3000 - add SP, SP, R3
+  01E7 - 0C300001 - ldi R3, 1
+  01E8 - 02EE3000 - sub SP, SP, R3
+  01E9 - 0A1E0000 - ld R1, [SP]
+  01EA - 0A110000 - ld R1, [R1]
+  01EB - 0BE10000 - st [SP], R1
+  01EC - 0C300001 - ldi R3, 1
+  01ED - 01EE3000 - add SP, SP, R3
+  01EE - 0C100334 - ldi R1, 820
+  01EF - 0BE10000 - st [SP], R1
+  01F0 - 0C300001 - ldi R3, 1
+  01F1 - 01EE3000 - add SP, SP, R3
+  01F2 - 0C300001 - ldi R3, 1
+  01F3 - 02EE3000 - sub SP, SP, R3
+  01F4 - 0A1E0000 - ld R1, [SP]
+  01F5 - 0A110000 - ld R1, [R1]
+  01F6 - 0BE10000 - st [SP], R1
+  01F7 - 0C300001 - ldi R3, 1
+  01F8 - 01EE3000 - add SP, SP, R3
+  01F9 - 0C100001 - ldi R1, 1
+  01FA - 0BE10000 - st [SP], R1
+  01FB - 0C300001 - ldi R3, 1
+  01FC - 01EE3000 - add SP, SP, R3
+  01FD - 0C300001 - ldi R3, 1
+  01FE - 02EE3000 - sub SP, SP, R3
+  01FF - 0A2E0000 - ld R2, [SP]
+  0200 - 0C300001 - ldi R3, 1
+  0201 - 02EE3000 - sub SP, SP, R3
+  0202 - 0A1E0000 - ld R1, [SP]
+  0203 - 02112000 - sub R1, R1, R2
+  0204 - 0BE10000 - st [SP], R1
+  0205 - 0C300001 - ldi R3, 1
+  0206 - 01EE3000 - add SP, SP, R3
+  0207 - 0C100336 - ldi R1, 822
+  0208 - 0BE10000 - st [SP], R1
+  0209 - 0C300001 - ldi R3, 1
+  020A - 01EE3000 - add SP, SP, R3
+  020B - 0C300001 - ldi R3, 1
+  020C - 02EE3000 - sub SP, SP, R3
+  020D - 0A1E0000 - ld R1, [SP]
+  020E - 0A110000 - ld R1, [R1]
+  020F - 0BE10000 - st [SP], R1
+  0210 - 0C300001 - ldi R3, 1
+  0211 - 01EE3000 - add SP, SP, R3
+  0212 - 0C300001 - ldi R3, 1
+  0213 - 02EE3000 - sub SP, SP, R3
+  0214 - 0A2E0000 - ld R2, [SP]
+  0215 - 0C300001 - ldi R3, 1
+  0216 - 02EE3000 - sub SP, SP, R3
+  0217 - 0A1E0000 - ld R1, [SP]
+  0218 - 02112000 - sub R1, R1, R2
+  0219 - 0BE10000 - st [SP], R1
+  021A - 0C300001 - ldi R3, 1
+  021B - 01EE3000 - add SP, SP, R3
+  021C - 0C300001 - ldi R3, 1
+  021D - 02EE3000 - sub SP, SP, R3
+  021E - 0A2E0000 - ld R2, [SP]
+  021F - 0C300001 - ldi R3, 1
+  0220 - 02EE3000 - sub SP, SP, R3
+  0221 - 0A1E0000 - ld R1, [SP]
+  0222 - 06112000 - cmp_eq R1, R1, R2
+  0223 - 0BE10000 - st [SP], R1
+  0224 - 0C300001 - ldi R3, 1
+  0225 - 01EE3000 - add SP, SP, R3
+  0226 - 0C300001 - ldi R3, 1
+  0227 - 02EE3000 - sub SP, SP, R3
+  0228 - 0A1E0000 - ld R1, [SP]
+  0229 - 110100D3 - jz R1, 211
+  022A - 0C100336 - ldi R1, 822
+  022B - 0BE10000 - st [SP], R1
+  022C - 0C300001 - ldi R3, 1
+  022D - 01EE3000 - add SP, SP, R3
+  022E - 0C300001 - ldi R3, 1
+  022F - 02EE3000 - sub SP, SP, R3
+  0230 - 0A1E0000 - ld R1, [SP]
+  0231 - 0A110000 - ld R1, [R1]
+  0232 - 0BE10000 - st [SP], R1
+  0233 - 0C300001 - ldi R3, 1
+  0234 - 01EE3000 - add SP, SP, R3
+  0235 - 0C100001 - ldi R1, 1
+  0236 - 0BE10000 - st [SP], R1
+  0237 - 0C300001 - ldi R3, 1
+  0238 - 01EE3000 - add SP, SP, R3
+  0239 - 0C300001 - ldi R3, 1
+  023A - 02EE3000 - sub SP, SP, R3
+  023B - 0A2E0000 - ld R2, [SP]
+  023C - 0C300001 - ldi R3, 1
+  023D - 02EE3000 - sub SP, SP, R3
+  023E - 0A1E0000 - ld R1, [SP]
+  023F - 01112000 - add R1, R1, R2
+  0240 - 0BE10000 - st [SP], R1
+  0241 - 0C300001 - ldi R3, 1
+  0242 - 01EE3000 - add SP, SP, R3
+  0243 - 0C100336 - ldi R1, 822
+  0244 - 0BE10000 - st [SP], R1
+  0245 - 0C300001 - ldi R3, 1
+  0246 - 01EE3000 - add SP, SP, R3
+  0247 - 0C300001 - ldi R3, 1
+  0248 - 02EE3000 - sub SP, SP, R3
+  0249 - 0A2E0000 - ld R2, [SP]
+  024A - 0C300001 - ldi R3, 1
+  024B - 02EE3000 - sub SP, SP, R3
+  024C - 0A1E0000 - ld R1, [SP]
+  024D - 0B210000 - st [R2], R1
+  024E - 0C100336 - ldi R1, 822
+  024F - 0BE10000 - st [SP], R1
+  0250 - 0C300001 - ldi R3, 1
+  0251 - 01EE3000 - add SP, SP, R3
+  0252 - 0C300001 - ldi R3, 1
+  0253 - 02EE3000 - sub SP, SP, R3
+  0254 - 0A1E0000 - ld R1, [SP]
+  0255 - 0A110000 - ld R1, [R1]
+  0256 - 0BE10000 - st [SP], R1
+  0257 - 0C300001 - ldi R3, 1
+  0258 - 01EE3000 - add SP, SP, R3
+  0259 - 0C100334 - ldi R1, 820
+  025A - 0BE10000 - st [SP], R1
+  025B - 0C300001 - ldi R3, 1
+  025C - 01EE3000 - add SP, SP, R3
+  025D - 0C300001 - ldi R3, 1
+  025E - 02EE3000 - sub SP, SP, R3
+  025F - 0A1E0000 - ld R1, [SP]
+  0260 - 0A110000 - ld R1, [R1]
+  0261 - 0BE10000 - st [SP], R1
+  0262 - 0C300001 - ldi R3, 1
+  0263 - 01EE3000 - add SP, SP, R3
+  0264 - 0C100001 - ldi R1, 1
+  0265 - 0BE10000 - st [SP], R1
+  0266 - 0C300001 - ldi R3, 1
+  0267 - 01EE3000 - add SP, SP, R3
+  0268 - 0C300001 - ldi R3, 1
+  0269 - 02EE3000 - sub SP, SP, R3
+  026A - 0A2E0000 - ld R2, [SP]
+  026B - 0C300001 - ldi R3, 1
+  026C - 02EE3000 - sub SP, SP, R3
+  026D - 0A1E0000 - ld R1, [SP]
+  026E - 02112000 - sub R1, R1, R2
+  026F - 0BE10000 - st [SP], R1
+  0270 - 0C300001 - ldi R3, 1
+  0271 - 01EE3000 - add SP, SP, R3
+  0272 - 0C300001 - ldi R3, 1
+  0273 - 02EE3000 - sub SP, SP, R3
+  0274 - 0A2E0000 - ld R2, [SP]
+  0275 - 0C300001 - ldi R3, 1
+  0276 - 02EE3000 - sub SP, SP, R3
+  0277 - 0A1E0000 - ld R1, [SP]
+  0278 - 06112000 - cmp_eq R1, R1, R2
+  0279 - 0BE10000 - st [SP], R1
+  027A - 0C300001 - ldi R3, 1
+  027B - 01EE3000 - add SP, SP, R3
+  027C - 0C300001 - ldi R3, 1
+  027D - 02EE3000 - sub SP, SP, R3
+  027E - 0A1E0000 - ld R1, [SP]
+  027F - 110100C4 - jz R1, 196
+  0280 - 0C100000 - ldi R1, 0
+  0281 - 0BE10000 - st [SP], R1
+  0282 - 0C300001 - ldi R3, 1
+  0283 - 01EE3000 - add SP, SP, R3
+  0284 - 0C100337 - ldi R1, 823
+  0285 - 0BE10000 - st [SP], R1
+  0286 - 0C300001 - ldi R3, 1
+  0287 - 01EE3000 - add SP, SP, R3
+  0288 - 0C300001 - ldi R3, 1
+  0289 - 02EE3000 - sub SP, SP, R3
+  028A - 0A2E0000 - ld R2, [SP]
+  028B - 0C300001 - ldi R3, 1
+  028C - 02EE3000 - sub SP, SP, R3
+  028D - 0A1E0000 - ld R1, [SP]
+  028E - 0B210000 - st [R2], R1
+  028F - 0C10033E - ldi R1, 830
+  0290 - 0BE10000 - st [SP], R1
+  0291 - 0C300001 - ldi R3, 1
+  0292 - 01EE3000 - add SP, SP, R3
+  0293 - 0C100337 - ldi R1, 823
+  0294 - 0BE10000 - st [SP], R1
+  0295 - 0C300001 - ldi R3, 1
+  0296 - 01EE3000 - add SP, SP, R3
+  0297 - 0C300001 - ldi R3, 1
+  0298 - 02EE3000 - sub SP, SP, R3
+  0299 - 0A1E0000 - ld R1, [SP]
+  029A - 0A110000 - ld R1, [R1]
+  029B - 0BE10000 - st [SP], R1
+  029C - 0C300001 - ldi R3, 1
+  029D - 01EE3000 - add SP, SP, R3
+  029E - 0C300001 - ldi R3, 1
+  029F - 02EE3000 - sub SP, SP, R3
+  02A0 - 0A2E0000 - ld R2, [SP]
+  02A1 - 0C300001 - ldi R3, 1
+  02A2 - 02EE3000 - sub SP, SP, R3
+  02A3 - 0A1E0000 - ld R1, [SP]
+  02A4 - 01112000 - add R1, R1, R2
+  02A5 - 0BE10000 - st [SP], R1
+  02A6 - 0C300001 - ldi R3, 1
+  02A7 - 01EE3000 - add SP, SP, R3
+  02A8 - 0C300001 - ldi R3, 1
+  02A9 - 02EE3000 - sub SP, SP, R3
+  02AA - 0A1E0000 - ld R1, [SP]
+  02AB - 0A110000 - ld R1, [R1]
+  02AC - 0BE10000 - st [SP], R1
+  02AD - 0C300001 - ldi R3, 1
+  02AE - 01EE3000 - add SP, SP, R3
+  02AF - 0C300001 - ldi R3, 1
+  02B0 - 02EE3000 - sub SP, SP, R3
+  02B1 - 0A1E0000 - ld R1, [SP]
+  02B2 - 0C200FFF - ldi R2, -1
+  02B3 - 0B210000 - st [R2], R1
+  02B4 - 0C100337 - ldi R1, 823
+  02B5 - 0BE10000 - st [SP], R1
+  02B6 - 0C300001 - ldi R3, 1
+  02B7 - 01EE3000 - add SP, SP, R3
+  02B8 - 0C300001 - ldi R3, 1
+  02B9 - 02EE3000 - sub SP, SP, R3
+  02BA - 0A1E0000 - ld R1, [SP]
+  02BB - 0A110000 - ld R1, [R1]
+  02BC - 0BE10000 - st [SP], R1
+  02BD - 0C300001 - ldi R3, 1
+  02BE - 01EE3000 - add SP, SP, R3
+  02BF - 0C100001 - ldi R1, 1
+  02C0 - 0BE10000 - st [SP], R1
+  02C1 - 0C300001 - ldi R3, 1
+  02C2 - 01EE3000 - add SP, SP, R3
+  02C3 - 0C300001 - ldi R3, 1
+  02C4 - 02EE3000 - sub SP, SP, R3
+  02C5 - 0A2E0000 - ld R2, [SP]
+  02C6 - 0C300001 - ldi R3, 1
+  02C7 - 02EE3000 - sub SP, SP, R3
+  02C8 - 0A1E0000 - ld R1, [SP]
+  02C9 - 01112000 - add R1, R1, R2
+  02CA - 0BE10000 - st [SP], R1
+  02CB - 0C300001 - ldi R3, 1
+  02CC - 01EE3000 - add SP, SP, R3
+  02CD - 0C100337 - ldi R1, 823
+  02CE - 0BE10000 - st [SP], R1
+  02CF - 0C300001 - ldi R3, 1
+  02D0 - 01EE3000 - add SP, SP, R3
+  02D1 - 0C300001 - ldi R3, 1
+  02D2 - 02EE3000 - sub SP, SP, R3
+  02D3 - 0A2E0000 - ld R2, [SP]
+  02D4 - 0C300001 - ldi R3, 1
+  02D5 - 02EE3000 - sub SP, SP, R3
+  02D6 - 0A1E0000 - ld R1, [SP]
+  02D7 - 0B210000 - st [R2], R1
+  02D8 - 0C100337 - ldi R1, 823
+  02D9 - 0BE10000 - st [SP], R1
+  02DA - 0C300001 - ldi R3, 1
+  02DB - 01EE3000 - add SP, SP, R3
+  02DC - 0C300001 - ldi R3, 1
+  02DD - 02EE3000 - sub SP, SP, R3
+  02DE - 0A1E0000 - ld R1, [SP]
+  02DF - 0A110000 - ld R1, [R1]
+  02E0 - 0BE10000 - st [SP], R1
+  02E1 - 0C300001 - ldi R3, 1
+  02E2 - 01EE3000 - add SP, SP, R3
+  02E3 - 0C100334 - ldi R1, 820
+  02E4 - 0BE10000 - st [SP], R1
+  02E5 - 0C300001 - ldi R3, 1
+  02E6 - 01EE3000 - add SP, SP, R3
+  02E7 - 0C300001 - ldi R3, 1
+  02E8 - 02EE3000 - sub SP, SP, R3
+  02E9 - 0A1E0000 - ld R1, [SP]
+  02EA - 0A110000 - ld R1, [R1]
+  02EB - 0BE10000 - st [SP], R1
+  02EC - 0C300001 - ldi R3, 1
+  02ED - 01EE3000 - add SP, SP, R3
+  02EE - 0C300001 - ldi R3, 1
+  02EF - 02EE3000 - sub SP, SP, R3
+  02F0 - 0A2E0000 - ld R2, [SP]
+  02F1 - 0C300001 - ldi R3, 1
+  02F2 - 02EE3000 - sub SP, SP, R3
+  02F3 - 0A1E0000 - ld R1, [SP]
+  02F4 - 06112000 - cmp_eq R1, R1, R2
+  02F5 - 0BE10000 - st [SP], R1
+  02F6 - 0C300001 - ldi R3, 1
+  02F7 - 01EE3000 - add SP, SP, R3
+  02F8 - 0C300001 - ldi R3, 1
+  02F9 - 02EE3000 - sub SP, SP, R3
+  02FA - 0A1E0000 - ld R1, [SP]
+  02FB - 1101028F - jz R1, 655
+  02FC - 0C10000A - ldi R1, 10
+  02FD - 0BE10000 - st [SP], R1
+  02FE - 0C300001 - ldi R3, 1
+  02FF - 01EE3000 - add SP, SP, R3
+  0300 - 0C300001 - ldi R3, 1
+  0301 - 02EE3000 - sub SP, SP, R3
+  0302 - 0A1E0000 - ld R1, [SP]
+  0303 - 0C200FFF - ldi R2, -1
+  0304 - 0B210000 - st [R2], R1
+  0305 - FF000000 - hlt

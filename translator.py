@@ -4,7 +4,17 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from isa import Opcode, Reg, binary_to_hex_dump, build_instruction, code_to_binary
+from isa import (
+    IMM_MAX,
+    IMM_MIN,
+    Opcode,
+    Reg,
+    binary_to_hex_dump,
+    build_instruction,
+    code_to_binary,
+    fits_imm12,
+    to_signed32,
+)
 
 
 @dataclass(frozen=True)
@@ -56,22 +66,31 @@ class Compiler:
         for patch in self.call_patches:
             if patch.name not in self.proc_addrs:
                 raise ValueError(f"Unknown procedure: {patch.name}")
-            self.code[patch.index] = build_instruction(
-                Opcode.CALL, imm=self.proc_addrs[patch.name]
-            )
+            target = self.proc_addrs[patch.name]
+            if not fits_imm12(target):
+                raise ValueError(
+                    f"Procedure address {target} is not encodable as imm12"
+                )
+            self.code[patch.index] = build_instruction(Opcode.CALL, imm=target)
 
         for patch in self.xt_patches:
             if patch.name not in self.proc_addrs:
                 raise ValueError(f"Unknown execution token target: {patch.name}")
-            self.code[patch.index] = build_instruction(
-                Opcode.LDI, Reg.R1, imm=self.proc_addrs[patch.name]
-            )
+            target = self.proc_addrs[patch.name]
+            if not fits_imm12(target):
+                raise ValueError(
+                    f"Execution token address {target} is not encodable as imm12"
+                )
+            self.code[patch.index] = build_instruction(Opcode.LDI, Reg.R1, imm=target)
 
     def patch_data_addresses(self) -> None:
         data_base = len(self.code)
         for patch in self.data_patches:
+            address = data_base + patch.offset
+            if not fits_imm12(address):
+                raise ValueError(f"Data address {address} is not encodable as imm12")
             self.code[patch.index] = build_instruction(
-                Opcode.LDI, patch.rd, imm=data_base + patch.offset
+                Opcode.LDI, patch.rd, imm=address
             )
 
     def compile_tokens(self, tokens: list[Token], is_definition: bool) -> None:
@@ -113,7 +132,7 @@ class Compiler:
             return
 
         if is_int(token):
-            self.code.extend(push_asm(val=int(token)))
+            self.compile_int_literal(int(token))
             return
 
         if token in {"+", "-", "*", "/", "mod", "=", ">", "<"}:
@@ -256,6 +275,21 @@ class Compiler:
 
         raise ValueError(f"Unknown word: {token}")
 
+    def compile_int_literal(self, value: int) -> None:
+        if fits_imm12(value):
+            self.code.extend(push_asm(val=value))
+            return
+
+        # The ISA has only a 12-bit immediate field.  Larger integer literals
+        # are allocated in the static data area and loaded by address, so they
+        # are not silently truncated during instruction encoding.
+        offset = len(self.data)
+        self.data.append(to_signed32(value))
+        self.data_patches.append(DataPatch(len(self.code), Reg.R1, offset))
+        self.code.append(0)
+        self.code.append(build_instruction(Opcode.LD, Reg.R1, Reg.R1))
+        self.code.extend(push_asm(reg=Reg.R1))
+
     def compile_binary_op(self, token: str) -> None:
         opcodes = {
             "+": Opcode.ADD,
@@ -308,6 +342,10 @@ class Compiler:
 def push_asm(val: int | None = None, reg: Reg | None = None) -> list[int]:
     instructions: list[int] = []
     if val is not None:
+        if not fits_imm12(val):
+            raise ValueError(
+                f"Immediate literal {val} does not fit into [{IMM_MIN}, {IMM_MAX}]"
+            )
         instructions.append(build_instruction(Opcode.LDI, Reg.R1, imm=val))
         reg = Reg.R1
     if reg is None:
