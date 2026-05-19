@@ -132,8 +132,6 @@ class ControlUnit:
             return f".word {self.ir}"
 
 
-# Fetch/decode microprogram. Instruction and data share one memory, so instruction
-# fetch also goes through the common DataPath memory port.
 def mi_fetch(cu: ControlUnit) -> None:
     cu.ir = cu.dp.read_mem(cu.pc)
     cu.pc += 1
@@ -144,7 +142,6 @@ def mi_decode(cu: ControlUnit) -> None:
     cu.next_microprogram = MICROCODE_ROM[cu.op]
 
 
-# Common execute micro-operations.
 def mi_nop(_: ControlUnit) -> None:
     return
 

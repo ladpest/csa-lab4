@@ -1,8 +1,10 @@
 .venv/
-target.bin
-target.bin.hex
+*.bin
+*.hex
 .git/
 .pytest_cache/
 .idea/
 __pycache__/
 csa-lab4.zip
+.DS_Store/
+.vscode/

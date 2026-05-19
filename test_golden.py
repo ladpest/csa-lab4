@@ -24,10 +24,6 @@ DATA_STACK_REG = Reg.SP
 RETURN_STACK_REG = Reg.RSP
 
 
-# These golden files intentionally use a tiny YAML subset:
-# key: |-
-#   multiline value
-# It keeps the tests dependency-free: no PyYAML is required.
 def parse_block_yaml(path: Path) -> dict[str, str]:
     text = path.read_text(encoding="utf-8")
     result: dict[str, str] = {}
