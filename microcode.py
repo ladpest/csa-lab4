@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from isa import Opcode
 
-# Microinstruction format (32-bit word, two high bits are unused):
+# Microinstruction format (32-bit word, bit 31 is unused):
+# 30     fetch            IR <- MEM[PC], PC <- PC + 1
 # 29..27 AR source        0 none, 1 PC, 2 RD, 3 RS1, 4 RSP
 # 26..25 DR source        0 none, 1 MEM[AR], 2 PC, 3 RS1
 # 24     IR latch         IR <- DR
@@ -81,6 +82,7 @@ MEM_WRITE_SHIFT = 23
 IR_LATCH_SHIFT = 24
 DR_SHIFT = 25
 AR_SHIFT = 27
+FETCH_SHIFT = 30
 
 UADDR_FETCH = 0
 MICROCODE_SIZE = 32
@@ -115,9 +117,11 @@ def encode(
     halt: int = 0,
     next_: int = NEXT_SEQ,
     addr: int = 0,
+    fetch: int = 0,
 ) -> int:
     return (
-        ((ar & AR_MASK) << AR_SHIFT)
+        ((fetch & 1) << FETCH_SHIFT)
+        | ((ar & AR_MASK) << AR_SHIFT)
         | ((dr & SRC_MASK) << DR_SHIFT)
         | ((ir & 1) << IR_LATCH_SHIFT)
         | ((mem_write & 1) << MEM_WRITE_SHIFT)
@@ -143,6 +147,8 @@ def signal_text(word: int, opcode: Opcode | None = None) -> str:
     pc = field(word, PC_SHIFT, PC_MASK)
     next_ = field(word, NEXT_SHIFT, NEXT_MASK)
 
+    if field(word, FETCH_SHIFT):
+        signals.append("fetch=mem[pc]->ir,pc+1")
     if ar:
         signals.append(f"ar={_AR_NAMES[ar]}")
     if dr:
@@ -183,9 +189,7 @@ _mrom: list[int] = [0] * MICROCODE_SIZE
 _microcode_names: list[str] = ["unused"] * MICROCODE_SIZE
 
 # Fetch-decode cycle.
-_put(0, "fetch_ar_pc", encode(ar=AR_PC))
-_put(1, "fetch_dr_mem", encode(dr=DR_MEM))
-_put(2, "fetch_ir_pc_decode", encode(ir=1, pc=PC_INC, next_=NEXT_DECODE))
+_put(0, "fetch_ir_pc_decode", encode(fetch=1, next_=NEXT_DECODE))
 
 # Instruction microprograms.
 _put(3, "nop", encode(next_=NEXT_FETCH))

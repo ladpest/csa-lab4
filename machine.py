@@ -135,7 +135,10 @@ class ControlUnit:
         self.tick_count += 1
         self._execute_microinstruction(word)
         logging.debug(
-            "tick=%06d upc=%02d mir=%08X micro=%s signals=%s ir=%08X instr=%s %s out=%r",
+            (
+                "tick=%06d upc=%02d mir=%08X micro=%s "
+                "signals=%s ir=%08X instr=%s %s out=%r"
+            ),
             self.tick_count,
             micro_pc_before,
             word,
@@ -155,14 +158,17 @@ class ControlUnit:
         wb = mc.field(word, mc.WB_SHIFT, mc.SRC_MASK)
         pc_src = mc.field(word, mc.PC_SHIFT, mc.PC_MASK)
 
+        fetch_word = (
+            self.dp.read_mem(self.dp.pc) if mc.field(word, mc.FETCH_SHIFT) else None
+        )
         ar_next = self._select_ar(ar_src) if ar_src != mc.AR_NONE else None
         dr_next = self._select_dr(dr_src) if dr_src != mc.DR_NONE else None
         reg_next = self._select_wb(wb, word) if dst != mc.DST_NONE else None
-        pc_next = (
-            self._select_pc(pc_src)
-            if self._should_latch_pc(pc_src, mc.field(word, mc.PC_ZERO_SHIFT))
-            else None
-        )
+        pc_next: int | None = None
+        if fetch_word is not None:
+            pc_next = self.dp.pc + 1
+        elif self._should_latch_pc(pc_src, mc.field(word, mc.PC_ZERO_SHIFT)):
+            pc_next = self._select_pc(pc_src)
 
         if mc.field(word, mc.MEM_WRITE_SHIFT):
             self.dp.write_mem(self.dp.ar, self.dp.dr)
@@ -170,13 +176,14 @@ class ControlUnit:
             self.dp.ar = ar_next
         if dr_next is not None:
             self.dp.dr = dr_next
-        if mc.field(word, mc.IR_LATCH_SHIFT):
+        if fetch_word is not None:
+            self.dp.ir = to_unsigned32(fetch_word)
+        elif mc.field(word, mc.IR_LATCH_SHIFT):
             self.dp.ir = to_unsigned32(self.dp.dr)
         if dst != mc.DST_NONE:
             if reg_next is None:
-                raise ValueError(
-                    f"Missing write-back source in {mc.microinstruction_name(self.micro_pc)}"
-                )
+                name = mc.microinstruction_name(self.micro_pc)
+                raise ValueError(f"Missing write-back source in {name}")
             self.dp.write_reg(self._select_reg_target(dst), reg_next)
         if pc_next is not None:
             self.dp.pc = pc_next & 0xFFF
