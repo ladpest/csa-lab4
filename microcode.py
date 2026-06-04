@@ -16,8 +16,8 @@ from isa import Opcode
 # 10..9  PC source        0 none, 1 PC+1, 2 IMM, 3 DR
 # 8      PC condition     0 always, 1 only if RS1 == 0
 # 7      halt
-# 6..5   next uPC mode    0 uPC+1, 1 fetch, 2 decode opcode, 3 jump
-# 4..0   next uPC address
+# 6..5   next uPC mode    0 uPC+1, 1 fetch, 2 decode opcode
+# 4..0   unused
 
 AR_NONE = 0
 AR_PC = 1
@@ -59,16 +59,12 @@ PC_DR = 3
 NEXT_SEQ = 0
 NEXT_FETCH = 1
 NEXT_DECODE = 2
-NEXT_JUMP = 3
-
-ADDR_MASK = 0x1F
 NEXT_MASK = 0b11
 PC_MASK = 0b11
 ALU_OP_MASK = 0xF
 SRC_MASK = 0b11
 AR_MASK = 0b111
 
-NEXT_ADDR_SHIFT = 0
 NEXT_SHIFT = 5
 HALT_SHIFT = 7
 PC_ZERO_SHIFT = 8
@@ -94,7 +90,7 @@ _WB_NAMES = ["-", "imm", "dr", "alu"]
 _ALU_A_NAMES = ["-", "rs1", "r15"]
 _ALU_B_NAMES = ["-", "rs2", "1", "-1"]
 _PC_NAMES = ["-", "inc", "imm", "dr"]
-_NEXT_NAMES = ["seq", "fetch", "decode", "jump"]
+_NEXT_NAMES = ["seq", "fetch", "decode", "-"]
 
 
 def field(word: int, shift: int, mask: int = 1) -> int:
@@ -116,7 +112,6 @@ def encode(
     pc_zero: int = 0,
     halt: int = 0,
     next_: int = NEXT_SEQ,
-    addr: int = 0,
     fetch: int = 0,
 ) -> int:
     return (
@@ -134,7 +129,6 @@ def encode(
         | ((pc_zero & 1) << PC_ZERO_SHIFT)
         | ((halt & 1) << HALT_SHIFT)
         | ((next_ & NEXT_MASK) << NEXT_SHIFT)
-        | (addr & ADDR_MASK)
     )
 
 

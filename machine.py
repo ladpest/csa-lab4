@@ -74,9 +74,13 @@ class DataPath:
         self.memory[self._check_memory_addr(addr)] = to_signed32(value)
 
     def read_reg(self, reg: Reg) -> int:
+        if reg == Reg.R0:
+            return 0
         return self.registers[reg]
 
     def write_reg(self, reg: Reg, value: int) -> None:
+        if reg == Reg.R0:
+            return
         self.registers[reg] = to_signed32(value)
 
     def alu(self, opcode: Opcode, left: int, right: int) -> int:
@@ -197,10 +201,11 @@ class ControlUnit:
             self.micro_pc = mc.DECODER[int(self.op)]
         elif next_mode == mc.NEXT_FETCH:
             self.micro_pc = mc.UADDR_FETCH
-        elif next_mode == mc.NEXT_JUMP:
-            self.micro_pc = mc.field(word, mc.NEXT_ADDR_SHIFT, mc.ADDR_MASK)
-        else:
+        elif next_mode == mc.NEXT_SEQ:
             self.micro_pc += 1
+        else:
+            name = mc.microinstruction_name(self.micro_pc)
+            raise ValueError(f"Unsupported next uPC mode in {name}: {next_mode}")
 
     def _decode_ir(self) -> None:
         self.op, self.rd, self.rs1, self.rs2, self.imm = decode_instruction(self.dp.ir)
@@ -279,7 +284,7 @@ class ControlUnit:
         if pc_src == mc.PC_NONE:
             return False
         if pc_zero:
-            return self.dp.read_reg(self.rs1) == 0
+            return self.dp.read_reg(self.rs1) == self.dp.read_reg(Reg.R0)
         return True
 
     def _select_pc(self, source: int) -> int:
