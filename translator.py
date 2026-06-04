@@ -16,6 +16,8 @@ from isa import (
     to_signed32,
 )
 
+DATA_STACK_REG = Reg.R14
+
 
 @dataclass(frozen=True)
 class StringLiteral:
@@ -352,9 +354,9 @@ def push_asm(val: int | None = None, reg: Reg | None = None) -> list[int]:
         raise ValueError("push_asm requires either val or reg")
     instructions.extend(
         [
-            build_instruction(Opcode.ST, Reg.SP, reg),
+            build_instruction(Opcode.ST, DATA_STACK_REG, reg),
             build_instruction(Opcode.LDI, Reg.R3, imm=1),
-            build_instruction(Opcode.ADD, Reg.SP, Reg.SP, Reg.R3),
+            build_instruction(Opcode.ADD, DATA_STACK_REG, DATA_STACK_REG, Reg.R3),
         ]
     )
     return instructions
@@ -363,8 +365,8 @@ def push_asm(val: int | None = None, reg: Reg | None = None) -> list[int]:
 def pop_asm(reg: Reg) -> list[int]:
     return [
         build_instruction(Opcode.LDI, Reg.R3, imm=1),
-        build_instruction(Opcode.SUB, Reg.SP, Reg.SP, Reg.R3),
-        build_instruction(Opcode.LD, reg, Reg.SP),
+        build_instruction(Opcode.SUB, DATA_STACK_REG, DATA_STACK_REG, Reg.R3),
+        build_instruction(Opcode.LD, reg, DATA_STACK_REG),
     ]
 
 

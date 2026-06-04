@@ -4,13 +4,13 @@ from isa import Opcode
 
 # Microinstruction format (32-bit word, bit 31 is unused):
 # 30     fetch            IR <- MEM[PC], PC <- PC + 1
-# 29..27 AR source        0 none, 1 PC, 2 RD, 3 RS1, 4 RSP
+# 29..27 AR source        0 none, 1 PC, 2 RD, 3 RS1, 4 R15
 # 26..25 DR source        0 none, 1 MEM[AR], 2 PC, 3 RS1
 # 24     IR latch         IR <- DR
 # 23     MEM write        MEM[AR] <- DR
-# 22..21 register target  0 none, 1 RD, 2 RSP
+# 22..21 register target  0 none, 1 RD, 2 R15
 # 20..19 writeback source 0 none, 1 IMM, 2 DR, 3 ALU
-# 18..17 ALU left source  0 none, 1 RS1, 2 RSP
+# 18..17 ALU left source  0 none, 1 RS1, 2 R15
 # 16..15 ALU right source 0 none, 1 RS2, 2 +1, 3 -1
 # 14..11 ALU operation    0 opcode from IR, 1 ADD
 # 10..9  PC source        0 none, 1 PC+1, 2 IMM, 3 DR
@@ -23,7 +23,7 @@ AR_NONE = 0
 AR_PC = 1
 AR_RD = 2
 AR_RS1 = 3
-AR_RSP = 4
+AR_R15 = 4
 
 DR_NONE = 0
 DR_MEM = 1
@@ -32,7 +32,7 @@ DR_RS1 = 3
 
 DST_NONE = 0
 DST_RD = 1
-DST_RSP = 2
+DST_R15 = 2
 
 WB_NONE = 0
 WB_IMM = 1
@@ -41,7 +41,7 @@ WB_ALU = 3
 
 ALU_A_NONE = 0
 ALU_A_RS1 = 1
-ALU_A_RSP = 2
+ALU_A_R15 = 2
 
 ALU_B_NONE = 0
 ALU_B_RS2 = 1
@@ -87,11 +87,11 @@ FETCH_SHIFT = 30
 UADDR_FETCH = 0
 MICROCODE_SIZE = 32
 
-_AR_NAMES = ["-", "pc", "rd", "rs1", "rsp"]
+_AR_NAMES = ["-", "pc", "rd", "rs1", "r15"]
 _DR_NAMES = ["-", "mem", "pc", "rs1"]
-_DST_NAMES = ["-", "rd", "rsp"]
+_DST_NAMES = ["-", "rd", "r15"]
 _WB_NAMES = ["-", "imm", "dr", "alu"]
-_ALU_A_NAMES = ["-", "rs1", "rsp"]
+_ALU_A_NAMES = ["-", "rs1", "r15"]
 _ALU_B_NAMES = ["-", "rs2", "1", "-1"]
 _PC_NAMES = ["-", "inc", "imm", "dr"]
 _NEXT_NAMES = ["seq", "fetch", "decode", "jump"]
@@ -211,16 +211,16 @@ _put(11, "st_mem_dr", encode(mem_write=1, next_=NEXT_FETCH))
 _put(12, "jmp_imm", encode(pc=PC_IMM, next_=NEXT_FETCH))
 _put(13, "jz_rs1_imm", encode(pc=PC_IMM, pc_zero=1, next_=NEXT_FETCH))
 
-_put(14, "call_ar_rsp", encode(ar=AR_RSP))
+_put(14, "call_ar_r15", encode(ar=AR_R15))
 _put(15, "call_dr_pc", encode(dr=DR_PC))
 _put(16, "call_store_ret", encode(mem_write=1))
 _put(
     17,
-    "call_rsp_inc_pc_imm",
+    "call_r15_inc_pc_imm",
     encode(
-        dst=DST_RSP,
+        dst=DST_R15,
         wb=WB_ALU,
-        alu_a=ALU_A_RSP,
+        alu_a=ALU_A_R15,
         alu_b=ALU_B_ONE,
         alu_op=ALU_ADD,
         pc=PC_IMM,
@@ -228,29 +228,29 @@ _put(
     ),
 )
 
-_put(18, "callr_ar_rsp", encode(ar=AR_RSP))
+_put(18, "callr_ar_r15", encode(ar=AR_R15))
 _put(19, "callr_dr_pc", encode(dr=DR_PC))
 _put(20, "callr_store_ret", encode(mem_write=1))
 _put(
     21,
-    "callr_rsp_inc",
-    encode(dst=DST_RSP, wb=WB_ALU, alu_a=ALU_A_RSP, alu_b=ALU_B_ONE, alu_op=ALU_ADD),
+    "callr_r15_inc",
+    encode(dst=DST_R15, wb=WB_ALU, alu_a=ALU_A_R15, alu_b=ALU_B_ONE, alu_op=ALU_ADD),
 )
 _put(22, "callr_dr_rs1", encode(dr=DR_RS1))
 _put(23, "callr_pc_dr", encode(pc=PC_DR, next_=NEXT_FETCH))
 
 _put(
     24,
-    "ret_rsp_dec",
+    "ret_r15_dec",
     encode(
-        dst=DST_RSP,
+        dst=DST_R15,
         wb=WB_ALU,
-        alu_a=ALU_A_RSP,
+        alu_a=ALU_A_R15,
         alu_b=ALU_B_NEG_ONE,
         alu_op=ALU_ADD,
     ),
 )
-_put(25, "ret_ar_rsp", encode(ar=AR_RSP))
+_put(25, "ret_ar_r15", encode(ar=AR_R15))
 _put(26, "ret_dr_mem", encode(dr=DR_MEM))
 _put(27, "ret_pc_dr", encode(pc=PC_DR, next_=NEXT_FETCH))
 

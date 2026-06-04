@@ -10,106 +10,106 @@ in_input: |-
 out_stdout: |-
   25 36 64 
 out_log: |-
-  Tick: 000001 | uPC: 00 | MIR: 40000040 | PC: 0001 | IR: 0C100005 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R1, 5 | Regs: PC=1 AR=0 DR=0 R1=0 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000002 | uPC: 05 | MIR: 00280020 | PC: 0001 | IR: 0C100005 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R1, 5 | Regs: PC=1 AR=0 DR=0 R1=5 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000003 | uPC: 00 | MIR: 40000040 | PC: 0002 | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [SP], R1 | Regs: PC=2 AR=0 DR=0 R1=5 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000004 | uPC: 09 | MIR: 10000000 | PC: 0002 | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [SP], R1 | Regs: PC=2 AR=1024 DR=0 R1=5 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000005 | uPC: 10 | MIR: 06000000 | PC: 0002 | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [SP], R1 | Regs: PC=2 AR=1024 DR=5 R1=5 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000006 | uPC: 11 | MIR: 00800020 | PC: 0002 | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [SP], R1 | Regs: PC=2 AR=1024 DR=5 R1=5 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000007 | uPC: 00 | MIR: 40000040 | PC: 0003 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=3 AR=1024 DR=5 R1=5 R2=0 R3=0 SP=1024 RSP=2048 | Out: ''
-  Tick: 000008 | uPC: 05 | MIR: 00280020 | PC: 0003 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=3 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000009 | uPC: 00 | MIR: 40000040 | PC: 0004 | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add SP, SP, R3 | Regs: PC=4 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000010 | uPC: 04 | MIR: 003A8020 | PC: 0004 | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add SP, SP, R3 | Regs: PC=4 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000011 | uPC: 00 | MIR: 40000040 | PC: 0005 | IR: 1200002D | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: call 45 | Regs: PC=5 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000012 | uPC: 14 | MIR: 20000000 | PC: 0005 | IR: 1200002D | Micro: call_ar_rsp | Signals: ar=rsp | Exec: call 45 | Regs: PC=5 AR=2048 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000013 | uPC: 15 | MIR: 04000000 | PC: 0005 | IR: 1200002D | Micro: call_dr_pc | Signals: dr=pc | Exec: call 45 | Regs: PC=5 AR=2048 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000014 | uPC: 16 | MIR: 00800000 | PC: 0005 | IR: 1200002D | Micro: call_store_ret | Signals: mem_write | Exec: call 45 | Regs: PC=5 AR=2048 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000015 | uPC: 17 | MIR: 005D0C20 | PC: 002D | IR: 1200002D | Micro: call_rsp_inc_pc_imm | Signals: reg=rsp<-alu,alu=add(rsp,1),pc=imm,next=fetch | Exec: call 45 | Regs: PC=45 AR=2048 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000016 | uPC: 00 | MIR: 40000040 | PC: 002E | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=46 AR=2048 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000017 | uPC: 05 | MIR: 00280020 | PC: 002E | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=46 AR=2048 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000018 | uPC: 00 | MIR: 40000040 | PC: 002F | IR: 02EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: sub SP, SP, R3 | Regs: PC=47 AR=2048 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000019 | uPC: 04 | MIR: 003A8020 | PC: 002F | IR: 02EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=sub(rs1,rs2),next=fetch | Exec: sub SP, SP, R3 | Regs: PC=47 AR=2048 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000020 | uPC: 00 | MIR: 40000040 | PC: 0030 | IR: 0A1E0000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ld R1, [SP] | Regs: PC=48 AR=2048 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000021 | uPC: 06 | MIR: 18000000 | PC: 0030 | IR: 0A1E0000 | Micro: ld_ar_rs1 | Signals: ar=rs1 | Exec: ld R1, [SP] | Regs: PC=48 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000022 | uPC: 07 | MIR: 02000000 | PC: 0030 | IR: 0A1E0000 | Micro: ld_dr_mem | Signals: dr=mem | Exec: ld R1, [SP] | Regs: PC=48 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000023 | uPC: 08 | MIR: 00300020 | PC: 0030 | IR: 0A1E0000 | Micro: ld_rd_dr | Signals: reg=rd<-dr,next=fetch | Exec: ld R1, [SP] | Regs: PC=48 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000024 | uPC: 00 | MIR: 40000040 | PC: 0031 | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [SP], R1 | Regs: PC=49 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000025 | uPC: 09 | MIR: 10000000 | PC: 0031 | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [SP], R1 | Regs: PC=49 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000026 | uPC: 10 | MIR: 06000000 | PC: 0031 | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [SP], R1 | Regs: PC=49 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000027 | uPC: 11 | MIR: 00800020 | PC: 0031 | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [SP], R1 | Regs: PC=49 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000028 | uPC: 00 | MIR: 40000040 | PC: 0032 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=50 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000029 | uPC: 05 | MIR: 00280020 | PC: 0032 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=50 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000030 | uPC: 00 | MIR: 40000040 | PC: 0033 | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add SP, SP, R3 | Regs: PC=51 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000031 | uPC: 04 | MIR: 003A8020 | PC: 0033 | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add SP, SP, R3 | Regs: PC=51 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000032 | uPC: 00 | MIR: 40000040 | PC: 0034 | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [SP], R1 | Regs: PC=52 AR=1024 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000033 | uPC: 09 | MIR: 10000000 | PC: 0034 | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [SP], R1 | Regs: PC=52 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000034 | uPC: 10 | MIR: 06000000 | PC: 0034 | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [SP], R1 | Regs: PC=52 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000035 | uPC: 11 | MIR: 00800020 | PC: 0034 | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [SP], R1 | Regs: PC=52 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000036 | uPC: 00 | MIR: 40000040 | PC: 0035 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=53 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000037 | uPC: 05 | MIR: 00280020 | PC: 0035 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=53 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000038 | uPC: 00 | MIR: 40000040 | PC: 0036 | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add SP, SP, R3 | Regs: PC=54 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000039 | uPC: 04 | MIR: 003A8020 | PC: 0036 | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add SP, SP, R3 | Regs: PC=54 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1026 RSP=2049 | Out: ''
-  Tick: 000040 | uPC: 00 | MIR: 40000040 | PC: 0037 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=55 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1026 RSP=2049 | Out: ''
-  Tick: 000041 | uPC: 05 | MIR: 00280020 | PC: 0037 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=55 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1026 RSP=2049 | Out: ''
-  Tick: 000042 | uPC: 00 | MIR: 40000040 | PC: 0038 | IR: 02EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: sub SP, SP, R3 | Regs: PC=56 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1026 RSP=2049 | Out: ''
-  Tick: 000043 | uPC: 04 | MIR: 003A8020 | PC: 0038 | IR: 02EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=sub(rs1,rs2),next=fetch | Exec: sub SP, SP, R3 | Regs: PC=56 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000044 | uPC: 00 | MIR: 40000040 | PC: 0039 | IR: 0A2E0000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ld R2, [SP] | Regs: PC=57 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000045 | uPC: 06 | MIR: 18000000 | PC: 0039 | IR: 0A2E0000 | Micro: ld_ar_rs1 | Signals: ar=rs1 | Exec: ld R2, [SP] | Regs: PC=57 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000046 | uPC: 07 | MIR: 02000000 | PC: 0039 | IR: 0A2E0000 | Micro: ld_dr_mem | Signals: dr=mem | Exec: ld R2, [SP] | Regs: PC=57 AR=1025 DR=5 R1=5 R2=0 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000047 | uPC: 08 | MIR: 00300020 | PC: 0039 | IR: 0A2E0000 | Micro: ld_rd_dr | Signals: reg=rd<-dr,next=fetch | Exec: ld R2, [SP] | Regs: PC=57 AR=1025 DR=5 R1=5 R2=5 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000048 | uPC: 00 | MIR: 40000040 | PC: 003A | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=58 AR=1025 DR=5 R1=5 R2=5 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000049 | uPC: 05 | MIR: 00280020 | PC: 003A | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=58 AR=1025 DR=5 R1=5 R2=5 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000050 | uPC: 00 | MIR: 40000040 | PC: 003B | IR: 02EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: sub SP, SP, R3 | Regs: PC=59 AR=1025 DR=5 R1=5 R2=5 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000051 | uPC: 04 | MIR: 003A8020 | PC: 003B | IR: 02EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=sub(rs1,rs2),next=fetch | Exec: sub SP, SP, R3 | Regs: PC=59 AR=1025 DR=5 R1=5 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000052 | uPC: 00 | MIR: 40000040 | PC: 003C | IR: 0A1E0000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ld R1, [SP] | Regs: PC=60 AR=1025 DR=5 R1=5 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000053 | uPC: 06 | MIR: 18000000 | PC: 003C | IR: 0A1E0000 | Micro: ld_ar_rs1 | Signals: ar=rs1 | Exec: ld R1, [SP] | Regs: PC=60 AR=1024 DR=5 R1=5 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000054 | uPC: 07 | MIR: 02000000 | PC: 003C | IR: 0A1E0000 | Micro: ld_dr_mem | Signals: dr=mem | Exec: ld R1, [SP] | Regs: PC=60 AR=1024 DR=5 R1=5 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000055 | uPC: 08 | MIR: 00300020 | PC: 003C | IR: 0A1E0000 | Micro: ld_rd_dr | Signals: reg=rd<-dr,next=fetch | Exec: ld R1, [SP] | Regs: PC=60 AR=1024 DR=5 R1=5 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000056 | uPC: 00 | MIR: 40000040 | PC: 003D | IR: 03112000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: mul R1, R1, R2 | Regs: PC=61 AR=1024 DR=5 R1=5 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000057 | uPC: 04 | MIR: 003A8020 | PC: 003D | IR: 03112000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=mul(rs1,rs2),next=fetch | Exec: mul R1, R1, R2 | Regs: PC=61 AR=1024 DR=5 R1=25 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000058 | uPC: 00 | MIR: 40000040 | PC: 003E | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [SP], R1 | Regs: PC=62 AR=1024 DR=5 R1=25 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000059 | uPC: 09 | MIR: 10000000 | PC: 003E | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [SP], R1 | Regs: PC=62 AR=1024 DR=5 R1=25 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000060 | uPC: 10 | MIR: 06000000 | PC: 003E | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [SP], R1 | Regs: PC=62 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000061 | uPC: 11 | MIR: 00800020 | PC: 003E | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [SP], R1 | Regs: PC=62 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000062 | uPC: 00 | MIR: 40000040 | PC: 003F | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=63 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000063 | uPC: 05 | MIR: 00280020 | PC: 003F | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=63 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000064 | uPC: 00 | MIR: 40000040 | PC: 0040 | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add SP, SP, R3 | Regs: PC=64 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1024 RSP=2049 | Out: ''
-  Tick: 000065 | uPC: 04 | MIR: 003A8020 | PC: 0040 | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add SP, SP, R3 | Regs: PC=64 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000066 | uPC: 00 | MIR: 40000040 | PC: 0041 | IR: 13000000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ret | Regs: PC=65 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1025 RSP=2049 | Out: ''
-  Tick: 000067 | uPC: 24 | MIR: 005D8800 | PC: 0041 | IR: 13000000 | Micro: ret_rsp_dec | Signals: reg=rsp<-alu,alu=add(rsp,-1) | Exec: ret | Regs: PC=65 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000068 | uPC: 25 | MIR: 20000000 | PC: 0041 | IR: 13000000 | Micro: ret_ar_rsp | Signals: ar=rsp | Exec: ret | Regs: PC=65 AR=2048 DR=25 R1=25 R2=5 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000069 | uPC: 26 | MIR: 02000000 | PC: 0041 | IR: 13000000 | Micro: ret_dr_mem | Signals: dr=mem | Exec: ret | Regs: PC=65 AR=2048 DR=5 R1=25 R2=5 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000070 | uPC: 27 | MIR: 00000620 | PC: 0005 | IR: 13000000 | Micro: ret_pc_dr | Signals: pc=dr,next=fetch | Exec: ret | Regs: PC=5 AR=2048 DR=5 R1=25 R2=5 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000071 | uPC: 00 | MIR: 40000040 | PC: 0006 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=6 AR=2048 DR=5 R1=25 R2=5 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000072 | uPC: 05 | MIR: 00280020 | PC: 0006 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=6 AR=2048 DR=5 R1=25 R2=5 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000073 | uPC: 00 | MIR: 40000040 | PC: 0007 | IR: 02EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: sub SP, SP, R3 | Regs: PC=7 AR=2048 DR=5 R1=25 R2=5 R3=1 SP=1025 RSP=2048 | Out: ''
-  Tick: 000074 | uPC: 04 | MIR: 003A8020 | PC: 0007 | IR: 02EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=sub(rs1,rs2),next=fetch | Exec: sub SP, SP, R3 | Regs: PC=7 AR=2048 DR=5 R1=25 R2=5 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000075 | uPC: 00 | MIR: 40000040 | PC: 0008 | IR: 0A1E0000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ld R1, [SP] | Regs: PC=8 AR=2048 DR=5 R1=25 R2=5 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000076 | uPC: 06 | MIR: 18000000 | PC: 0008 | IR: 0A1E0000 | Micro: ld_ar_rs1 | Signals: ar=rs1 | Exec: ld R1, [SP] | Regs: PC=8 AR=1024 DR=5 R1=25 R2=5 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000077 | uPC: 07 | MIR: 02000000 | PC: 0008 | IR: 0A1E0000 | Micro: ld_dr_mem | Signals: dr=mem | Exec: ld R1, [SP] | Regs: PC=8 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000078 | uPC: 08 | MIR: 00300020 | PC: 0008 | IR: 0A1E0000 | Micro: ld_rd_dr | Signals: reg=rd<-dr,next=fetch | Exec: ld R1, [SP] | Regs: PC=8 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000079 | uPC: 00 | MIR: 40000040 | PC: 0009 | IR: 0C200FFD | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R2, -3 | Regs: PC=9 AR=1024 DR=25 R1=25 R2=5 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000080 | uPC: 05 | MIR: 00280020 | PC: 0009 | IR: 0C200FFD | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R2, -3 | Regs: PC=9 AR=1024 DR=25 R1=25 R2=-3 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000081 | uPC: 00 | MIR: 40000040 | PC: 000A | IR: 0B210000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [R2], R1 | Regs: PC=10 AR=1024 DR=25 R1=25 R2=-3 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000082 | uPC: 09 | MIR: 10000000 | PC: 000A | IR: 0B210000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [R2], R1 | Regs: PC=10 AR=-3 DR=25 R1=25 R2=-3 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000083 | uPC: 10 | MIR: 06000000 | PC: 000A | IR: 0B210000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [R2], R1 | Regs: PC=10 AR=-3 DR=25 R1=25 R2=-3 R3=1 SP=1024 RSP=2048 | Out: ''
-  Tick: 000084 | uPC: 11 | MIR: 00800020 | PC: 000A | IR: 0B210000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [R2], R1 | Regs: PC=10 AR=-3 DR=25 R1=25 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000085 | uPC: 00 | MIR: 40000040 | PC: 000B | IR: 0C100006 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R1, 6 | Regs: PC=11 AR=-3 DR=25 R1=25 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000086 | uPC: 05 | MIR: 00280020 | PC: 000B | IR: 0C100006 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R1, 6 | Regs: PC=11 AR=-3 DR=25 R1=6 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000087 | uPC: 00 | MIR: 40000040 | PC: 000C | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [SP], R1 | Regs: PC=12 AR=-3 DR=25 R1=6 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000088 | uPC: 09 | MIR: 10000000 | PC: 000C | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [SP], R1 | Regs: PC=12 AR=1024 DR=25 R1=6 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000089 | uPC: 10 | MIR: 06000000 | PC: 000C | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [SP], R1 | Regs: PC=12 AR=1024 DR=6 R1=6 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000090 | uPC: 11 | MIR: 00800020 | PC: 000C | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [SP], R1 | Regs: PC=12 AR=1024 DR=6 R1=6 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000091 | uPC: 00 | MIR: 40000040 | PC: 000D | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=13 AR=1024 DR=6 R1=6 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000092 | uPC: 05 | MIR: 00280020 | PC: 000D | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=13 AR=1024 DR=6 R1=6 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000093 | uPC: 00 | MIR: 40000040 | PC: 000E | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add SP, SP, R3 | Regs: PC=14 AR=1024 DR=6 R1=6 R2=-3 R3=1 SP=1024 RSP=2048 | Out: '25 '
-  Tick: 000094 | uPC: 04 | MIR: 003A8020 | PC: 000E | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add SP, SP, R3 | Regs: PC=14 AR=1024 DR=6 R1=6 R2=-3 R3=1 SP=1025 RSP=2048 | Out: '25 '
-  Tick: 000095 | uPC: 00 | MIR: 40000040 | PC: 000F | IR: 0C10002D | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R1, 45 | Regs: PC=15 AR=1024 DR=6 R1=6 R2=-3 R3=1 SP=1025 RSP=2048 | Out: '25 '
-  Tick: 000096 | uPC: 05 | MIR: 00280020 | PC: 000F | IR: 0C10002D | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R1, 45 | Regs: PC=15 AR=1024 DR=6 R1=45 R2=-3 R3=1 SP=1025 RSP=2048 | Out: '25 '
-  Tick: 000097 | uPC: 00 | MIR: 40000040 | PC: 0010 | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [SP], R1 | Regs: PC=16 AR=1024 DR=6 R1=45 R2=-3 R3=1 SP=1025 RSP=2048 | Out: '25 '
-  Tick: 000098 | uPC: 09 | MIR: 10000000 | PC: 0010 | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [SP], R1 | Regs: PC=16 AR=1025 DR=6 R1=45 R2=-3 R3=1 SP=1025 RSP=2048 | Out: '25 '
-  Tick: 000099 | uPC: 10 | MIR: 06000000 | PC: 0010 | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [SP], R1 | Regs: PC=16 AR=1025 DR=45 R1=45 R2=-3 R3=1 SP=1025 RSP=2048 | Out: '25 '
-  Tick: 000100 | uPC: 11 | MIR: 00800020 | PC: 0010 | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [SP], R1 | Regs: PC=16 AR=1025 DR=45 R1=45 R2=-3 R3=1 SP=1025 RSP=2048 | Out: '25 '
+  Tick: 000001 | uPC: 00 | MIR: 40000040 | PC: 0001 | IR: 0C100005 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R1, 5 | Regs: PC=1 AR=0 DR=0 R0=0 R1=0 R2=0 R3=0 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000002 | uPC: 05 | MIR: 00280020 | PC: 0001 | IR: 0C100005 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R1, 5 | Regs: PC=1 AR=0 DR=0 R0=0 R1=5 R2=0 R3=0 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000003 | uPC: 00 | MIR: 40000040 | PC: 0002 | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [R14], R1 | Regs: PC=2 AR=0 DR=0 R0=0 R1=5 R2=0 R3=0 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000004 | uPC: 09 | MIR: 10000000 | PC: 0002 | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [R14], R1 | Regs: PC=2 AR=1024 DR=0 R0=0 R1=5 R2=0 R3=0 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000005 | uPC: 10 | MIR: 06000000 | PC: 0002 | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [R14], R1 | Regs: PC=2 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=0 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000006 | uPC: 11 | MIR: 00800020 | PC: 0002 | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [R14], R1 | Regs: PC=2 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=0 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000007 | uPC: 00 | MIR: 40000040 | PC: 0003 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=3 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=0 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000008 | uPC: 05 | MIR: 00280020 | PC: 0003 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=3 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000009 | uPC: 00 | MIR: 40000040 | PC: 0004 | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add R14, R14, R3 | Regs: PC=4 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000010 | uPC: 04 | MIR: 003A8020 | PC: 0004 | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add R14, R14, R3 | Regs: PC=4 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000011 | uPC: 00 | MIR: 40000040 | PC: 0005 | IR: 1200002D | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: call 45 | Regs: PC=5 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000012 | uPC: 14 | MIR: 20000000 | PC: 0005 | IR: 1200002D | Micro: call_ar_r15 | Signals: ar=r15 | Exec: call 45 | Regs: PC=5 AR=2048 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000013 | uPC: 15 | MIR: 04000000 | PC: 0005 | IR: 1200002D | Micro: call_dr_pc | Signals: dr=pc | Exec: call 45 | Regs: PC=5 AR=2048 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000014 | uPC: 16 | MIR: 00800000 | PC: 0005 | IR: 1200002D | Micro: call_store_ret | Signals: mem_write | Exec: call 45 | Regs: PC=5 AR=2048 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000015 | uPC: 17 | MIR: 005D0C20 | PC: 002D | IR: 1200002D | Micro: call_r15_inc_pc_imm | Signals: reg=r15<-alu,alu=add(r15,1),pc=imm,next=fetch | Exec: call 45 | Regs: PC=45 AR=2048 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000016 | uPC: 00 | MIR: 40000040 | PC: 002E | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=46 AR=2048 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000017 | uPC: 05 | MIR: 00280020 | PC: 002E | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=46 AR=2048 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000018 | uPC: 00 | MIR: 40000040 | PC: 002F | IR: 02EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: sub R14, R14, R3 | Regs: PC=47 AR=2048 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000019 | uPC: 04 | MIR: 003A8020 | PC: 002F | IR: 02EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=sub(rs1,rs2),next=fetch | Exec: sub R14, R14, R3 | Regs: PC=47 AR=2048 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000020 | uPC: 00 | MIR: 40000040 | PC: 0030 | IR: 0A1E0000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ld R1, [R14] | Regs: PC=48 AR=2048 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000021 | uPC: 06 | MIR: 18000000 | PC: 0030 | IR: 0A1E0000 | Micro: ld_ar_rs1 | Signals: ar=rs1 | Exec: ld R1, [R14] | Regs: PC=48 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000022 | uPC: 07 | MIR: 02000000 | PC: 0030 | IR: 0A1E0000 | Micro: ld_dr_mem | Signals: dr=mem | Exec: ld R1, [R14] | Regs: PC=48 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000023 | uPC: 08 | MIR: 00300020 | PC: 0030 | IR: 0A1E0000 | Micro: ld_rd_dr | Signals: reg=rd<-dr,next=fetch | Exec: ld R1, [R14] | Regs: PC=48 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000024 | uPC: 00 | MIR: 40000040 | PC: 0031 | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [R14], R1 | Regs: PC=49 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000025 | uPC: 09 | MIR: 10000000 | PC: 0031 | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [R14], R1 | Regs: PC=49 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000026 | uPC: 10 | MIR: 06000000 | PC: 0031 | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [R14], R1 | Regs: PC=49 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000027 | uPC: 11 | MIR: 00800020 | PC: 0031 | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [R14], R1 | Regs: PC=49 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000028 | uPC: 00 | MIR: 40000040 | PC: 0032 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=50 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000029 | uPC: 05 | MIR: 00280020 | PC: 0032 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=50 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000030 | uPC: 00 | MIR: 40000040 | PC: 0033 | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add R14, R14, R3 | Regs: PC=51 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000031 | uPC: 04 | MIR: 003A8020 | PC: 0033 | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add R14, R14, R3 | Regs: PC=51 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000032 | uPC: 00 | MIR: 40000040 | PC: 0034 | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [R14], R1 | Regs: PC=52 AR=1024 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000033 | uPC: 09 | MIR: 10000000 | PC: 0034 | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [R14], R1 | Regs: PC=52 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000034 | uPC: 10 | MIR: 06000000 | PC: 0034 | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [R14], R1 | Regs: PC=52 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000035 | uPC: 11 | MIR: 00800020 | PC: 0034 | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [R14], R1 | Regs: PC=52 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000036 | uPC: 00 | MIR: 40000040 | PC: 0035 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=53 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000037 | uPC: 05 | MIR: 00280020 | PC: 0035 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=53 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000038 | uPC: 00 | MIR: 40000040 | PC: 0036 | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add R14, R14, R3 | Regs: PC=54 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000039 | uPC: 04 | MIR: 003A8020 | PC: 0036 | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add R14, R14, R3 | Regs: PC=54 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1026 R15=2049 | Out: ''
+  Tick: 000040 | uPC: 00 | MIR: 40000040 | PC: 0037 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=55 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1026 R15=2049 | Out: ''
+  Tick: 000041 | uPC: 05 | MIR: 00280020 | PC: 0037 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=55 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1026 R15=2049 | Out: ''
+  Tick: 000042 | uPC: 00 | MIR: 40000040 | PC: 0038 | IR: 02EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: sub R14, R14, R3 | Regs: PC=56 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1026 R15=2049 | Out: ''
+  Tick: 000043 | uPC: 04 | MIR: 003A8020 | PC: 0038 | IR: 02EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=sub(rs1,rs2),next=fetch | Exec: sub R14, R14, R3 | Regs: PC=56 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000044 | uPC: 00 | MIR: 40000040 | PC: 0039 | IR: 0A2E0000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ld R2, [R14] | Regs: PC=57 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000045 | uPC: 06 | MIR: 18000000 | PC: 0039 | IR: 0A2E0000 | Micro: ld_ar_rs1 | Signals: ar=rs1 | Exec: ld R2, [R14] | Regs: PC=57 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000046 | uPC: 07 | MIR: 02000000 | PC: 0039 | IR: 0A2E0000 | Micro: ld_dr_mem | Signals: dr=mem | Exec: ld R2, [R14] | Regs: PC=57 AR=1025 DR=5 R0=0 R1=5 R2=0 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000047 | uPC: 08 | MIR: 00300020 | PC: 0039 | IR: 0A2E0000 | Micro: ld_rd_dr | Signals: reg=rd<-dr,next=fetch | Exec: ld R2, [R14] | Regs: PC=57 AR=1025 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000048 | uPC: 00 | MIR: 40000040 | PC: 003A | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=58 AR=1025 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000049 | uPC: 05 | MIR: 00280020 | PC: 003A | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=58 AR=1025 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000050 | uPC: 00 | MIR: 40000040 | PC: 003B | IR: 02EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: sub R14, R14, R3 | Regs: PC=59 AR=1025 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000051 | uPC: 04 | MIR: 003A8020 | PC: 003B | IR: 02EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=sub(rs1,rs2),next=fetch | Exec: sub R14, R14, R3 | Regs: PC=59 AR=1025 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000052 | uPC: 00 | MIR: 40000040 | PC: 003C | IR: 0A1E0000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ld R1, [R14] | Regs: PC=60 AR=1025 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000053 | uPC: 06 | MIR: 18000000 | PC: 003C | IR: 0A1E0000 | Micro: ld_ar_rs1 | Signals: ar=rs1 | Exec: ld R1, [R14] | Regs: PC=60 AR=1024 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000054 | uPC: 07 | MIR: 02000000 | PC: 003C | IR: 0A1E0000 | Micro: ld_dr_mem | Signals: dr=mem | Exec: ld R1, [R14] | Regs: PC=60 AR=1024 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000055 | uPC: 08 | MIR: 00300020 | PC: 003C | IR: 0A1E0000 | Micro: ld_rd_dr | Signals: reg=rd<-dr,next=fetch | Exec: ld R1, [R14] | Regs: PC=60 AR=1024 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000056 | uPC: 00 | MIR: 40000040 | PC: 003D | IR: 03112000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: mul R1, R1, R2 | Regs: PC=61 AR=1024 DR=5 R0=0 R1=5 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000057 | uPC: 04 | MIR: 003A8020 | PC: 003D | IR: 03112000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=mul(rs1,rs2),next=fetch | Exec: mul R1, R1, R2 | Regs: PC=61 AR=1024 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000058 | uPC: 00 | MIR: 40000040 | PC: 003E | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [R14], R1 | Regs: PC=62 AR=1024 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000059 | uPC: 09 | MIR: 10000000 | PC: 003E | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [R14], R1 | Regs: PC=62 AR=1024 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000060 | uPC: 10 | MIR: 06000000 | PC: 003E | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [R14], R1 | Regs: PC=62 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000061 | uPC: 11 | MIR: 00800020 | PC: 003E | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [R14], R1 | Regs: PC=62 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000062 | uPC: 00 | MIR: 40000040 | PC: 003F | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=63 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000063 | uPC: 05 | MIR: 00280020 | PC: 003F | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=63 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000064 | uPC: 00 | MIR: 40000040 | PC: 0040 | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add R14, R14, R3 | Regs: PC=64 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2049 | Out: ''
+  Tick: 000065 | uPC: 04 | MIR: 003A8020 | PC: 0040 | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add R14, R14, R3 | Regs: PC=64 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000066 | uPC: 00 | MIR: 40000040 | PC: 0041 | IR: 13000000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ret | Regs: PC=65 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2049 | Out: ''
+  Tick: 000067 | uPC: 24 | MIR: 005D8800 | PC: 0041 | IR: 13000000 | Micro: ret_r15_dec | Signals: reg=r15<-alu,alu=add(r15,-1) | Exec: ret | Regs: PC=65 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000068 | uPC: 25 | MIR: 20000000 | PC: 0041 | IR: 13000000 | Micro: ret_ar_r15 | Signals: ar=r15 | Exec: ret | Regs: PC=65 AR=2048 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000069 | uPC: 26 | MIR: 02000000 | PC: 0041 | IR: 13000000 | Micro: ret_dr_mem | Signals: dr=mem | Exec: ret | Regs: PC=65 AR=2048 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000070 | uPC: 27 | MIR: 00000620 | PC: 0005 | IR: 13000000 | Micro: ret_pc_dr | Signals: pc=dr,next=fetch | Exec: ret | Regs: PC=5 AR=2048 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000071 | uPC: 00 | MIR: 40000040 | PC: 0006 | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=6 AR=2048 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000072 | uPC: 05 | MIR: 00280020 | PC: 0006 | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=6 AR=2048 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000073 | uPC: 00 | MIR: 40000040 | PC: 0007 | IR: 02EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: sub R14, R14, R3 | Regs: PC=7 AR=2048 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: ''
+  Tick: 000074 | uPC: 04 | MIR: 003A8020 | PC: 0007 | IR: 02EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=sub(rs1,rs2),next=fetch | Exec: sub R14, R14, R3 | Regs: PC=7 AR=2048 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000075 | uPC: 00 | MIR: 40000040 | PC: 0008 | IR: 0A1E0000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ld R1, [R14] | Regs: PC=8 AR=2048 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000076 | uPC: 06 | MIR: 18000000 | PC: 0008 | IR: 0A1E0000 | Micro: ld_ar_rs1 | Signals: ar=rs1 | Exec: ld R1, [R14] | Regs: PC=8 AR=1024 DR=5 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000077 | uPC: 07 | MIR: 02000000 | PC: 0008 | IR: 0A1E0000 | Micro: ld_dr_mem | Signals: dr=mem | Exec: ld R1, [R14] | Regs: PC=8 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000078 | uPC: 08 | MIR: 00300020 | PC: 0008 | IR: 0A1E0000 | Micro: ld_rd_dr | Signals: reg=rd<-dr,next=fetch | Exec: ld R1, [R14] | Regs: PC=8 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000079 | uPC: 00 | MIR: 40000040 | PC: 0009 | IR: 0C200FFD | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R2, -3 | Regs: PC=9 AR=1024 DR=25 R0=0 R1=25 R2=5 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000080 | uPC: 05 | MIR: 00280020 | PC: 0009 | IR: 0C200FFD | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R2, -3 | Regs: PC=9 AR=1024 DR=25 R0=0 R1=25 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000081 | uPC: 00 | MIR: 40000040 | PC: 000A | IR: 0B210000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [R2], R1 | Regs: PC=10 AR=1024 DR=25 R0=0 R1=25 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000082 | uPC: 09 | MIR: 10000000 | PC: 000A | IR: 0B210000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [R2], R1 | Regs: PC=10 AR=-3 DR=25 R0=0 R1=25 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000083 | uPC: 10 | MIR: 06000000 | PC: 000A | IR: 0B210000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [R2], R1 | Regs: PC=10 AR=-3 DR=25 R0=0 R1=25 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: ''
+  Tick: 000084 | uPC: 11 | MIR: 00800020 | PC: 000A | IR: 0B210000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [R2], R1 | Regs: PC=10 AR=-3 DR=25 R0=0 R1=25 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000085 | uPC: 00 | MIR: 40000040 | PC: 000B | IR: 0C100006 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R1, 6 | Regs: PC=11 AR=-3 DR=25 R0=0 R1=25 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000086 | uPC: 05 | MIR: 00280020 | PC: 000B | IR: 0C100006 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R1, 6 | Regs: PC=11 AR=-3 DR=25 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000087 | uPC: 00 | MIR: 40000040 | PC: 000C | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [R14], R1 | Regs: PC=12 AR=-3 DR=25 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000088 | uPC: 09 | MIR: 10000000 | PC: 000C | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [R14], R1 | Regs: PC=12 AR=1024 DR=25 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000089 | uPC: 10 | MIR: 06000000 | PC: 000C | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [R14], R1 | Regs: PC=12 AR=1024 DR=6 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000090 | uPC: 11 | MIR: 00800020 | PC: 000C | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [R14], R1 | Regs: PC=12 AR=1024 DR=6 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000091 | uPC: 00 | MIR: 40000040 | PC: 000D | IR: 0C300001 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R3, 1 | Regs: PC=13 AR=1024 DR=6 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000092 | uPC: 05 | MIR: 00280020 | PC: 000D | IR: 0C300001 | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R3, 1 | Regs: PC=13 AR=1024 DR=6 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000093 | uPC: 00 | MIR: 40000040 | PC: 000E | IR: 01EE3000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: add R14, R14, R3 | Regs: PC=14 AR=1024 DR=6 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1024 R15=2048 | Out: '25 '
+  Tick: 000094 | uPC: 04 | MIR: 003A8020 | PC: 000E | IR: 01EE3000 | Micro: alu_rd_rs1_rs2 | Signals: reg=rd<-alu,alu=add(rs1,rs2),next=fetch | Exec: add R14, R14, R3 | Regs: PC=14 AR=1024 DR=6 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: '25 '
+  Tick: 000095 | uPC: 00 | MIR: 40000040 | PC: 000F | IR: 0C10002D | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: ldi R1, 45 | Regs: PC=15 AR=1024 DR=6 R0=0 R1=6 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: '25 '
+  Tick: 000096 | uPC: 05 | MIR: 00280020 | PC: 000F | IR: 0C10002D | Micro: ldi_rd_imm | Signals: reg=rd<-imm,next=fetch | Exec: ldi R1, 45 | Regs: PC=15 AR=1024 DR=6 R0=0 R1=45 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: '25 '
+  Tick: 000097 | uPC: 00 | MIR: 40000040 | PC: 0010 | IR: 0BE10000 | Micro: fetch_ir_pc_decode | Signals: fetch=mem[pc]->ir,pc+1,next=decode | Exec: st [R14], R1 | Regs: PC=16 AR=1024 DR=6 R0=0 R1=45 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: '25 '
+  Tick: 000098 | uPC: 09 | MIR: 10000000 | PC: 0010 | IR: 0BE10000 | Micro: st_ar_rd | Signals: ar=rd | Exec: st [R14], R1 | Regs: PC=16 AR=1025 DR=6 R0=0 R1=45 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: '25 '
+  Tick: 000099 | uPC: 10 | MIR: 06000000 | PC: 0010 | IR: 0BE10000 | Micro: st_dr_rs1 | Signals: dr=rs1 | Exec: st [R14], R1 | Regs: PC=16 AR=1025 DR=45 R0=0 R1=45 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: '25 '
+  Tick: 000100 | uPC: 11 | MIR: 00800020 | PC: 0010 | IR: 0BE10000 | Micro: st_mem_dr | Signals: mem_write,next=fetch | Exec: st [R14], R1 | Regs: PC=16 AR=1025 DR=45 R0=0 R1=45 R2=-3 R3=1 R4=0 R5=0 R6=0 R7=0 R8=0 R9=0 R10=0 R11=0 R12=0 R13=0 R14=1025 R15=2048 | Out: '25 '
   ...
   Total Ticks: 344
   Instructions Fetched: 124
@@ -117,106 +117,106 @@ out_log: |-
   Halt Reason: halted
 out_code_log: |-
   0000 - 0C100005 - ldi R1, 5
-  0001 - 0BE10000 - st [SP], R1
+  0001 - 0BE10000 - st [R14], R1
   0002 - 0C300001 - ldi R3, 1
-  0003 - 01EE3000 - add SP, SP, R3
+  0003 - 01EE3000 - add R14, R14, R3
   0004 - 1200002D - call 45
   0005 - 0C300001 - ldi R3, 1
-  0006 - 02EE3000 - sub SP, SP, R3
-  0007 - 0A1E0000 - ld R1, [SP]
+  0006 - 02EE3000 - sub R14, R14, R3
+  0007 - 0A1E0000 - ld R1, [R14]
   0008 - 0C200FFD - ldi R2, -3
   0009 - 0B210000 - st [R2], R1
   000A - 0C100006 - ldi R1, 6
-  000B - 0BE10000 - st [SP], R1
+  000B - 0BE10000 - st [R14], R1
   000C - 0C300001 - ldi R3, 1
-  000D - 01EE3000 - add SP, SP, R3
+  000D - 01EE3000 - add R14, R14, R3
   000E - 0C10002D - ldi R1, 45
-  000F - 0BE10000 - st [SP], R1
+  000F - 0BE10000 - st [R14], R1
   0010 - 0C300001 - ldi R3, 1
-  0011 - 01EE3000 - add SP, SP, R3
+  0011 - 01EE3000 - add R14, R14, R3
   0012 - 0C300001 - ldi R3, 1
-  0013 - 02EE3000 - sub SP, SP, R3
-  0014 - 0A1E0000 - ld R1, [SP]
+  0013 - 02EE3000 - sub R14, R14, R3
+  0014 - 0A1E0000 - ld R1, [R14]
   0015 - 14010000 - callr R1
   0016 - 0C300001 - ldi R3, 1
-  0017 - 02EE3000 - sub SP, SP, R3
-  0018 - 0A1E0000 - ld R1, [SP]
+  0017 - 02EE3000 - sub R14, R14, R3
+  0018 - 0A1E0000 - ld R1, [R14]
   0019 - 0C200FFD - ldi R2, -3
   001A - 0B210000 - st [R2], R1
   001B - 0C100004 - ldi R1, 4
-  001C - 0BE10000 - st [SP], R1
+  001C - 0BE10000 - st [R14], R1
   001D - 0C300001 - ldi R3, 1
-  001E - 01EE3000 - add SP, SP, R3
+  001E - 01EE3000 - add R14, R14, R3
   001F - 0C100041 - ldi R1, 65
-  0020 - 0BE10000 - st [SP], R1
+  0020 - 0BE10000 - st [R14], R1
   0021 - 0C300001 - ldi R3, 1
-  0022 - 01EE3000 - add SP, SP, R3
+  0022 - 01EE3000 - add R14, R14, R3
   0023 - 0C300001 - ldi R3, 1
-  0024 - 02EE3000 - sub SP, SP, R3
-  0025 - 0A1E0000 - ld R1, [SP]
+  0024 - 02EE3000 - sub R14, R14, R3
+  0025 - 0A1E0000 - ld R1, [R14]
   0026 - 14010000 - callr R1
   0027 - 0C300001 - ldi R3, 1
-  0028 - 02EE3000 - sub SP, SP, R3
-  0029 - 0A1E0000 - ld R1, [SP]
+  0028 - 02EE3000 - sub R14, R14, R3
+  0029 - 0A1E0000 - ld R1, [R14]
   002A - 0C200FFD - ldi R2, -3
   002B - 0B210000 - st [R2], R1
   002C - FF000000 - hlt
   002D - 0C300001 - ldi R3, 1
-  002E - 02EE3000 - sub SP, SP, R3
-  002F - 0A1E0000 - ld R1, [SP]
-  0030 - 0BE10000 - st [SP], R1
+  002E - 02EE3000 - sub R14, R14, R3
+  002F - 0A1E0000 - ld R1, [R14]
+  0030 - 0BE10000 - st [R14], R1
   0031 - 0C300001 - ldi R3, 1
-  0032 - 01EE3000 - add SP, SP, R3
-  0033 - 0BE10000 - st [SP], R1
+  0032 - 01EE3000 - add R14, R14, R3
+  0033 - 0BE10000 - st [R14], R1
   0034 - 0C300001 - ldi R3, 1
-  0035 - 01EE3000 - add SP, SP, R3
+  0035 - 01EE3000 - add R14, R14, R3
   0036 - 0C300001 - ldi R3, 1
-  0037 - 02EE3000 - sub SP, SP, R3
-  0038 - 0A2E0000 - ld R2, [SP]
+  0037 - 02EE3000 - sub R14, R14, R3
+  0038 - 0A2E0000 - ld R2, [R14]
   0039 - 0C300001 - ldi R3, 1
-  003A - 02EE3000 - sub SP, SP, R3
-  003B - 0A1E0000 - ld R1, [SP]
+  003A - 02EE3000 - sub R14, R14, R3
+  003B - 0A1E0000 - ld R1, [R14]
   003C - 03112000 - mul R1, R1, R2
-  003D - 0BE10000 - st [SP], R1
+  003D - 0BE10000 - st [R14], R1
   003E - 0C300001 - ldi R3, 1
-  003F - 01EE3000 - add SP, SP, R3
+  003F - 01EE3000 - add R14, R14, R3
   0040 - 13000000 - ret
   0041 - 0C300001 - ldi R3, 1
-  0042 - 02EE3000 - sub SP, SP, R3
-  0043 - 0A1E0000 - ld R1, [SP]
-  0044 - 0BE10000 - st [SP], R1
+  0042 - 02EE3000 - sub R14, R14, R3
+  0043 - 0A1E0000 - ld R1, [R14]
+  0044 - 0BE10000 - st [R14], R1
   0045 - 0C300001 - ldi R3, 1
-  0046 - 01EE3000 - add SP, SP, R3
-  0047 - 0BE10000 - st [SP], R1
+  0046 - 01EE3000 - add R14, R14, R3
+  0047 - 0BE10000 - st [R14], R1
   0048 - 0C300001 - ldi R3, 1
-  0049 - 01EE3000 - add SP, SP, R3
+  0049 - 01EE3000 - add R14, R14, R3
   004A - 0C300001 - ldi R3, 1
-  004B - 02EE3000 - sub SP, SP, R3
-  004C - 0A1E0000 - ld R1, [SP]
-  004D - 0BE10000 - st [SP], R1
+  004B - 02EE3000 - sub R14, R14, R3
+  004C - 0A1E0000 - ld R1, [R14]
+  004D - 0BE10000 - st [R14], R1
   004E - 0C300001 - ldi R3, 1
-  004F - 01EE3000 - add SP, SP, R3
-  0050 - 0BE10000 - st [SP], R1
+  004F - 01EE3000 - add R14, R14, R3
+  0050 - 0BE10000 - st [R14], R1
   0051 - 0C300001 - ldi R3, 1
-  0052 - 01EE3000 - add SP, SP, R3
+  0052 - 01EE3000 - add R14, R14, R3
   0053 - 0C300001 - ldi R3, 1
-  0054 - 02EE3000 - sub SP, SP, R3
-  0055 - 0A2E0000 - ld R2, [SP]
+  0054 - 02EE3000 - sub R14, R14, R3
+  0055 - 0A2E0000 - ld R2, [R14]
   0056 - 0C300001 - ldi R3, 1
-  0057 - 02EE3000 - sub SP, SP, R3
-  0058 - 0A1E0000 - ld R1, [SP]
+  0057 - 02EE3000 - sub R14, R14, R3
+  0058 - 0A1E0000 - ld R1, [R14]
   0059 - 03112000 - mul R1, R1, R2
-  005A - 0BE10000 - st [SP], R1
+  005A - 0BE10000 - st [R14], R1
   005B - 0C300001 - ldi R3, 1
-  005C - 01EE3000 - add SP, SP, R3
+  005C - 01EE3000 - add R14, R14, R3
   005D - 0C300001 - ldi R3, 1
-  005E - 02EE3000 - sub SP, SP, R3
-  005F - 0A2E0000 - ld R2, [SP]
+  005E - 02EE3000 - sub R14, R14, R3
+  005F - 0A2E0000 - ld R2, [R14]
   0060 - 0C300001 - ldi R3, 1
-  0061 - 02EE3000 - sub SP, SP, R3
-  0062 - 0A1E0000 - ld R1, [SP]
+  0061 - 02EE3000 - sub R14, R14, R3
+  0062 - 0A1E0000 - ld R1, [R14]
   0063 - 03112000 - mul R1, R1, R2
-  0064 - 0BE10000 - st [SP], R1
+  0064 - 0BE10000 - st [R14], R1
   0065 - 0C300001 - ldi R3, 1
-  0066 - 01EE3000 - add SP, SP, R3
+  0066 - 01EE3000 - add R14, R14, R3
   0067 - 13000000 - ret

@@ -26,6 +26,8 @@ IO_IN_PORT = IO_IN_ADDR & 0xFFF
 IO_OUT_CHAR_PORT = IO_OUT_CHAR_ADDR & 0xFFF
 IO_OUT_INT_PORT = IO_OUT_INT_ADDR & 0xFFF
 MAX_TICKS = 50_000_000
+DATA_STACK_REG = Reg.R14
+RETURN_STACK_REG = Reg.R15
 
 
 class DataPath:
@@ -72,13 +74,10 @@ class DataPath:
         self.memory[self._check_memory_addr(addr)] = to_signed32(value)
 
     def read_reg(self, reg: Reg) -> int:
-        if reg == Reg.R0:
-            return 0
         return self.registers[reg]
 
     def write_reg(self, reg: Reg, value: int) -> None:
-        if reg != Reg.R0:
-            self.registers[reg] = to_signed32(value)
+        self.registers[reg] = to_signed32(value)
 
     def alu(self, opcode: Opcode, left: int, right: int) -> int:
         if opcode == Opcode.ADD:
@@ -100,8 +99,7 @@ class DataPath:
         raise ValueError(f"Unsupported ALU operation: {opcode}")
 
     def dump_registers(self) -> str:
-        visible = [Reg.R1, Reg.R2, Reg.R3, Reg.SP, Reg.RSP]
-        register_text = " ".join(f"{reg.name}={self.read_reg(reg)}" for reg in visible)
+        register_text = " ".join(f"{reg.name}={self.read_reg(reg)}" for reg in Reg)
         return f"PC={self.pc} AR={self.ar} DR={self.dr} {register_text}"
 
 
@@ -220,8 +218,8 @@ class ControlUnit:
             return self.dp.read_reg(self.rd)
         if source == mc.AR_RS1:
             return self.dp.read_reg(self.rs1)
-        if source == mc.AR_RSP:
-            return self.dp.read_reg(Reg.RSP)
+        if source == mc.AR_R15:
+            return self.dp.read_reg(RETURN_STACK_REG)
         raise ValueError(f"Unsupported AR source: {source}")
 
     def _select_dr(self, source: int) -> int:
@@ -257,8 +255,8 @@ class ControlUnit:
     def _select_alu_a(self, source: int) -> int:
         if source == mc.ALU_A_RS1:
             return self.dp.read_reg(self.rs1)
-        if source == mc.ALU_A_RSP:
-            return self.dp.read_reg(Reg.RSP)
+        if source == mc.ALU_A_R15:
+            return self.dp.read_reg(RETURN_STACK_REG)
         raise ValueError(f"Unsupported ALU left source: {source}")
 
     def _select_alu_b(self, source: int) -> int:
@@ -273,8 +271,8 @@ class ControlUnit:
     def _select_reg_target(self, target: int) -> Reg:
         if target == mc.DST_RD:
             return self.rd
-        if target == mc.DST_RSP:
-            return Reg.RSP
+        if target == mc.DST_R15:
+            return RETURN_STACK_REG
         raise ValueError(f"Unsupported register target: {target}")
 
     def _should_latch_pc(self, pc_src: int, pc_zero: int) -> bool:
@@ -333,8 +331,8 @@ def simulate(
     trace_head: int = 0,
 ) -> SimulationResult:
     dp = DataPath(MEMORY_SIZE, input_str)
-    dp.write_reg(Reg.SP, DATA_STACK_START)
-    dp.write_reg(Reg.RSP, RETURN_STACK_START)
+    dp.write_reg(DATA_STACK_REG, DATA_STACK_START)
+    dp.write_reg(RETURN_STACK_REG, RETURN_STACK_START)
     load_binary_to_memory(dp, binary_code)
 
     cu = ControlUnit(dp)
