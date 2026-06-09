@@ -1,3 +1,5 @@
+max_ticks: 10000000
+trace_head: 120
 in_source: |
   \ Project Euler problem 4: largest palindromic product of two 3-digit numbers.
   \ One factor of any 6-digit palindrome is divisible by 11, so j steps by 11.

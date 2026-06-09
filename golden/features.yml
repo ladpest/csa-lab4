@@ -1,3 +1,5 @@
+max_ticks: 5000000
+trace_head: 100
 in_source: |
   \ Procedures and execution tokens.
   : square dup * ;

@@ -34,23 +34,30 @@ def parse_block_yaml(path: Path) -> dict[str, str]:
         chomping_strip = True
 
     for raw_line in text.splitlines():
-        if raw_line and not raw_line.startswith(" ") and raw_line.endswith(("|-", "|")):
-            flush()
-            key, marker = raw_line.split(":", 1)
-            current_key = key.strip()
-            chomping_strip = marker.strip() == "|-"
-            current_lines = []
+        if not raw_line.strip():
+            if current_key is not None:
+                current_lines.append("")
             continue
-        if current_key is None:
-            if raw_line.strip():
-                raise ValueError(f"Unsupported YAML line in {path}: {raw_line!r}")
-            continue
-        if raw_line.startswith("  "):
+
+        if raw_line.startswith(" "):
+            if current_key is None:
+                raise ValueError(f"Unexpected indented line in {path}: {raw_line!r}")
             current_lines.append(raw_line[2:])
-        elif raw_line == "":
-            current_lines.append("")
+            continue
+
+        flush()
+        if ":" not in raw_line:
+            raise ValueError(f"Unsupported YAML line in {path}: {raw_line!r}")
+        key, value = raw_line.split(":", 1)
+        key = key.strip()
+        value = value.strip()
+        if value in {"|", "|-"}:
+            current_key = key
+            current_lines = []
+            chomping_strip = value == "|-"
         else:
-            raise ValueError(f"Expected indented block line in {path}: {raw_line!r}")
+            result[key] = value
+
     flush()
     return result
 
@@ -67,12 +74,20 @@ def run_with_trace(
     return result.output, result.trace
 
 
+def _int_config(golden: dict[str, str], key: str, default: int) -> int:
+    value = golden.get(key, str(default))
+    try:
+        return int(value)
+    except ValueError as exc:
+        raise ValueError(f"{key} must be an integer, got {value!r}") from exc
+
+
 def build_actual(case_path: Path) -> dict[str, str]:
     golden = parse_block_yaml(case_path)
     source = golden["in_source"]
     input_text = golden.get("in_input", "")
-    max_ticks = 10_000_000 if case_path.stem == "euler4" else MAX_TICKS
-    trace_head = 120 if case_path.stem == "euler4" else 100
+    max_ticks = _int_config(golden, "max_ticks", MAX_TICKS)
+    trace_head = _int_config(golden, "trace_head", 100)
     words, code_words = translate(source)
     binary = code_to_binary(words)
     out_code_log = binary_to_hex_dump(binary, code_words=code_words)
@@ -80,6 +95,8 @@ def build_actual(case_path: Path) -> dict[str, str]:
         binary, input_text, max_ticks=max_ticks, trace_head=trace_head
     )
     return {
+        "max_ticks": str(max_ticks),
+        "trace_head": str(trace_head),
         "in_source": source,
         "in_input": input_text,
         "out_stdout": out_stdout,
@@ -90,6 +107,8 @@ def build_actual(case_path: Path) -> dict[str, str]:
 
 def dump_block_yaml(data: dict[str, str]) -> str:
     parts: list[str] = []
+    for key in ["max_ticks", "trace_head"]:
+        parts.append(f"{key}: {data[key]}")
     for key in ["in_source", "in_input", "out_stdout", "out_log", "out_code_log"]:
         value = data[key]
         marker = "|" if value.endswith("\n") else "|-"

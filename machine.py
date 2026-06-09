@@ -136,7 +136,8 @@ class ControlUnit:
         self.mir = word
         self.tick_count += 1
         self._execute_microinstruction(word)
-        logging.debug("\n%s", format_trace_line(self, micro_pc_before, word))
+        if logging.getLogger().isEnabledFor(logging.DEBUG):
+            logging.debug("\n%s", format_trace_line(self, micro_pc_before, word))
         self._advance_microprogram(word)
 
     def _execute_microinstruction(self, word: int) -> None:
@@ -334,7 +335,6 @@ def format_trace_line(cu: ControlUnit, micro_pc: int, micro_word: int) -> str:
     rows.extend(_format_register_rows(cu.dp))
     rows.extend(["", f"Output:\t{''.join(cu.dp.output_buffer)!r}"])
     return "\n".join(rows)
-
 
 
 def format_event_block(tick_count: int, event: str) -> str:

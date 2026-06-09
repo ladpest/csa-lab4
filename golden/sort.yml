@@ -1,3 +1,5 @@
+max_ticks: 5000000
+trace_head: 100
 in_source: |
   \ Sort an input line of digit characters in ascending order.
   \ The line is stored as a C-style character array at address 830.

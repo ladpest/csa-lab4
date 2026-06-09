@@ -1,3 +1,5 @@
+max_ticks: 5000000
+trace_head: 100
 in_source: |
   \ Echo the input stream until it is exhausted.
   begin

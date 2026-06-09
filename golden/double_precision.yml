@@ -1,3 +1,5 @@
+max_ticks: 5000000
+trace_head: 100
 in_source: |
   \ Demonstrate 64-bit arithmetic on 32-bit machine words.
   \ The number is stored as two words: high at 901, low at 900.
