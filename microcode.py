@@ -4,13 +4,13 @@ from isa import Opcode
 
 # Microinstruction format (32-bit word, bit 31 is unused):
 # 30     fetch            IR <- MEM[PC], PC <- PC + 1
-# 29..27 AR source        0 none, 1 PC, 2 RD, 3 RS1, 4 R15
+# 29..27 AR source        0 none, 1 RD, 2 RS1, 3 R15
 # 26..25 DR source        0 none, 1 MEM[AR], 2 PC, 3 RS1
 # 24     IR latch         IR <- DR
 # 23     MEM write        MEM[AR] <- DR
 # 22..21 register target  0 none, 1 RD, 2 R15
 # 20..19 writeback source 0 none, 1 IMM, 2 DR, 3 ALU
-# 18..17 ALU left source  0 none, 1 RS1, 2 R15
+# 18..17 unused
 # 16..15 ALU right source 0 none, 1 RS2, 2 +1, 3 -1
 # 14..11 ALU operation    0 opcode from IR, 1 ADD
 # 10..9  PC source        0 none, 1 PC+1, 2 IMM, 3 DR
@@ -20,10 +20,9 @@ from isa import Opcode
 # 4..0   unused
 
 AR_NONE = 0
-AR_PC = 1
-AR_RD = 2
-AR_RS1 = 3
-AR_R15 = 4
+AR_RD = 1
+AR_RS1 = 2
+AR_R15 = 3
 
 DR_NONE = 0
 DR_MEM = 1
@@ -38,10 +37,6 @@ WB_NONE = 0
 WB_IMM = 1
 WB_DR = 2
 WB_ALU = 3
-
-ALU_A_NONE = 0
-ALU_A_RS1 = 1
-ALU_A_R15 = 2
 
 ALU_B_NONE = 0
 ALU_B_RS2 = 1
@@ -71,7 +66,6 @@ PC_ZERO_SHIFT = 8
 PC_SHIFT = 9
 ALU_OP_SHIFT = 11
 ALU_B_SHIFT = 15
-ALU_A_SHIFT = 17
 WB_SHIFT = 19
 DST_SHIFT = 21
 MEM_WRITE_SHIFT = 23
@@ -83,11 +77,10 @@ FETCH_SHIFT = 30
 UADDR_FETCH = 0
 MICROCODE_SIZE = 32
 
-_AR_NAMES = ["-", "pc", "rd", "rs1", "r15"]
+_AR_NAMES = ["-", "rd", "rs1", "r15"]
 _DR_NAMES = ["-", "mem", "pc", "rs1"]
 _DST_NAMES = ["-", "rd", "r15"]
 _WB_NAMES = ["-", "imm", "dr", "alu"]
-_ALU_A_NAMES = ["-", "rs1", "r15"]
 _ALU_B_NAMES = ["-", "rs2", "1", "-1"]
 _PC_NAMES = ["-", "inc", "imm", "dr"]
 _NEXT_NAMES = ["seq", "fetch", "decode", "-"]
@@ -105,7 +98,6 @@ def encode(
     mem_write: int = 0,
     dst: int = DST_NONE,
     wb: int = WB_NONE,
-    alu_a: int = ALU_A_NONE,
     alu_b: int = ALU_B_NONE,
     alu_op: int = ALU_FROM_OPCODE,
     pc: int = PC_NONE,
@@ -122,7 +114,6 @@ def encode(
         | ((mem_write & 1) << MEM_WRITE_SHIFT)
         | ((dst & SRC_MASK) << DST_SHIFT)
         | ((wb & SRC_MASK) << WB_SHIFT)
-        | ((alu_a & SRC_MASK) << ALU_A_SHIFT)
         | ((alu_b & SRC_MASK) << ALU_B_SHIFT)
         | ((alu_op & ALU_OP_MASK) << ALU_OP_SHIFT)
         | ((pc & PC_MASK) << PC_SHIFT)
@@ -132,8 +123,23 @@ def encode(
     )
 
 
-def signal_text(word: int, opcode: Opcode | None = None) -> str:
-    signals: list[str] = []
+def _alu_operation_name(word: int, opcode: Opcode | None = None) -> str:
+    alu = field(word, ALU_OP_SHIFT, ALU_OP_MASK)
+    if alu == ALU_FROM_OPCODE:
+        return opcode.name.lower() if opcode is not None else "opcode"
+    if alu == ALU_ADD:
+        return "add"
+    return str(alu)
+
+
+def _alu_left_name(opcode: Opcode | None = None) -> str:
+    if opcode in {Opcode.CALL, Opcode.CALLR, Opcode.RET}:
+        return "R15"
+    return "Reg[rs1]"
+
+
+def signal_items(word: int, opcode: Opcode | None = None) -> list[tuple[str, str]]:
+    signals: list[tuple[str, str]] = []
     ar = field(word, AR_SHIFT, AR_MASK)
     dr = field(word, DR_SHIFT, SRC_MASK)
     dst = field(word, DST_SHIFT, SRC_MASK)
@@ -142,36 +148,34 @@ def signal_text(word: int, opcode: Opcode | None = None) -> str:
     next_ = field(word, NEXT_SHIFT, NEXT_MASK)
 
     if field(word, FETCH_SHIFT):
-        signals.append("fetch=mem[pc]->ir,pc+1")
+        signals.append(("fetch", "IR <- MEM[PC]; PC <- PC + 1"))
     if ar:
-        signals.append(f"ar={_AR_NAMES[ar]}")
+        signals.append(("AR", f"AR <- {_AR_NAMES[ar]}"))
     if dr:
-        signals.append(f"dr={_DR_NAMES[dr]}")
+        signals.append(("DR", f"DR <- {_DR_NAMES[dr]}"))
     if field(word, IR_LATCH_SHIFT):
-        signals.append("ir_latch")
+        signals.append(("IR", "IR <- DR"))
     if field(word, MEM_WRITE_SHIFT):
-        signals.append("mem_write")
+        signals.append(("MEM", "MEM[AR] <- DR"))
     if dst:
-        signals.append(f"reg={_DST_NAMES[dst]}<-{_WB_NAMES[wb]}")
+        signals.append(("REG", f"{_DST_NAMES[dst]} <- {_WB_NAMES[wb]}"))
     if wb == WB_ALU:
-        alu = field(word, ALU_OP_SHIFT, ALU_OP_MASK)
-        if alu == ALU_FROM_OPCODE:
-            op_name = opcode.name.lower() if opcode is not None else "opcode"
-        elif alu == ALU_ADD:
-            op_name = "add"
-        else:
-            op_name = str(alu)
-        a = _ALU_A_NAMES[field(word, ALU_A_SHIFT, SRC_MASK)]
-        b = _ALU_B_NAMES[field(word, ALU_B_SHIFT, SRC_MASK)]
-        signals.append(f"alu={op_name}({a},{b})")
+        left = _alu_left_name(opcode)
+        right = _ALU_B_NAMES[field(word, ALU_B_SHIFT, SRC_MASK)]
+        signals.append(("ALU", f"{_alu_operation_name(word, opcode)}({left}, {right})"))
     if pc:
-        suffix = " if rs1==0" if field(word, PC_ZERO_SHIFT) else ""
-        signals.append(f"pc={_PC_NAMES[pc]}{suffix}")
+        suffix = " if Reg[rs1] == 0" if field(word, PC_ZERO_SHIFT) else ""
+        signals.append(("PC", f"PC <- {_PC_NAMES[pc]}{suffix}"))
     if field(word, HALT_SHIFT):
-        signals.append("halt")
+        signals.append(("HALT", "stop simulation"))
     if next_ != NEXT_SEQ:
-        signals.append(f"next={_NEXT_NAMES[next_]}")
-    return ",".join(signals) or "-"
+        signals.append(("NEXT", _NEXT_NAMES[next_]))
+    return signals
+
+
+def signal_text(word: int, opcode: Opcode | None = None) -> str:
+    signals = signal_items(word, opcode)
+    return "; ".join(f"{name}: {value}" for name, value in signals) or "-"
 
 
 def _put(addr: int, name: str, word: int) -> None:
@@ -190,7 +194,7 @@ _put(3, "nop", encode(next_=NEXT_FETCH))
 _put(
     4,
     "alu_rd_rs1_rs2",
-    encode(dst=DST_RD, wb=WB_ALU, alu_a=ALU_A_RS1, alu_b=ALU_B_RS2, next_=NEXT_FETCH),
+    encode(dst=DST_RD, wb=WB_ALU, alu_b=ALU_B_RS2, next_=NEXT_FETCH),
 )
 _put(5, "ldi_rd_imm", encode(dst=DST_RD, wb=WB_IMM, next_=NEXT_FETCH))
 
@@ -198,23 +202,20 @@ _put(6, "ld_ar_rs1", encode(ar=AR_RS1))
 _put(7, "ld_dr_mem", encode(dr=DR_MEM))
 _put(8, "ld_rd_dr", encode(dst=DST_RD, wb=WB_DR, next_=NEXT_FETCH))
 
-_put(9, "st_ar_rd", encode(ar=AR_RD))
-_put(10, "st_dr_rs1", encode(dr=DR_RS1))
-_put(11, "st_mem_dr", encode(mem_write=1, next_=NEXT_FETCH))
+_put(9, "st_prepare", encode(ar=AR_RD, dr=DR_RS1))
+_put(10, "st_mem_dr", encode(mem_write=1, next_=NEXT_FETCH))
 
 _put(12, "jmp_imm", encode(pc=PC_IMM, next_=NEXT_FETCH))
 _put(13, "jz_rs1_imm", encode(pc=PC_IMM, pc_zero=1, next_=NEXT_FETCH))
 
-_put(14, "call_ar_r15", encode(ar=AR_R15))
-_put(15, "call_dr_pc", encode(dr=DR_PC))
-_put(16, "call_store_ret", encode(mem_write=1))
+_put(14, "call_prepare_ret", encode(ar=AR_R15, dr=DR_PC))
 _put(
-    17,
-    "call_r15_inc_pc_imm",
+    15,
+    "call_store_inc_pc",
     encode(
+        mem_write=1,
         dst=DST_R15,
         wb=WB_ALU,
-        alu_a=ALU_A_R15,
         alu_b=ALU_B_ONE,
         alu_op=ALU_ADD,
         pc=PC_IMM,
@@ -222,16 +223,20 @@ _put(
     ),
 )
 
-_put(18, "callr_ar_r15", encode(ar=AR_R15))
-_put(19, "callr_dr_pc", encode(dr=DR_PC))
-_put(20, "callr_store_ret", encode(mem_write=1))
+_put(18, "callr_prepare_ret", encode(ar=AR_R15, dr=DR_PC))
 _put(
-    21,
-    "callr_r15_inc",
-    encode(dst=DST_R15, wb=WB_ALU, alu_a=ALU_A_R15, alu_b=ALU_B_ONE, alu_op=ALU_ADD),
+    19,
+    "callr_store_inc_target",
+    encode(
+        mem_write=1,
+        dst=DST_R15,
+        wb=WB_ALU,
+        alu_b=ALU_B_ONE,
+        alu_op=ALU_ADD,
+        dr=DR_RS1,
+    ),
 )
-_put(22, "callr_dr_rs1", encode(dr=DR_RS1))
-_put(23, "callr_pc_dr", encode(pc=PC_DR, next_=NEXT_FETCH))
+_put(20, "callr_pc_dr", encode(pc=PC_DR, next_=NEXT_FETCH))
 
 _put(
     24,
@@ -239,7 +244,6 @@ _put(
     encode(
         dst=DST_R15,
         wb=WB_ALU,
-        alu_a=ALU_A_R15,
         alu_b=ALU_B_NEG_ONE,
         alu_op=ALU_ADD,
     ),

@@ -136,21 +136,7 @@ class ControlUnit:
         self.mir = word
         self.tick_count += 1
         self._execute_microinstruction(word)
-        logging.debug(
-            (
-                "tick=%06d upc=%02d mir=%08X micro=%s "
-                "signals=%s ir=%08X instr=%s %s out=%r"
-            ),
-            self.tick_count,
-            micro_pc_before,
-            word,
-            mc.microinstruction_name(micro_pc_before),
-            mc.signal_text(word, self.op),
-            to_unsigned32(self.dp.ir),
-            self._safe_instruction_text(),
-            self.dp.dump_registers(),
-            "".join(self.dp.output_buffer),
-        )
+        logging.debug("\n%s", format_trace_line(self, micro_pc_before, word))
         self._advance_microprogram(word)
 
     def _execute_microinstruction(self, word: int) -> None:
@@ -217,8 +203,6 @@ class ControlUnit:
             return f".word {self.dp.ir}"
 
     def _select_ar(self, source: int) -> int:
-        if source == mc.AR_PC:
-            return self.dp.pc
         if source == mc.AR_RD:
             return self.dp.read_reg(self.rd)
         if source == mc.AR_RS1:
@@ -244,7 +228,7 @@ class ControlUnit:
         if source == mc.WB_ALU:
             return self.dp.alu(
                 self._select_alu_op(word),
-                self._select_alu_a(mc.field(word, mc.ALU_A_SHIFT, mc.SRC_MASK)),
+                self._select_alu_left(),
                 self._select_alu_b(mc.field(word, mc.ALU_B_SHIFT, mc.SRC_MASK)),
             )
         raise ValueError(f"Unsupported write-back source: {source}")
@@ -257,12 +241,10 @@ class ControlUnit:
             return Opcode.ADD
         raise ValueError(f"Unsupported ALU operation code: {alu_op}")
 
-    def _select_alu_a(self, source: int) -> int:
-        if source == mc.ALU_A_RS1:
-            return self.dp.read_reg(self.rs1)
-        if source == mc.ALU_A_R15:
+    def _select_alu_left(self) -> int:
+        if self.op in {Opcode.CALL, Opcode.CALLR, Opcode.RET}:
             return self.dp.read_reg(RETURN_STACK_REG)
-        raise ValueError(f"Unsupported ALU left source: {source}")
+        return self.dp.read_reg(self.rs1)
 
     def _select_alu_b(self, source: int) -> int:
         if source == mc.ALU_B_RS2:
@@ -305,18 +287,84 @@ def load_binary_to_memory(dp: DataPath, binary_code: bytes) -> None:
         dp.memory[addr] = to_unsigned32(word)
 
 
+def _format_int(value: int) -> str:
+    return f"{value} (0x{to_unsigned32(value):08X})"
+
+
+def _format_register_rows(dp: DataPath) -> list[str]:
+    rows = ["Registers:"]
+    regs = list(Reg)
+    for start in range(0, len(regs), 4):
+        cells = []
+        for reg in regs[start : start + 4]:
+            cells.append(f"{reg.name:<4}= {dp.read_reg(reg):>11}")
+        rows.append("\t" + "\t".join(cells))
+    return rows
+
+
+def _format_signal_rows(micro_word: int, opcode: Opcode) -> list[str]:
+    items = mc.signal_items(micro_word, opcode)
+    rows = ["Signals:"]
+    if not items:
+        rows.append("\t-")
+        return rows
+    max_name_len = max(len(name) for name, _ in items)
+    for name, value in items:
+        rows.append(f"\t{name:<{max_name_len}} │ {value}")
+    return rows
+
+
 def format_trace_line(cu: ControlUnit, micro_pc: int, micro_word: int) -> str:
-    return (
-        f"Tick: {cu.tick_count:06d} | "
-        f"uPC: {micro_pc:02d} | "
-        f"MIR: {micro_word:08X} | "
-        f"PC: {cu.pc:04X} | "
-        f"IR: {cu.ir:08X} | "
-        f"Micro: {mc.microinstruction_name(micro_pc)} | "
-        f"Signals: {mc.signal_text(micro_word, cu.op)} | "
-        f"Exec: {format_instruction(cu.ir)} | "
-        f"Regs: {cu.dp.dump_registers()} | "
-        f"Out: {''.join(cu.dp.output_buffer)!r}"
+    rows = [
+        "=" * 78,
+        f"Tick {cu.tick_count:06d} │ uPC {micro_pc:02d} │ MIR 0x{micro_word:08X}",
+        "-" * 78,
+        f"Instruction:\t{cu._safe_instruction_text()}",
+        f"Microcode:\t{mc.microinstruction_name(micro_pc)}",
+        "",
+        "State:",
+        (
+            f"\tPC = 0x{cu.pc:04X}\tIR = 0x{to_unsigned32(cu.ir):08X}"
+            f"\tAR = {_format_int(cu.dp.ar)}\tDR = {_format_int(cu.dp.dr)}"
+        ),
+        "",
+    ]
+    rows.extend(_format_signal_rows(micro_word, cu.op))
+    rows.append("")
+    rows.extend(_format_register_rows(cu.dp))
+    rows.extend(["", f"Output:\t{''.join(cu.dp.output_buffer)!r}"])
+    return "\n".join(rows)
+
+
+
+def format_event_block(tick_count: int, event: str) -> str:
+    return "\n".join(
+        [
+            "=" * 78,
+            f"Tick {tick_count:06d} │ event",
+            "-" * 78,
+            f"Event:\t{event}",
+        ]
+    )
+
+
+def format_ellipsis_block() -> str:
+    return "\n".join(["=" * 78, "... trace truncated ..."])
+
+
+def format_summary_block(
+    tick_count: int, instructions_fetched: int, output: str, halt_reason: str
+) -> str:
+    return "\n".join(
+        [
+            "=" * 78,
+            "Summary",
+            "-" * 78,
+            f"Total ticks:\t\t{tick_count}",
+            f"Instructions fetched:\t{instructions_fetched}",
+            f"Output:\t\t\t{output}",
+            f"Halt reason:\t\t{halt_reason}",
+        ]
     )
 
 
@@ -351,7 +399,7 @@ def simulate(
             cu.tick()
         except EOFError:
             halt_reason = "input_stream_empty"
-            trace.append(f"Tick: {cu.tick_count:06d} | Event: INPUT_STREAM_EMPTY")
+            trace.append(format_event_block(cu.tick_count, "INPUT_STREAM_EMPTY"))
             break
         if micro_pc_before == mc.UADDR_FETCH:
             instructions_fetched += 1
@@ -361,17 +409,16 @@ def simulate(
     if cu.tick_count >= max_ticks and not cu.halted:
         raise TimeoutError(f"Simulation stopped after {max_ticks} ticks")
 
-    if trace_head > 0 and cu.tick_count > len(
-        [line for line in trace if line.startswith("Tick:")]
-    ):
-        trace.append("...")
-    trace.append(f"Total Ticks: {cu.tick_count}")
-    trace.append(f"Instructions Fetched: {instructions_fetched}")
-    trace.append(f"Output: {''.join(dp.output_buffer)}")
-    trace.append(f"Halt Reason: {halt_reason}")
+    if trace_head > 0 and cu.tick_count > len(trace):
+        trace.append(format_ellipsis_block())
+    trace.append(
+        format_summary_block(
+            cu.tick_count, instructions_fetched, "".join(dp.output_buffer), halt_reason
+        )
+    )
     return SimulationResult(
         output="".join(dp.output_buffer),
-        trace="\n".join(trace),
+        trace="\n\n".join(trace),
         ticks=cu.tick_count,
         instructions_fetched=instructions_fetched,
         halt_reason=halt_reason,
